@@ -14,9 +14,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "customers")
 public class Customer {
 	@Id
@@ -32,21 +35,8 @@ public class Customer {
 	@Column(name = "password")
 	private String password;
 
+	@ToString.Exclude
 	@ManyToMany
 	@JoinTable(name = "customers_vs_coupons", joinColumns = @JoinColumn(name = "CUSTOMER_ID"), inverseJoinColumns = @JoinColumn(name = "COUPON_ID"))
 	private List<Coupon> coupons;
-
-	public Customer(String firstName, String lastName, String email, String password) {
-		coupons = new ArrayList<>();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.password = password;
-	}
-
-	public Customer(Integer id, String firstName, String lastName, String email, String password) {
-		this(firstName, lastName, email, password);
-		this.id = id;
-
-	}
 }

@@ -1,16 +1,19 @@
 package com.example.i_o_spring_project.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.example.i_o_spring_project.model.Company;
 
+@Repository
 public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
-	@Query("select CASE WHEN EXISTS (SELECT * FROM companies WHERE id = 6) THEN TRUE ELSE FALSE END AS bool;")
-	public boolean doesCompanyExists(String email, String password);
+	public Optional<Company> findByEmail(String email);
 
-//	@Query("select all from companise")
-//	public ArrayList<Company> getAllCompanies();
+	public Optional<Company> findByName(String name);
+
+	public Optional<Company> findById(int id);
 
 }

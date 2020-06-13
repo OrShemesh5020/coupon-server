@@ -14,9 +14,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "coupons")
 public class Coupon {
 	@Id
@@ -24,9 +27,9 @@ public class Coupon {
 	@Column(name = "id")
 	private Integer id;
 
-	@ManyToOne(targetEntity = Coupon.class)
+	@ManyToOne
 	@JoinColumn(name = "company_id")
-	private Integer companyId;
+	private Company company;
 
 	@ManyToOne
 	@JoinColumn(name = "category_id")
@@ -47,25 +50,16 @@ public class Coupon {
 	@Column(name = "image")
 	private String image;
 
+	@ToString.Exclude
 	@ManyToMany(mappedBy = "coupons")
 	private List<Customer> customers;
 
-	public Coupon(Integer companyId, Category category, String title, String description, Date startDate, Date endDate,
-			Integer amount, double price, String image) {
-		this.companyId = companyId;
-		this.category = category;
-		this.title = title;
-		this.description = description;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.amount = amount;
-		this.price = price;
-		this.image = image;
+	@Override
+	public String toString() {
+		return "Coupon [id: " + id + ", company id: " + company.getId() + ", category: " + category + ", title: " + title
+				+ ", description: " + description + ", startDate:" + startDate + ", endDate: " + endDate + ", amount: "
+				+ amount + ", price: " + price + ", image: " + image + "]";
 	}
 
-	public Coupon(Integer id, Integer companyId, Category category, String title, String description, Date startDate,
-			Date endDate, Integer amount, double price, String image) {
-		this(companyId, category, title, description, startDate, endDate, amount, price, image);
-		this.id = id;
-	}
+	
 }

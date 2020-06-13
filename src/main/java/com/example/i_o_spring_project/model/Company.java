@@ -1,6 +1,5 @@
 package com.example.i_o_spring_project.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -12,9 +11,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "companies")
 public class Company {
 	@Id
@@ -28,19 +30,7 @@ public class Company {
 	@Column(name = "password")
 	private String password;
 
-	@OneToMany(mappedBy = "companyId")
+	@ToString.Exclude
+	@OneToMany(mappedBy = "company")
 	private List<Coupon> coupons;
-
-	public Company(Integer id, String name, String email, String password) {
-		this(name, email, password);
-		this.id = id;
-
-	}
-
-	public Company(String name, String email, String password) {
-		coupons = new ArrayList<>();
-		this.name = name;
-		this.email = email;
-		this.password = password;
-	}
 }
