@@ -1,6 +1,5 @@
-package com.example.i_o_spring_project.servise;
+package com.example.i_o_spring_project.service;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
