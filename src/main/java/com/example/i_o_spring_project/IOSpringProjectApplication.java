@@ -7,14 +7,17 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import com.example.i_o_spring_project.exceptions.CouponsSystemExceptions;
 import com.example.i_o_spring_project.model.Category;
 import com.example.i_o_spring_project.model.Company;
 import com.example.i_o_spring_project.model.Coupon;
 import com.example.i_o_spring_project.model.Customer;
 import com.example.i_o_spring_project.repository.CategoryRepository;
 import com.example.i_o_spring_project.repository.CompanyRepository;
-import com.example.i_o_spring_project.repository.CouponRpository;
+import com.example.i_o_spring_project.repository.CouponRepository;
 import com.example.i_o_spring_project.repository.CustomerRepository;
+import com.example.i_o_spring_project.servise.AdminService;
+import com.example.i_o_spring_project.servise.CustomerService;
 
 @SpringBootApplication
 public class IOSpringProjectApplication {
@@ -23,12 +26,12 @@ public class IOSpringProjectApplication {
 		ConfigurableApplicationContext applicationContext = SpringApplication.run(IOSpringProjectApplication.class,
 				args);
 		CompanyRepository companyRepository = applicationContext.getBean(CompanyRepository.class);
-		CouponRpository couponRpository = applicationContext.getBean(CouponRpository.class);
+		CouponRepository couponRpository = applicationContext.getBean(CouponRepository.class);
 		CustomerRepository customerRepository = applicationContext.getBean(CustomerRepository.class);
 		CategoryRepository categoryRepository = applicationContext.getBean(CategoryRepository.class);
 		Optional<Company> optionalCompany = companyRepository.findById(6);
 		System.out.println(optionalCompany.toString());
-		Company company=optionalCompany.get();
+		Company company = optionalCompany.get();
 //		if(company!=null) {
 //			couponRpository.findByCompanyAndPrice(company, 50);
 //		}
@@ -63,5 +66,21 @@ public class IOSpringProjectApplication {
 		for (Customer customer : all) {
 			System.out.println(customer.toString());
 		}
+		Optional<Company> taken = companyRepository.getCompany("Orcompa", "or@gmail.com");
+		System.out.println(taken.toString());
+
+		AdminService adminService = new AdminService(applicationContext);
+//		Company newCompany;
+//		try {
+//			newCompany = adminService.getCompany("Nahum3");
+//			adminService.removeCompany(newCompany);
+//		} catch (CouponsSystemExceptions e1) {
+//			// TODO Auto-generated catch block
+//			System.out.println(e1.toString());
+//		}		
+		CustomerService customerService = new CustomerService(applicationContext);
+		Optional<Coupon> coupon = couponRpository.findById(51);
+		customerService.setCustomer(customerRepository.findById(8).get());
+		customerService.purchaseCoupon(coupon.get());
 	}
 }

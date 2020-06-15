@@ -12,7 +12,7 @@ import com.example.i_o_spring_project.model.Company;
 import com.example.i_o_spring_project.model.Coupon;
 
 @Repository
-public interface CouponRpository extends JpaRepository<Coupon, Integer> {
+public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
 	public Optional<Coupon> findById(int id);
 
