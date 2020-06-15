@@ -1,4 +1,4 @@
-package com.example.i_o_spring_project.servise;
+package com.example.i_o_spring_project.service;
 
 import java.util.Optional;
 
