@@ -26,7 +26,7 @@ public enum SystemExceptions {
 	/**This exception is displayed when the requested <code>Company</code> object couldn't be found in the database.*/
 	COMPANY_NOT_FOUND, 
 	/**This exception is displayed when the requested <code>Companies</code> list couldn't be found in the database*/
-	COMPANYS_NOT_FOUND, 
+	COMPANIES_NOT_FOUND, 
 	/**This exception is displayed when the client is trying to perform an action that hasn't been approved by the system.*/
 	ILLEGAL_ACTION_ATTEMPTED,
 	/**This exception is displayed when the client is trying to put values that doesn't match the system's expectations.*/

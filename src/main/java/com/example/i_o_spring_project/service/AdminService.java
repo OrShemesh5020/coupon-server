@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
@@ -13,20 +12,14 @@ import com.example.i_o_spring_project.exceptions.CouponsSystemExceptions;
 import com.example.i_o_spring_project.exceptions.SystemExceptions;
 import com.example.i_o_spring_project.model.Company;
 import com.example.i_o_spring_project.model.Customer;
-import com.example.i_o_spring_project.repository.CompanyRepository;
-import com.example.i_o_spring_project.repository.CustomerRepository;
 
 @Service
-public class AdminService {
+public class AdminService extends ClientService {
 
-	@Autowired
-	private CompanyRepository companyRepository;
-	@Autowired
-	private CustomerRepository customerRepository;
+	
 
 	public AdminService(ConfigurableApplicationContext applicationContext) {
-		companyRepository = applicationContext.getBean(CompanyRepository.class);
-		customerRepository = applicationContext.getBean(CustomerRepository.class);
+		super(applicationContext);
 	}
 
 	public boolean login(String email, String password) throws CouponsSystemExceptions {
@@ -48,6 +41,8 @@ public class AdminService {
 
 	@Transactional
 	public void addCompany(Company company) throws CouponsSystemExceptions {
+		companyValidation.isTheObjectEmpty(company);
+		companyValidation.charactersHasExceeded(company);
 		if (companyRepository.getCompany(company.getName(), company.getEmail()).isPresent()) {
 			throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE,
 					"The name and the email are already taken");
@@ -59,6 +54,7 @@ public class AdminService {
 			throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
 		}
 		companyRepository.save(company);
+		System.out.println("\n--This company has been added--\n");
 	}
 
 	@Transactional
@@ -66,6 +62,8 @@ public class AdminService {
 		if (!companyRepository.existsById(company.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This company does not exist");
 		}
+		companyValidation.isTheObjectEmpty(company);
+		companyValidation.charactersHasExceeded(company);
 		if (!companyRepository.findById(company.getId()).get().getName().equals(company.getName())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"You can't change the name of the company, because the company's name is an unchangeable attribute");
@@ -96,7 +94,7 @@ public class AdminService {
 		if (companies != null) {
 			return companies;
 		}
-		throw new CouponsSystemExceptions(SystemExceptions.COMPANYS_NOT_FOUND);
+		throw new CouponsSystemExceptions(SystemExceptions.COMPANIES_NOT_FOUND);
 	}
 
 	public Company getCompany(int companyId) throws CouponsSystemExceptions {
@@ -117,6 +115,8 @@ public class AdminService {
 
 	@Transactional
 	public void addCustomer(Customer customer) throws CouponsSystemExceptions {
+		customerValidation.isTheObjectEmpty(customer);
+		customerValidation.charactersHasExceeded(customer);
 		if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
 			throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
 		}
@@ -130,6 +130,8 @@ public class AdminService {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"This customer does not exist");
 		}
+		customerValidation.isTheObjectEmpty(customer);
+		customerValidation.charactersHasExceeded(customer);
 		if (!customerRepository.findById(customer.getId()).get().getEmail().equals(customer.getEmail())) {
 			if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
 				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
@@ -150,6 +152,7 @@ public class AdminService {
 		}
 		customerRepository.delete(customer);
 		System.out.println("\n--This customer has been deleted--\n");
+
 	}
 
 	public List<Customer> getAllCustomers() throws CouponsSystemExceptions {

@@ -69,7 +69,7 @@ public class IOSpringProjectApplication {
 		Optional<Company> taken = companyRepository.getCompany("Orcompa", "or@gmail.com");
 		System.out.println(taken.toString());
 
-		AdminService adminService = new AdminService(applicationContext);
+//		AdminService adminService = new AdminService(applicationContext);
 //		Company newCompany;
 //		try {
 //			newCompany = adminService.getCompany("Nahum3");
@@ -78,9 +78,9 @@ public class IOSpringProjectApplication {
 //			// TODO Auto-generated catch block
 //			System.out.println(e1.toString());
 //		}		
-		CustomerService customerService = new CustomerService(applicationContext);
-		Optional<Coupon> coupon = couponRpository.findById(51);
-		customerService.setCustomer(customerRepository.findById(8).get());
-		customerService.purchaseCoupon(coupon.get());
+//		CustomerService customerService = new CustomerService(applicationContext);
+//		Optional<Coupon> coupon = couponRpository.findById(51);
+//		customerService.setCustomer(customerRepository.findById(8).get());
+//		customerService.purchaseCoupon(coupon.get());
 	}
 }

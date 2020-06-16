@@ -1,11 +1,10 @@
 package com.example.i_o_spring_project.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,10 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.ValueGenerationType;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,7 +36,7 @@ public class Customer {
 	private String password;
 
 	@ToString.Exclude
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "customers_vs_coupons", joinColumns = @JoinColumn(name = "CUSTOMER_ID"), inverseJoinColumns = @JoinColumn(name = "COUPON_ID"))
 	private List<Coupon> coupons;
 }
