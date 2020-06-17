@@ -16,8 +16,6 @@ import com.example.i_o_spring_project.model.Customer;
 @Service
 public class AdminService extends ClientService {
 
-	
-
 	public AdminService(ConfigurableApplicationContext applicationContext) {
 		super(applicationContext);
 	}
@@ -36,7 +34,6 @@ public class AdminService extends ClientService {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED, "inserted password is incorrect");
 		}
 		return true;
-
 	}
 
 	@Transactional

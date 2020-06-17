@@ -7,7 +7,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import com.example.i_o_spring_project.exceptions.CouponsSystemExceptions;
 import com.example.i_o_spring_project.model.Category;
 import com.example.i_o_spring_project.model.Company;
 import com.example.i_o_spring_project.model.Coupon;
@@ -16,8 +15,6 @@ import com.example.i_o_spring_project.repository.CategoryRepository;
 import com.example.i_o_spring_project.repository.CompanyRepository;
 import com.example.i_o_spring_project.repository.CouponRepository;
 import com.example.i_o_spring_project.repository.CustomerRepository;
-import com.example.i_o_spring_project.service.AdminService;
-import com.example.i_o_spring_project.service.CustomerService;
 
 @SpringBootApplication
 public class IOSpringProjectApplication {

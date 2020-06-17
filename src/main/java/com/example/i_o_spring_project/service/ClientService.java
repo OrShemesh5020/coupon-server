@@ -3,6 +3,7 @@ package com.example.i_o_spring_project.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import com.example.i_o_spring_project.exceptions.CouponsSystemExceptions;
 import com.example.i_o_spring_project.repository.CompanyRepository;
 import com.example.i_o_spring_project.repository.CouponRepository;
 import com.example.i_o_spring_project.repository.CustomerRepository;
@@ -33,5 +34,7 @@ public abstract class ClientService {
 		customerValidation = new CustomerValidation();
 		couponValidation = new CouponValidation();
 	}
+
+	public abstract boolean login(String email, String password) throws CouponsSystemExceptions;
 
 }
