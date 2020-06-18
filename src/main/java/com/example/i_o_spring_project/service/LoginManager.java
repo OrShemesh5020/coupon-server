@@ -1,7 +1,5 @@
 package com.example.i_o_spring_project.service;
 
-import java.sql.SQLException;
-
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.example.i_o_spring_project.exceptions.CouponsSystemExceptions;
@@ -22,7 +20,7 @@ public class LoginManager {
 		}
 		return instance;
 	}
-
+	
 	/**
 	 * This function receives an <code>email, password and client></code>
 	 * parameters, <br>
@@ -40,7 +38,7 @@ public class LoginManager {
 		if (client.equals(ClientType.ADMINISTRATOR)) {
 			clientService = new AdminService(applicationContext);
 		} else if (client.equals(ClientType.COMPANY)) {
-			clientService = new CompanyService(applicationContext);
+//			clientService = new CompanyService(applicationContext);
 		} else {
 			clientService = new CustomerService(applicationContext);
 		}
