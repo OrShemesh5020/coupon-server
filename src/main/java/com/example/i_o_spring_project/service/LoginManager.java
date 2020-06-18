@@ -9,7 +9,7 @@ import com.example.i_o_spring_project.exceptions.SystemExceptions;
 
 public class LoginManager {
 	private static LoginManager instance;
-	private ClientService clientService = null;
+	private ClientService clientService;
 	private ConfigurableApplicationContext applicationContext;
 
 	private LoginManager(ConfigurableApplicationContext applicationContext) {
@@ -40,7 +40,7 @@ public class LoginManager {
 		if (client.equals(ClientType.ADMINISTRATOR)) {
 			clientService = new AdminService(applicationContext);
 		} else if (client.equals(ClientType.COMPANY)) {
-//			clientService = new CompanyService(applicationContext);
+			clientService = new CompanyService(applicationContext);
 		} else {
 			clientService = new CustomerService(applicationContext);
 		}
@@ -48,5 +48,6 @@ public class LoginManager {
 			System.out.println("Welcome " + client);
 			return clientService;
 		}
+		return null;
 	}
 }
