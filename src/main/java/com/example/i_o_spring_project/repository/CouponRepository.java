@@ -17,6 +17,8 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 	public Optional<Coupon> findById(int id);
 
 	public List<Optional<Coupon>> findByCompany(Company company);
+	
+	public Optional<Company> findByTitle(String title);
 
 	@Query("select coupon from Coupon coupon where (coupon.company=:company and coupon.title=:title)")
 	public Optional<Coupon> getOneCoupon(Company company, String title);
@@ -27,6 +29,5 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 	@Query("select coupon from Coupon coupon where (coupon.company=:company and coupon.category=:category)")
 	public List<Optional<Coupon>> getCompanyCouponsByCategory(Company company, Category category);
 
-	public void addCoupon(Optional<Coupon> optionalCoupon);
 
 }
