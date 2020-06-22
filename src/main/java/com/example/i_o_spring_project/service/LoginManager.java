@@ -38,7 +38,7 @@ public class LoginManager {
 		if (client.equals(ClientType.ADMINISTRATOR)) {
 			clientService = new AdminService(applicationContext);
 		} else if (client.equals(ClientType.COMPANY)) {
-//			clientService = new CompanyService(applicationContext);
+			clientService = new CompanyService(applicationContext);
 		} else {
 			clientService = new CustomerService(applicationContext);
 		}

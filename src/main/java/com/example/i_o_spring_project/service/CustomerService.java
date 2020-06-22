@@ -31,10 +31,11 @@ public class CustomerService extends ClientService {
 		if (optionalCustomer.isEmpty()) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED, "inserted email is incorrect");
 		}
-		if (!optionalCustomer.get().getPassword().equals(password)) {
+		Customer customer = optionalCustomer.get();
+		if (!customer.getPassword().equals(password)) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED, "inserted password is incorrect");
 		}
-		setCustomer(optionalCustomer.get());
+		setCustomer(customer);
 		return true;
 	}
 

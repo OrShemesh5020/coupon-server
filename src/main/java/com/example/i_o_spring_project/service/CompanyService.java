@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
@@ -17,33 +16,25 @@ import com.example.i_o_spring_project.exceptions.SystemExceptions;
 import com.example.i_o_spring_project.model.Category;
 import com.example.i_o_spring_project.model.Company;
 import com.example.i_o_spring_project.model.Coupon;
-import com.example.i_o_spring_project.repository.CompanyRepository;
-import com.example.i_o_spring_project.repository.CouponRepository;
 
 @Service
 public class CompanyService extends ClientService {
 
-	@Autowired
+	
 	private Company company;
-	@Autowired
-	private CompanyRepository companyRepository;
-	@Autowired
-	private CouponRepository couponRepository;
 
 	public CompanyService(ConfigurableApplicationContext applicationContext) {
 		super(applicationContext);
-		companyRepository = applicationContext.getBean(CompanyRepository.class);
-		couponRepository = applicationContext.getBean(CouponRepository.class);
 	}
 
 	public boolean login(String email, String password) throws CouponsSystemExceptions {
 		Optional<Company> optionalCompany = companyRepository.findByEmail(email);
 		if (optionalCompany.isEmpty()) {
-			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED, "inserted email is incorrect");
+			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED, "Inserted email is incorrect");
 		}
 		Company company = optionalCompany.get();
 		if (!company.getPassword().equals(password)) {
-			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED, "inserted password is incorrect");
+			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED, "Inserted password is incorrect");
 		}
 		setCompany(company);
 		return true;
@@ -51,21 +42,15 @@ public class CompanyService extends ClientService {
 
 	@Transactional
 	public void addACoupon(Coupon coupon) throws SQLException, CouponsSystemExceptions, InterruptedException {
-
-		couponValidation.isTheObjectEmpty(coupon);
-
-		couponValidation.charactersHasExceeded(coupon);
-
 		Date now = new Date();
-
+		couponValidation.isTheObjectEmpty(coupon);
+		couponValidation.charactersHasExceeded(coupon);
 		if (coupon.getEndDate().before(now)) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED,
-					"coupon's end date cannot be prior to now.");
-
+					"Coupon's end date cannot be prior to now.");
 		}
-		if (couponRepository.findByTitle(coupon.getTitle()).get().getId().equals(coupon.getId())) {
+		if (couponRepository.getOneCoupon(company, coupon.getTitle()).isPresent()) {
 			throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "this name is already taken!");
-
 		}
 		if (coupon.getStartDate().before(now)) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED,
@@ -77,11 +62,11 @@ public class CompanyService extends ClientService {
 		}
 		if (coupon.getPrice() <= 0) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED,
-					"coupon's price cannot be equal to or less than 0");
+					"Coupon's price cannot be equal to or less than 0");
 		}
 		if (coupon.getAmount() <= 0) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED,
-					"coupon's Amount cannot be equal to or less than 0");
+					"Coupon's Amount cannot be equal to or less than 0");
 		}
 		couponRepository.save(coupon);
 		System.out.println("\n--The coupon was added--\n");
@@ -90,14 +75,14 @@ public class CompanyService extends ClientService {
 
 	@Transactional
 	public void updateCoupon(Coupon coupon) throws SQLException, CouponsSystemExceptions, InterruptedException {
-		Date now = new Date(0L);
+		Date now = new Date();
 
 		if (!couponRepository.existsById(coupon.getId())) {
-			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND);
+			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND,"The coupon does not exist in the system");
 		}
 		if (!companyHasCouponPurchased(coupon)) {
-			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND,
-					"the company does not have this coupon ");
+			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
+					"The company does not have this coupon ");
 		}
 		couponValidation.isTheObjectEmpty(coupon);
 
@@ -121,15 +106,15 @@ public class CompanyService extends ClientService {
 		} else {
 			coupon.setStartDate(couponRepository.findById(coupon.getId()).get().getStartDate());
 			couponRepository.save(coupon);
-			System.out.println("\n--The Coupon's details have been altered, not including it's start time--\n");
+			System.out.println("\n--The coupon's details have been altered, not including it's start time--\n");
 		}
 
 	}
 
 	public void deleteCoupon(Coupon coupon) throws SQLException, CouponsSystemExceptions, InterruptedException {
 		if (!companyHasCouponPurchased(coupon)) {
-			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND,
-					"the company does not have this coupon");
+			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
+					"The company does not have this coupon");
 		}
 		couponRepository.delete(coupon);
 		System.out.println("\n--The coupon was deleted--\n");
@@ -137,12 +122,10 @@ public class CompanyService extends ClientService {
 	}
 
 	public Coupon getOneCoupon(String title) throws CouponsSystemExceptions {
-		Optional<Coupon> oneCoupon = couponRepository.getOneCoupon(company, title);
-		if (oneCoupon.isPresent()) {
-			return oneCoupon.get();
-
+		Optional<Coupon> coupon = couponRepository.getOneCoupon(company, title);
+		if (coupon.isPresent()) {
+			return coupon.get();
 		}
-
 		throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND);
 	}
 

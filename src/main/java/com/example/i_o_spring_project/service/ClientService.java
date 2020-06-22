@@ -19,11 +19,8 @@ public abstract class ClientService {
 	protected CustomerRepository customerRepository;
 	@Autowired
 	protected CouponRepository couponRepository;
-	@Autowired
 	protected CompanyValidation companyValidation;
-	@Autowired
 	protected CustomerValidation customerValidation;
-	@Autowired
 	protected CouponValidation couponValidation;
 
 	public ClientService(ConfigurableApplicationContext applicationContext) {
