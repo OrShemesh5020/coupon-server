@@ -1,6 +1,6 @@
 package com.example.i_o_spring_project.model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,12 +13,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
 @Entity
+@Component
 @NoArgsConstructor
 @Table(name = "coupons")
 public class Coupon {
@@ -54,11 +57,26 @@ public class Coupon {
 	@ManyToMany(mappedBy = "coupons")
 	private List<Customer> customers;
 
+	
 	@Override
 	public String toString() {
 		return "Coupon [id: " + id + ", company id: " + company.getId() + ", category: " + category + ", title: " + title
 				+ ", description: " + description + ", startDate:" + startDate + ", endDate: " + endDate + ", amount: "
 				+ amount + ", price: " + price + ", image: " + image + "]";
+	}
+
+
+	public Coupon(Company company, Category category, String title, String description, Date startDate, Date endDate,
+			Integer amount, Double price, String image) {
+		this.company = company;
+		this.category = category;
+		this.title = title;
+		this.description = description;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.amount = amount;
+		this.price = price;
+		this.image = image;
 	}
 
 	

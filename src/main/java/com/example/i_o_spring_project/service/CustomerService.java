@@ -7,8 +7,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.stereotype.Service;
 
 import com.example.i_o_spring_project.exceptions.CouponsSystemExceptions;
 import com.example.i_o_spring_project.exceptions.SystemExceptions;
@@ -16,13 +15,14 @@ import com.example.i_o_spring_project.model.Category;
 import com.example.i_o_spring_project.model.Coupon;
 import com.example.i_o_spring_project.model.Customer;
 
+@Service
 public class CustomerService extends ClientService {
 
-	@Autowired
+	
 	private Customer customer;
 
-	public CustomerService(ConfigurableApplicationContext applicationContext) {
-		super(applicationContext);
+	public CustomerService() {
+		super();
 	}
 
 	@Transactional

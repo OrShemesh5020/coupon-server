@@ -1,35 +1,26 @@
 package com.example.i_o_spring_project.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.stereotype.Component;
 
 import com.example.i_o_spring_project.exceptions.CouponsSystemExceptions;
 import com.example.i_o_spring_project.exceptions.SystemExceptions;
 
-/*
- * if the @autoWired doesn't work, try implements ApplicationContextAware
- */
-@Component
 public class LoginManager {
-
 	private static LoginManager instance;
-	@Autowired
+	private ClientService clientService;
 	private ConfigurableApplicationContext applicationContext;
 
-	private ClientService clientService;
-
-
-	private LoginManager() {
+	private LoginManager(ConfigurableApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
 	}
 
-	public static LoginManager getInstance() {
+	public static LoginManager getInstance(ConfigurableApplicationContext applicationContext) {
 		if (instance == null) {
-			instance = new LoginManager();
+			instance = new LoginManager(applicationContext);
 		}
 		return instance;
 	}
-
+	
 	/**
 	 * This function receives an <code>email, password and client></code>
 	 * parameters, <br>
@@ -45,26 +36,20 @@ public class LoginManager {
 	 */
 	public ClientService login(String email, String password, ClientType client) throws CouponsSystemExceptions {
 		if (client.equals(ClientType.ADMINISTRATOR)) {
-			clientService = applicationContext.getBean(AdminService.class);
+			clientService = new AdminService(applicationContext);
 		} else if (client.equals(ClientType.COMPANY)) {
-			clientService = applicationContext.getBean(CompanyService.class);
+			clientService = new CompanyService(applicationContext);
 		} else {
-			clientService = applicationContext.getBean(CustomerService.class);
+			clientService = new CustomerService(applicationContext);
 		}
-		System.out.println(clientService.getClass());
 		if (clientService.login(email, password)) {
 			System.out.println("Welcome " + client);
 			return clientService;
 		}
 		return null;
+<<<<<<< HEAD
+		}
+=======
+>>>>>>> seventh_spring_upload
 	}
 
-	public ClientService getClientService() {
-		return clientService;
-	}
-
-	public void setClientService(ClientService clientService) {
-		this.clientService = clientService;
-	}
-
-}

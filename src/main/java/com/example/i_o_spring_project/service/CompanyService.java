@@ -2,13 +2,13 @@ package com.example.i_o_spring_project.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
 import com.example.i_o_spring_project.exceptions.CouponsSystemExceptions;
@@ -20,11 +20,10 @@ import com.example.i_o_spring_project.model.Coupon;
 @Service
 public class CompanyService extends ClientService {
 
-	
 	private Company company;
 
-	public CompanyService(ConfigurableApplicationContext applicationContext) {
-		super(applicationContext);
+	public CompanyService() {
+		super();
 	}
 
 	public boolean login(String email, String password) throws CouponsSystemExceptions {
@@ -41,7 +40,7 @@ public class CompanyService extends ClientService {
 	}
 
 	@Transactional
-	public void addACoupon(Coupon coupon) throws SQLException, CouponsSystemExceptions, InterruptedException {
+	public void addACoupon(Coupon coupon) throws CouponsSystemExceptions {
 		Date now = new Date();
 		couponValidation.isTheObjectEmpty(coupon);
 		couponValidation.charactersHasExceeded(coupon);
@@ -74,14 +73,15 @@ public class CompanyService extends ClientService {
 	}
 
 	@Transactional
-	public void updateCoupon(Coupon coupon) throws SQLException, CouponsSystemExceptions, InterruptedException {
+	public void updateCoupon(Coupon coupon) throws CouponsSystemExceptions {
 		Date now = new Date();
 
 		if (!couponRepository.existsById(coupon.getId())) {
-			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND,"The coupon does not exist in the system");
+			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND,
+					"The coupon does not exist in the system");
 		}
 		if (!companyHasCouponPurchased(coupon)) {
-			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
+			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND,
 					"The company does not have this coupon ");
 		}
 		couponValidation.isTheObjectEmpty(coupon);
@@ -111,7 +111,7 @@ public class CompanyService extends ClientService {
 
 	}
 
-	public void deleteCoupon(Coupon coupon) throws SQLException, CouponsSystemExceptions, InterruptedException {
+	public void deleteCoupon(Coupon coupon) throws CouponsSystemExceptions {
 		if (!companyHasCouponPurchased(coupon)) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"The company does not have this coupon");
@@ -119,6 +119,14 @@ public class CompanyService extends ClientService {
 		couponRepository.delete(coupon);
 		System.out.println("\n--The coupon was deleted--\n");
 
+	}
+
+	public Coupon getOneCoupon(int id) throws CouponsSystemExceptions {
+		Optional<Coupon> coupon = couponRepository.findById(id);
+		if (coupon.isPresent()) {
+			return coupon.get();
+		}
+		throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND);
 	}
 
 	public Coupon getOneCoupon(String title) throws CouponsSystemExceptions {
@@ -130,7 +138,7 @@ public class CompanyService extends ClientService {
 	}
 
 	public List<Coupon> getAllCompanyCoupons() throws CouponsSystemExceptions {
-		List<Coupon> couponsList = company.getCoupons();
+		List<Coupon> couponsList = couponRepository.findByCompany(company);
 		if (!couponsList.isEmpty()) {
 			return couponsList;
 		}
@@ -138,28 +146,25 @@ public class CompanyService extends ClientService {
 	}
 
 	public List<Coupon> getCouponsByCategory(Category category) throws CouponsSystemExceptions {
-		List<Optional<Coupon>> companyCouponsByCategory = couponRepository.getCompanyCouponsByCategory(company,
-				category);
+		List<Coupon> companyCouponsByCategory = couponRepository.getCompanyCouponsByCategory(company, category);
 		if (!companyCouponsByCategory.isEmpty()) {
-			return couponsListConverter(companyCouponsByCategory);
+			return companyCouponsByCategory;
 		}
 		throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
 	}
 
 	public List<Coupon> getCouponsByPrice(Double price) throws CouponsSystemExceptions {
 
-		List<Optional<Coupon>> companyCouponsByPrice = couponRepository.getCompanyCouponsByPrice(company, price);
+		List<Coupon> companyCouponsByPrice = couponRepository.getCompanyCouponsByPrice(company, price);
 		if (!companyCouponsByPrice.isEmpty()) {
-			return couponsListConverter(companyCouponsByPrice);
+			return companyCouponsByPrice;
 		}
 		throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
 	}
 
-	public Company getCompanyDetails(int id) throws CouponsSystemExceptions {
-		Optional<Company> optionalCompany = companyRepository.findById(id);
-		if (optionalCompany.isPresent()) {
-			return optionalCompany.get();
-
+	public Company getCompanyDetails() throws CouponsSystemExceptions {
+		if (companyRepository.existsById(company.getId())) {
+			return company;
 		}
 		throw new CouponsSystemExceptions(SystemExceptions.COMPANY_NOT_FOUND);
 	}
@@ -186,24 +191,23 @@ public class CompanyService extends ClientService {
 		System.out.println("\n--This company has been updated--\n");
 		companyRepository.save(company);
 	}
+//
+//	public java.sql.Date date(Calendar date) {
+//		return java.sql.Date.valueOf(getDate(date));
+//	}
+//
+//	private String getDate(Calendar date) {
+//		return date.get(Calendar.YEAR) + "-" + date.get(Calendar.MONTH) + "-" + date.get(Calendar.DAY_OF_MONTH);
+//	}
 
 	private boolean companyHasCouponPurchased(Coupon coupon) {
-		List<Optional<Coupon>> optionalCouponsList = couponRepository.findByCompany(company);
-		for (Optional<Coupon> optional : optionalCouponsList) {
-			if (optional.get().equals(coupon)) {
+		List<Coupon> couponsList = couponRepository.findByCompany(company);
+		for (Coupon companyCoupon : couponsList) {
+			if (companyCoupon.equals(coupon)) {
 				return true;
 			}
 		}
 		return false;
-	}
-
-	private List<Coupon> couponsListConverter(List<Optional<Coupon>> optionalCoupons) {
-
-		List<Coupon> couponsList = new ArrayList<Coupon>();
-		for (Optional<Coupon> optionalCoupon : optionalCoupons) {
-			couponsList.add(optionalCoupon.get());
-		}
-		return couponsList;
 	}
 
 	public Company getCompany() {

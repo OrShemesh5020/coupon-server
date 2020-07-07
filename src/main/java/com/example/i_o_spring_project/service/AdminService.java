@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
 import com.example.i_o_spring_project.exceptions.CouponsSystemExceptions;
@@ -16,8 +15,8 @@ import com.example.i_o_spring_project.model.Customer;
 @Service
 public class AdminService extends ClientService {
 
-	public AdminService(ConfigurableApplicationContext applicationContext) {
-		super(applicationContext);
+	public AdminService() {
+		super();
 	}
 
 	public boolean login(String email, String password) throws CouponsSystemExceptions {
@@ -82,8 +81,11 @@ public class AdminService extends ClientService {
 		if (!companyRepository.existsById(company.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This company does not exist");
 		}
+		couponRepository.deleteByCompany(company);
+		companyRepository.saveAndFlush(company);
 		companyRepository.delete(company);
-		System.out.println("\n--This company has been deleted--\n");
+		
+		System.out.println("\n--This company along with all its' coupons have been deleted--\n");
 	}
 
 	public List<Company> getAllCompanies() throws CouponsSystemExceptions {

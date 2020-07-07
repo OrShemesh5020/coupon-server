@@ -10,12 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
 @Entity
+@Component
 @NoArgsConstructor
 @Table(name = "companies")
 public class Company {
@@ -33,4 +36,12 @@ public class Company {
 	@ToString.Exclude
 	@OneToMany(mappedBy = "company")
 	private List<Coupon> coupons;
+
+	public Company(String name, String email, String password) {
+		this.name = name;
+		this.email = email;
+		this.password = password;
+	}
+
+	
 }

@@ -13,12 +13,15 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
 @Entity
+@Component
 @NoArgsConstructor
 @Table(name = "customers")
 public class Customer {
@@ -39,4 +42,13 @@ public class Customer {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "customers_vs_coupons", joinColumns = @JoinColumn(name = "CUSTOMER_ID"), inverseJoinColumns = @JoinColumn(name = "COUPON_ID"))
 	private List<Coupon> coupons;
+
+	public Customer(String firstName, String lastName, String email, String password) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+	}
+
+	
 }

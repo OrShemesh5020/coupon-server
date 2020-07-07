@@ -1,7 +1,7 @@
 package com.example.i_o_spring_project.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.stereotype.Component;
 
 import com.example.i_o_spring_project.exceptions.CouponsSystemExceptions;
 import com.example.i_o_spring_project.repository.CompanyRepository;
@@ -11,6 +11,7 @@ import com.example.i_o_spring_project.validation.CompanyValidation;
 import com.example.i_o_spring_project.validation.CouponValidation;
 import com.example.i_o_spring_project.validation.CustomerValidation;
 
+@Component
 public abstract class ClientService {
 
 	@Autowired
@@ -23,10 +24,10 @@ public abstract class ClientService {
 	protected CustomerValidation customerValidation;
 	protected CouponValidation couponValidation;
 
-	public ClientService(ConfigurableApplicationContext applicationContext) {
-		companyRepository = applicationContext.getBean(CompanyRepository.class);
-		customerRepository = applicationContext.getBean(CustomerRepository.class);
-		couponRepository = applicationContext.getBean(CouponRepository.class);
+	public ClientService() {
+//		companyRepository = new CompanyRepository();
+//		customerRepository = new CustomerRepository();
+//		couponRepository = new CouponRepository();
 		companyValidation = new CompanyValidation();
 		customerValidation = new CustomerValidation();
 		couponValidation = new CouponValidation();

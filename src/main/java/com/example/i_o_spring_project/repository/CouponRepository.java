@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +17,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
 	public Optional<Coupon> findById(int id);
 
-	public List<Optional<Coupon>> findByCompany(Company company);
+	public List<Coupon> findByCompany(Company company);
 	
 	public Optional<Company> findByTitle(String title);
 
@@ -24,10 +25,12 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 	public Optional<Coupon> getOneCoupon(Company company, String title);
 
 	@Query("select coupon from Coupon coupon where (coupon.company=:company and coupon.price<=:price)")
-	public List<Optional<Coupon>> getCompanyCouponsByPrice(Company company, double price);
+	public List<Coupon> getCompanyCouponsByPrice(Company company, double price);
 
 	@Query("select coupon from Coupon coupon where (coupon.company=:company and coupon.category=:category)")
-	public List<Optional<Coupon>> getCompanyCouponsByCategory(Company company, Category category);
+	public List<Coupon> getCompanyCouponsByCategory(Company company, Category category);
+	@Modifying
+	public void deleteByCompany(Company company);
 
 
 }
