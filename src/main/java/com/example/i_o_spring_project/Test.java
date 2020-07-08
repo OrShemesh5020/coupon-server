@@ -1,6 +1,5 @@
 package com.example.i_o_spring_project;
 
-import java.sql.SQLException;
 import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,8 +95,7 @@ public class Test {
 	 *      {@link #updateCustomerDetailsImproperly(CustomerFacade, Customer) }<br>
 	 *      {@link CustomerFacade#getCustomerDetails()}
 	 */
-	private void customersOptionsImproperly(CustomerFacade customer)
-			throws SQLException, CouponsSystemExceptions, InterruptedException {
+	private void customersOptionsImproperly(CustomerService customer) throws CouponsSystemExceptions {
 		Coupon purchasedCoupon = customer.getOneCoupon(16);
 		Coupon unpurchasedCoupon = customer.getOneCoupon(15);
 		purchaseACouponImproperly(customer, purchasedCoupon, unpurchasedCoupon);
@@ -124,8 +122,7 @@ public class Test {
 	 *      {@link CustomerFacade#UpdateDetails(Customer)}<br>
 	 *      {@link #createALongString(int)}
 	 */
-	private void updateCustomerDetailsImproperly(CustomerFacade customerFacade, Customer customer)
-			throws SQLException, InterruptedException {
+	private void updateCustomerDetailsImproperly(CustomerService customerFacade, Customer customer) {
 		System.out.println("Update a customer details improperly:\n");
 		Customer customer1 = cloneCustomer(customer);
 		int randomId = createARandomNumber(100, 500);
@@ -170,31 +167,30 @@ public class Test {
 	 * and attempts to remove a coupon that hasn't been purchased, and then - a
 	 * non-existing coupon.
 	 * 
-	 * @param customer - CustomerFacade-typed.
-	 * @param coupon   - Coupon-typed.
+	 * @param customer          - CustomerFacade-typed.
+	 * @param unpurchasedCoupon - Coupon-typed.
 	 * @throws InterruptedException
 	 * @catch {@link CouponsSystemExceptions}
 	 * @see {@link #createARandomNumber(int, int) }<br>
 	 *      {@link CustomerFacade#removeCouponPurchase(Coupon) }
 	 * 
 	 */
-	private void removeCouponPurchaseImproperly(CustomerFacade customer, Coupon coupon)
-			throws SQLException, InterruptedException {
+	private void removeCouponPurchaseImproperly(CustomerService customer, Coupon unpurchasedCoupon) {
 		System.out.println("Removing a coupon purchase improperly:\n");
 		int randomId = createARandomNumber(100, 500);
-		System.out.println(
-				"Example of an id entry (" + coupon.getId() + ") that is in the system but not yet purchased:\n");
-		System.out.println(coupon.toString());
+		System.out.println("Example of an id entry (" + unpurchasedCoupon.getId()
+				+ ") that exists in the system but not yet purchased:\n");
+		System.out.println(unpurchasedCoupon.toString());
 		try {
-			customer.removeCouponPurchase(coupon);
+			customer.removeCouponPurchase(unpurchasedCoupon);
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
-		System.out.println("\nExample of an id entry (" + randomId + ") that isn't in the system:\n");
-		coupon.setId(randomId);
-		System.out.println(coupon.toString());
+		System.out.println("\nExample of an id entry (" + randomId + ") that doesn't exist in the system:\n");
+		unpurchasedCoupon.setId(randomId);
+		System.out.println(unpurchasedCoupon.toString());
 		try {
-			customer.removeCouponPurchase(coupon);
+			customer.removeCouponPurchase(unpurchasedCoupon);
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
@@ -216,8 +212,7 @@ public class Test {
 	 *      {@link CustomerFacade#purchaseCoupon(Coupon)) }<br>
 	 *      {@link #createARandomNumber(int, int)}
 	 */
-	private void purchaseACouponImproperly(CustomerFacade customer, Coupon purchasedCoupon, Coupon unpurchasedCoupon)
-			throws SQLException, InterruptedException {
+	private void purchaseACouponImproperly(CustomerService customer, Coupon purchasedCoupon, Coupon unpurchasedCoupon) {
 		System.out.println("Purchase a coupon improperly:");
 		Coupon coupon = cloneCoupon(purchasedCoupon);
 		int randomId = createARandomNumber(100, 500);
@@ -250,22 +245,22 @@ public class Test {
 		coupon.setAmount(unpurchasedCoupon.getAmount());
 		Calendar startDate = Calendar.getInstance();
 		startDate.set(Calendar.YEAR, createARandomNumber(2021, 2025));
-		coupon.setStartDate(startDate);
+		coupon.setStartDate(startDate.getTime());
 		Calendar endDate = Calendar.getInstance();
 		endDate.set(Calendar.YEAR, createARandomNumber(2026, 2030));
-		coupon.setEndDate(endDate);
+		coupon.setEndDate(endDate.getTime());
 		System.out.println(coupon.toString());
 		try {
 			customer.purchaseCoupon(coupon);
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
-		System.out.println("\nExample of purchasing a coupon that has not yet been launched:\n");
+		System.out.println("\nExample of purchasing a coupon that has been expired:\n");
 		coupon = cloneCoupon(unpurchasedCoupon);
 		startDate.set(Calendar.YEAR, createARandomNumber(2000, 2014));
-		coupon.setStartDate(startDate);
+		coupon.setStartDate(startDate.getTime());
 		endDate.set(Calendar.YEAR, createARandomNumber(2015, 2019));
-		coupon.setEndDate(endDate);
+		coupon.setEndDate(endDate.getTime());
 		System.out.println(coupon.toString());
 		try {
 			customer.purchaseCoupon(coupon);
@@ -288,8 +283,7 @@ public class Test {
 	 *      {@link #updateCompanyDetailsImproperly(CompanyFacade, Company)}<br>
 	 *      {@link CompanyFacade#getCompanyDetails()}
 	 */
-	private void companysOptionsImproperly(CompanyFacade company)
-			throws SQLException, CouponsSystemExceptions, InterruptedException {
+	private void companysOptionsImproperly(CompanyService company) throws CouponsSystemExceptions {
 		addCouponImproperly(company);
 		System.out.println("****************************************************************");
 		getOneCouponImproperly(company);
@@ -309,8 +303,8 @@ public class Test {
 	 * and attempts to update the company's different attributes using incorrect
 	 * data or methods.
 	 * 
-	 * @param companyFacade - CompanyFacade-typed.
-	 * @param company       - Company-typed.
+	 * @param companyService - CompanyFacade-typed.
+	 * @param company        - Company-typed.
 	 * @throws InterruptedException
 	 * @see {@link #cloneCompany(Company)}<br>
 	 *      {@link #createARandomNumber(int, int)}<br>
@@ -318,8 +312,7 @@ public class Test {
 	 *      {@link #createALongString(int)}<br>
 	 * @catch {@link CouponsSystemExceptions}
 	 */
-	private void updateCompanyDetailsImproperly(CompanyFacade companyFacade, Company company)
-			throws SQLException, InterruptedException {
+	private void updateCompanyDetailsImproperly(CompanyService companyService, Company company) {
 		System.out.println("Update a company datails improperly:\n");
 		Company company1 = cloneCompany(company);
 		int randomId = createARandomNumber(100, 500);
@@ -327,7 +320,7 @@ public class Test {
 		company1.setId(randomId);
 		System.out.println(company1.toString());
 		try {
-			companyFacade.UpdateDetails(company1);
+			companyService.updateDetails(company1);
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
@@ -336,7 +329,7 @@ public class Test {
 		company1.setEmail(null);
 		System.out.println(company1.toString());
 		try {
-			companyFacade.UpdateDetails(company1);
+			companyService.updateDetails(company1);
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
@@ -344,7 +337,7 @@ public class Test {
 		company1.setEmail(createALongString(46));
 		System.out.println(company1.toString());
 		try {
-			companyFacade.UpdateDetails(company1);
+			companyService.updateDetails(company1);
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
@@ -353,7 +346,7 @@ public class Test {
 		company1.setName("name" + createARandomNumber(100, 500));
 		System.out.println(company1.toString());
 		try {
-			companyFacade.UpdateDetails(company1);
+			companyService.updateDetails(company1);
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
@@ -362,7 +355,7 @@ public class Test {
 		company1.setEmail("drink123@gmail.com");
 		System.out.println(company1.toString());
 		try {
-			companyFacade.UpdateDetails(company1);
+			companyService.updateDetails(company1);
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
@@ -380,8 +373,7 @@ public class Test {
 	 *      {@link CompanyFacade#deleteCoupon(Coupon)}<br>
 	 * @catch {@link CouponsSystemExceptions}
 	 */
-	private void deleteOneCouponImproperly(CompanyFacade company, Coupon coupon)
-			throws SQLException, InterruptedException {
+	private void deleteOneCouponImproperly(CompanyService company, Coupon coupon) {
 		System.out.println("Delete a coupon improperly:\n");
 		int randomId = createARandomNumber(100, 500);
 		System.out.println("Example of entering an incorrect id (" + randomId + "):\n");
@@ -410,8 +402,7 @@ public class Test {
 	 *      {@link #createALongString(int)}<br>
 	 *      {@link #createARandomNumber(int, int)}<br>
 	 */
-	private void updateOneCouponImproperly(CompanyFacade company, Coupon coupon)
-			throws SQLException, InterruptedException {
+	private void updateOneCouponImproperly(CompanyService company, Coupon coupon) {
 		System.out.println("Update a coupon improperly:\n");
 		Coupon coupon1 = cloneCoupon(coupon);
 		int randomId = createARandomNumber(100, 500);
@@ -442,9 +433,9 @@ public class Test {
 		}
 		System.out.println("\nExample of inserting a coupon whose expiration date is before its start date:\n");
 		coupon1.setTitle(coupon.getTitle());
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.YEAR, createARandomNumber(2030, 2040));
-		coupon1.setStartDate(calendar);
+		Calendar startTime = Calendar.getInstance();
+		startTime.set(Calendar.YEAR, createARandomNumber(2030, 2040));
+		coupon1.setStartDate(startTime.getTime());
 		System.out.println(coupon1.toString());
 		try {
 			company.updateCoupon(coupon1);
@@ -462,7 +453,7 @@ public class Test {
 		}
 		System.out.println("\nExample of entering a value is equal to zero (price):\n");
 		coupon1.setAmount(createARandomNumber(5, 200));
-		coupon1.setPrice(0);
+		coupon1.setPrice(0d);
 		System.out.println(coupon1.toString());
 		try {
 			company.updateCoupon(coupon1);
@@ -481,15 +472,17 @@ public class Test {
 	 * @see {@link #createARandomNumber(int, int)}<br>
 	 *      {@link CompanyFacade#getOneCoupon(int)}<br>
 	 */
-	private void getOneCouponImproperly(CompanyFacade company) throws SQLException, InterruptedException {
+	private Coupon getOneCouponImproperly(CompanyService company) {
 		System.out.println("Get a coupon improperly:\n");
 		int randomId = createARandomNumber(200, 600);
 		System.out.println("Example of entering an incorrect id (" + randomId + "):\n");
 		try {
 			Coupon coupon = company.getOneCoupon(randomId);
+			return coupon;
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
+		return null;
 	}
 
 	/**
@@ -504,7 +497,7 @@ public class Test {
 	 *      {@link #createALongString(int)}<br>
 	 *      {@link #createARandomNumber(int, int)}
 	 */
-	private void addCouponImproperly(CompanyFacade company) throws SQLException, InterruptedException {
+	private void addCouponImproperly(CompanyService company) {
 		Coupon coupon = createNewCoupon(company);
 		System.out.println("Add a coupon improperly:\n");
 		System.out.println("Example of entering an empty value:\n");
@@ -531,11 +524,12 @@ public class Test {
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
-		System.out.println("\nExample of inserting a coupon whose start date is less than the corrent date:\n");
+		System.out.println("\nExample of inserting a coupon whose start date is less than the current date:\n");
 		coupon.setTitle("title" + createARandomNumber(100, 500));
-		Calendar calendar = coupon.getStartDate();
-		calendar.set(Calendar.YEAR, createARandomNumber(1990, 2010));
-		coupon.setStartDate(calendar);
+		Calendar startTime = Calendar.getInstance();
+		startTime.setTime(coupon.getStartDate());
+		startTime.set(Calendar.YEAR, createARandomNumber(1990, 2010));
+		coupon.setStartDate(startTime.getTime());
 		System.out.println(coupon.toString());
 		try {
 			company.addACoupon(coupon);
@@ -543,9 +537,9 @@ public class Test {
 			System.out.println(couponException.toString());
 		}
 		System.out.println("\nExample of inserting a coupon whose expiration date is less than its start date:\n");
-		calendar = coupon.getStartDate();
-		calendar.set(Calendar.YEAR, createARandomNumber(2030, 2040));
-		coupon.setStartDate(calendar);
+		startTime.setTime(coupon.getStartDate());
+		startTime.set(Calendar.YEAR, createARandomNumber(2030, 2040));
+		coupon.setStartDate(startTime.getTime());
 		System.out.println(coupon.toString());
 		try {
 			company.addACoupon(coupon);
@@ -563,7 +557,7 @@ public class Test {
 		}
 		System.out.println("\nExample of entering a value is equal to zero (price):\n");
 		coupon.setAmount(createARandomNumber(5, 200));
-		coupon.setPrice(0);
+		coupon.setPrice(0d);
 		System.out.println(coupon.toString());
 		try {
 			company.addACoupon(coupon);
@@ -623,7 +617,7 @@ public class Test {
 	 * @see {@link #createARandomNumber(int, int)}<br>
 	 *      {@link AdminFacade#removeCustomer(Customer)}
 	 */
-	private void deleteACustomerImproperly(AdminService admin, Customer customer){
+	private void deleteACustomerImproperly(AdminService admin, Customer customer) {
 		System.out.println("Delete a customer improperly:\n");
 		int randomId = createARandomNumber(100, 500);
 		System.out.println("Example of entering an incorrect id (" + randomId + "):\n");
@@ -856,7 +850,7 @@ public class Test {
 	 * @see {@link #createARandomNumber(int, int)}
 	 *      {@link AdminFacade#getCompany(int)}
 	 */
-	private Company getACompanyImproperly(AdminService admin) throws SQLException, InterruptedException {
+	private Company getACompanyImproperly(AdminService admin) {
 		System.out.println("Get a company improperly:\n");
 		int randomId = createARandomNumber(200, 600);
 		System.out.println("Example of entering an incorrect id (" + randomId + "):\n");
@@ -930,7 +924,7 @@ public class Test {
 		Calendar endDate = Calendar.getInstance();
 		startDate.add(Calendar.MONTH, 2);
 		endDate.add(Calendar.YEAR, createARandomNumber(5, 7));
-		return new Coupon(company.getCompany(), categoryRepository.findById(createARandomNumber(0, 3)),
+		return new Coupon(company.getCompany(), categoryRepository.findById(createARandomNumber(1, 4)),
 				"title" + createARandomNumber(100, 500), "description" + createARandomNumber(100, 500),
 				startDate.getTime(), endDate.getTime(), createARandomNumber(5, 200),
 				(double) createARandomNumber(20, 1000), "image" + createARandomNumber(100, 500));
@@ -944,7 +938,7 @@ public class Test {
 	 * @return a clone of the company object received.
 	 */
 	private Company cloneCompany(Company company) {
-		return new Company(company.getName(), company.getEmail(), company.getPassword());
+		return new Company(company.getId(), company.getName(), company.getEmail(), company.getPassword());
 	}
 
 	/**
@@ -955,7 +949,7 @@ public class Test {
 	 * @return a clone of the customer object received.
 	 */
 	private Customer cloneCustomer(Customer customer) {
-		return new Customer(customer.getFirstName(), customer.getLastName(), customer.getEmail(),
+		return new Customer(customer.getId(), customer.getFirstName(), customer.getLastName(), customer.getEmail(),
 				customer.getPassword());
 	}
 
@@ -967,8 +961,9 @@ public class Test {
 	 * @return a clone of the coupon object received.
 	 */
 	private Coupon cloneCoupon(Coupon coupon) {
-		return new Coupon(coupon.getCompany(), coupon.getCategory(), coupon.getTitle(), coupon.getDescription(),
-				coupon.getStartDate(), coupon.getEndDate(), coupon.getAmount(), coupon.getPrice(), coupon.getImage());
+		return new Coupon(coupon.getId(), coupon.getCompany(), coupon.getCategory(), coupon.getTitle(),
+				coupon.getDescription(), coupon.getStartDate(), coupon.getEndDate(), coupon.getAmount(),
+				coupon.getPrice(), coupon.getImage());
 	}
 
 	/**
@@ -1020,8 +1015,7 @@ public class Test {
 	 * 
 	 * 
 	 */
-	private void customersOptionsProperly(CustomerService customer)
-			throws SQLException, CouponsSystemExceptions, InterruptedException {
+	private void customersOptionsProperly(CustomerService customer) throws CouponsSystemExceptions {
 		Coupon coupon = purchaseACoupon(customer);
 		System.out.println("****************************************************************");
 		removeCouponPurchase(customer, coupon);
@@ -1130,8 +1124,7 @@ public class Test {
 	 *      {@link #getCoupons(CompanyFacade)}<br>
 	 *      {@link #getCompanyDetails(CompanyFacade)}
 	 */
-	private void companysOptionsProperly(CompanyService company)
-			throws SQLException, CouponsSystemExceptions, InterruptedException {
+	private void companysOptionsProperly(CompanyService company) throws CouponsSystemExceptions {
 		Coupon coupon = addCoupon(company);
 		System.out.println("****************************************************************");
 		getOneCoupon(company, coupon);
@@ -1230,8 +1223,8 @@ public class Test {
 	 *      {@link CompanyFacade#getCouponsByPrice(double)}<br>
 	 *      {@link CompanyFacade#getAllCompanyCoupons()}
 	 */
-	private void getCoupons(CompanyService company) throws SQLException, CouponsSystemExceptions, InterruptedException {
-		int randomCategoryId = createARandomNumber(0, 3);
+	private void getCoupons(CompanyService company) throws CouponsSystemExceptions {
+		int randomCategoryId = createARandomNumber(1, 2);
 		System.out.println("Get coupons by category (" + categoryRepository.findById(randomCategoryId) + "):");
 		for (Coupon coupon : company.getCouponsByCategory(categoryRepository.findById(randomCategoryId))) {
 			System.out.println(coupon.toString());
@@ -1259,8 +1252,7 @@ public class Test {
 	 * @throws InterruptedException
 	 * @see {@link CompanyFacade#addACoupon(Coupon)}
 	 */
-	private Coupon addCoupon(CompanyService company)
-			throws SQLException, CouponsSystemExceptions, InterruptedException {
+	private Coupon addCoupon(CompanyService company) throws CouponsSystemExceptions {
 		System.out.println("Add a coupon:");
 		Coupon coupon = createNewCoupon(company);
 		company.addACoupon(coupon);
@@ -1288,8 +1280,7 @@ public class Test {
 	 *      {@link #deleteACustomer(AdminFacade, Customer)}<br>
 	 *      {@link #getAllCustomers(AdminFacade)}
 	 */
-	private void adminsOptionsProperly(AdminService admin)
-			throws SQLException, CouponsSystemExceptions, InterruptedException {
+	private void adminsOptionsProperly(AdminService admin) throws CouponsSystemExceptions {
 		System.out.println();
 		Company company = addACompany(admin);
 		System.out.println("****************************************************************");

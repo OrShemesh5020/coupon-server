@@ -26,7 +26,7 @@ import lombok.ToString;
 @Table(name = "coupons")
 public class Coupon {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
 
@@ -57,14 +57,12 @@ public class Coupon {
 	@ManyToMany(mappedBy = "coupons")
 	private List<Customer> customers;
 
-	
 	@Override
 	public String toString() {
-		return "Coupon [id: " + id + ", company id: " + company.getId() + ", category: " + category + ", title: " + title
-				+ ", description: " + description + ", startDate:" + startDate + ", endDate: " + endDate + ", amount: "
-				+ amount + ", price: " + price + ", image: " + image + "]";
+		return "Coupon [id: " + id + ", company id: " + company.getId() + ", category: " + category + ", title: "
+				+ title + ", description: " + description + ", startDate:" + startDate + ", endDate: " + endDate
+				+ ", amount: " + amount + ", price: " + price + ", image: " + image + "]";
 	}
-
 
 	public Coupon(Company company, Category category, String title, String description, Date startDate, Date endDate,
 			Integer amount, Double price, String image) {
@@ -79,5 +77,10 @@ public class Coupon {
 		this.image = image;
 	}
 
-	
+	public Coupon(Integer id, Company company, Category category, String title, String description, Date startDate,
+			Date endDate, Integer amount, Double price, String image) {
+		this(company, category, title, description, startDate, endDate, amount, price, image);
+		this.id = id;
+	}
+
 }

@@ -1,8 +1,5 @@
 package com.example.i_o_spring_project.service;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -118,11 +115,10 @@ public class CompanyService extends ClientService {
 		}
 		couponRepository.delete(coupon);
 		System.out.println("\n--The coupon was deleted--\n");
-
 	}
 
 	public Coupon getOneCoupon(int id) throws CouponsSystemExceptions {
-		Optional<Coupon> coupon = couponRepository.findById(id);
+		Optional<Coupon> coupon = couponRepository.getOneCoupon(company, id);
 		if (coupon.isPresent()) {
 			return coupon.get();
 		}
@@ -188,8 +184,9 @@ public class CompanyService extends ClientService {
 				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
 			}
 		}
-		System.out.println("\n--This company has been updated--\n");
 		companyRepository.save(company);
+		setCompany(company);
+		System.out.println("\n--This company has been updated--\n");
 	}
 //
 //	public java.sql.Date date(Calendar date) {
@@ -203,7 +200,7 @@ public class CompanyService extends ClientService {
 	private boolean companyHasCouponPurchased(Coupon coupon) {
 		List<Coupon> couponsList = couponRepository.findByCompany(company);
 		for (Coupon companyCoupon : couponsList) {
-			if (companyCoupon.equals(coupon)) {
+			if (companyCoupon.getId().equals(coupon.getId())) {
 				return true;
 			}
 		}

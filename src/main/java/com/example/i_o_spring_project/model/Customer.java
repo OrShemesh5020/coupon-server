@@ -26,7 +26,7 @@ import lombok.ToString;
 @Table(name = "customers")
 public class Customer {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
 	@Column(name = "first_name")
@@ -50,5 +50,11 @@ public class Customer {
 		this.password = password;
 	}
 
+	public Customer(Integer id, String firstName, String lastName, String email, String password) {
+		this(firstName, lastName, email, password);
+		this.id = id;
+	}
+	
+	
 	
 }

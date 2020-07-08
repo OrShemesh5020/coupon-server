@@ -82,7 +82,6 @@ public class AdminService extends ClientService {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This company does not exist");
 		}
 		couponRepository.deleteByCompany(company);
-		companyRepository.saveAndFlush(company);
 		companyRepository.delete(company);
 		
 		System.out.println("\n--This company along with all its' coupons have been deleted--\n");

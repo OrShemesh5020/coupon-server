@@ -8,9 +8,9 @@ public class CompanyValidation extends ObjectValidation<Company> {
 	@Override
 	public void isTheObjectEmpty(Company company) throws CouponsSystemExceptions {
 
-		isTheParameterEmpty(company.getName());
-		isTheParameterEmpty(company.getEmail());
-		isTheParameterEmpty(company.getPassword());
+		isTheParameterEmpty(company.getName(), "name");
+		isTheParameterEmpty(company.getEmail(), "email");
+		isTheParameterEmpty(company.getPassword(),"password");
 	}
 
 	@Override

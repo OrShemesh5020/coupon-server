@@ -7,10 +7,10 @@ public class CustomerValidation extends ObjectValidation<Customer> {
 
 	@Override
 	public void isTheObjectEmpty(Customer customer) throws CouponsSystemExceptions {
-		isTheParameterEmpty(customer.getFirstName());
-		isTheParameterEmpty(customer.getLastName());
-		isTheParameterEmpty(customer.getEmail());
-		isTheParameterEmpty(customer.getPassword());
+		isTheParameterEmpty(customer.getFirstName(), "first name");
+		isTheParameterEmpty(customer.getLastName(), "last name");
+		isTheParameterEmpty(customer.getEmail(), "email");
+		isTheParameterEmpty(customer.getPassword(), "password");
 	}
 
 	@Override

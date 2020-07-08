@@ -160,7 +160,7 @@ public class CustomerService extends ClientService {
 	private boolean hasCouponPurchased(Coupon coupon) {
 		List<Coupon> coupons = customer.getCoupons();
 		for (Coupon purchasedCoupon : coupons) {
-			if (purchasedCoupon.equals(coupon)) {
+			if (purchasedCoupon.getId().equals(coupon.getId())) {
 				return true;
 			}
 		}
