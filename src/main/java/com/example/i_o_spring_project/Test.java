@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
+import com.example.i_o_spring_project.automatic_managment.CouponExpirationDaliyJob;
 import com.example.i_o_spring_project.exceptions.CouponsSystemExceptions;
 import com.example.i_o_spring_project.model.Category;
 import com.example.i_o_spring_project.model.Company;
@@ -53,7 +54,8 @@ public class Test {
 	 */
 	public void testAll() {
 		try {
-
+			CouponExpirationDaliyJob daliyJob = context.getBean(CouponExpirationDaliyJob.class);
+			daliyJob.run();
 			loginManager = context.getBean(LoginManager.class);
 			AdminService admin = (AdminService) loginManager.login("admin@admin.com", "admin",
 					ClientType.ADMINISTRATOR);
@@ -924,7 +926,7 @@ public class Test {
 		Calendar endDate = Calendar.getInstance();
 		startDate.add(Calendar.MONTH, 2);
 		endDate.add(Calendar.YEAR, createARandomNumber(5, 7));
-		return new Coupon(company.getCompany(), categoryRepository.findById(createARandomNumber(1, 4)),
+		return new Coupon(company.getCompany(), categoryRepository.findById(createARandomNumber(1, 4)).get(),
 				"title" + createARandomNumber(100, 500), "description" + createARandomNumber(100, 500),
 				startDate.getTime(), endDate.getTime(), createARandomNumber(5, 200),
 				(double) createARandomNumber(20, 1000), "image" + createARandomNumber(100, 500));
@@ -1057,7 +1059,7 @@ public class Test {
 	 */
 	private void getCouponsPurchased(CustomerService customer) throws CouponsSystemExceptions {
 		System.out.println("Get coupons purchased by category (vacation):");
-		for (Coupon coupon : customer.getCustomerCoupons(categoryRepository.findById(4))) {
+		for (Coupon coupon : customer.getCustomerCoupons(categoryRepository.findById(4).get())) {
 			System.out.println(coupon.toString());
 		}
 		System.out.println("\nGet coupons purchased by max price (100):");
@@ -1184,7 +1186,7 @@ public class Test {
 	 */
 	private void updateOneCoupon(CompanyService company, Coupon coupon) throws CouponsSystemExceptions {
 		System.out.println("Update a coupon:");
-		coupon.setCategory(categoryRepository.findById(createARandomNumber(0, 3)));
+		coupon.setCategory(categoryRepository.findById(createARandomNumber(0, 3)).get());
 		coupon.setTitle("title" + createARandomNumber(100, 500));
 		coupon.setDescription("description" + createARandomNumber(100, 500));
 		coupon.setAmount(createARandomNumber(100, 500));
@@ -1226,7 +1228,7 @@ public class Test {
 	private void getCoupons(CompanyService company) throws CouponsSystemExceptions {
 		int randomCategoryId = createARandomNumber(1, 2);
 		System.out.println("Get coupons by category (" + categoryRepository.findById(randomCategoryId) + "):");
-		for (Coupon coupon : company.getCouponsByCategory(categoryRepository.findById(randomCategoryId))) {
+		for (Coupon coupon : company.getCouponsByCategory(categoryRepository.findById(randomCategoryId).get())) {
 			System.out.println(coupon.toString());
 		}
 		double randomNum = createARandomNumber(100, 500);

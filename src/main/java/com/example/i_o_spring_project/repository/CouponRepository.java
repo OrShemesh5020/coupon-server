@@ -1,5 +1,6 @@
 package com.example.i_o_spring_project.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,12 +19,12 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 	public Optional<Coupon> findById(int id);
 
 	public List<Coupon> findByCompany(Company company);
-	
+
 	public Optional<Company> findByTitle(String title);
 
 	@Query("select coupon from Coupon coupon where (coupon.company=:company and coupon.id=:id)")
 	public Optional<Coupon> getOneCoupon(Company company, int id);
-	
+
 	@Query("select coupon from Coupon coupon where (coupon.company=:company and coupon.title=:title)")
 	public Optional<Coupon> getOneCoupon(Company company, String title);
 
@@ -32,8 +33,15 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
 	@Query("select coupon from Coupon coupon where (coupon.company=:company and coupon.category=:category)")
 	public List<Coupon> getCompanyCouponsByCategory(Company company, Category category);
+
+//	@Modifying
+//	@Query("delete coupon from Coupon coupon where (coupon.endDate<:now)")
+//	public void deleteByDate(Date now);
+
+	@Modifying
+	public void deleteByEndDateBefore(Date now);
+
 	@Modifying
 	public void deleteByCompany(Company company);
-
 
 }
