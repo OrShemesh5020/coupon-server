@@ -21,8 +21,7 @@ public class IOSpringProjectApplication {
 			test.testAll();
 			break;
 		case 2:
-			InteractiveQuestionnaire interactiveQuestionnaire = applicationContext
-					.getBean(InteractiveQuestionnaire.class);
+			InteractiveQuestionnaire interactiveQuestionnaire = applicationContext.getBean(InteractiveQuestionnaire.class);
 			interactiveQuestionnaire.testAll();
 			break;
 		default:
