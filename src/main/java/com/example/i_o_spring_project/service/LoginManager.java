@@ -19,10 +19,9 @@ public class LoginManager {
 
 	private ClientService clientService;
 
-
 	private LoginManager() {
 	}
-	
+
 	public static LoginManager getInstance() {
 		if (instance == null) {
 			instance = new LoginManager();
@@ -43,7 +42,7 @@ public class LoginManager {
 	 * @throws InterruptedException
 	 * @see {@link SystemExceptions#INCORRECT_VALUE_ENTERED}
 	 */
-	public ClientService login(String email, String password, ClientType client) throws CouponsSystemExceptions {
+	public ClientService login(String email, String password, ClientType client) {
 		if (client.equals(ClientType.ADMINISTRATOR)) {
 			clientService = applicationContext.getBean(AdminService.class);
 		} else if (client.equals(ClientType.COMPANY)) {

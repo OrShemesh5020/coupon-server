@@ -1,6 +1,6 @@
 package com.example.i_o_spring_project.exceptions;
 
-public class CouponsSystemExceptions extends Exception {
+public class CouponsSystemExceptions extends RuntimeException {
 
 	private SystemExceptions errorCode;
 	private String message = null;

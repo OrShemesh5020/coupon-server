@@ -33,6 +33,6 @@ public abstract class ClientService {
 		couponValidation = new CouponValidation();
 	}
 
-	public abstract boolean login(String email, String password) throws CouponsSystemExceptions;
+	public abstract boolean login(String email, String password);
 
 }

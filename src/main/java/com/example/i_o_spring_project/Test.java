@@ -39,16 +39,14 @@ public class Test {
 	 * object, than it activates each of the the client's types functions to test
 	 * all the program's performances. It closes the dailyJob when it stop running.
 	 * 
-	 * @throws CouponsSystemExceptions
-	 * @see {@link automatic.managment.CouponExpirationDailyJob}<br>
-	 *      {@link buisnesslogic.LoginManager#login(String, String, ClientType)}
-	 *      <br>
-	 *      {@link #adminsOptionsProperly(AdminFacade)}<br>
-	 *      {@link #companysOptionsProperly(CompanyFacade)}<br>
-	 *      {@link #customersOptionsProperly(CustomerFacade)}<br>
-	 *      {@link #adminsOptionsImproperly(AdminFacade)}<br>
-	 *      {@link #companysOptionsImproperly(CompanyFacade)}<br>
-	 *      {@link #customersOptionsImproperly(CustomerFacade)}<br>
+	 * @ @see {@link automatic.managment.CouponExpirationDailyJob}<br>
+	 *   {@link buisnesslogic.LoginManager#login(String, String, ClientType)} <br>
+	 *   {@link #adminsOptionsProperly(AdminFacade)}<br>
+	 *   {@link #companysOptionsProperly(CompanyFacade)}<br>
+	 *   {@link #customersOptionsProperly(CustomerFacade)}<br>
+	 *   {@link #adminsOptionsImproperly(AdminFacade)}<br>
+	 *   {@link #companysOptionsImproperly(CompanyFacade)}<br>
+	 *   {@link #customersOptionsImproperly(CustomerFacade)}<br>
 	 * 
 	 * 
 	 */
@@ -89,15 +87,14 @@ public class Test {
 	 * and inserts incorrect values to the customer class functions.
 	 * 
 	 * @param customer - CustomerFacade-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link CustomerFacade#getOneCoupon(int)}<br>
 	 *      {@link #purchaseACouponImproperly(CustomerFacade, Coupon, Coupon)}<br>
 	 *      {@link #removeCouponPurchaseImproperly(CustomerFacade, Coupon)}<br>
 	 *      {@link #updateCustomerDetailsImproperly(CustomerFacade, Customer) }<br>
 	 *      {@link CustomerFacade#getCustomerDetails()}
 	 */
-	private void customersOptionsImproperly(CustomerService customer) throws CouponsSystemExceptions {
+	private void customersOptionsImproperly(CustomerService customer) {
 		Coupon purchasedCoupon = customer.getOneCoupon(16);
 		Coupon unpurchasedCoupon = customer.getOneCoupon(15);
 		purchaseACouponImproperly(customer, purchasedCoupon, unpurchasedCoupon);
@@ -276,8 +273,7 @@ public class Test {
 	 * and inserts incorrect values to the company class functions.
 	 * 
 	 * @param company - CompanyFacade-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link #addCouponImproperly(CompanyFacade)}<br>
 	 *      {@link #getOneCouponImproperly(CompanyFacade)}<br>
 	 *      {@link #updateOneCouponImproperly(CompanyFacade, Coupon)}<br>
@@ -285,7 +281,7 @@ public class Test {
 	 *      {@link #updateCompanyDetailsImproperly(CompanyFacade, Company)}<br>
 	 *      {@link CompanyFacade#getCompanyDetails()}
 	 */
-	private void companysOptionsImproperly(CompanyService company) throws CouponsSystemExceptions {
+	private void companysOptionsImproperly(CompanyService company) {
 		addCouponImproperly(company);
 		System.out.println("****************************************************************");
 		getOneCouponImproperly(company);
@@ -573,8 +569,7 @@ public class Test {
 	 * and inserts incorrect values to the AdminFacade class functions.
 	 * 
 	 * @param admin - AdminFacade-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link #addACompanyImproperly(AdminFacade)}<br>
 	 *      {@link #getACompanyImproperly(AdminFacade)}<br>
 	 *      {@link #updateACompanyImproperly(AdminFacade, Company)}<br>
@@ -584,7 +579,7 @@ public class Test {
 	 *      {@link #updateACustomerImproperly(AdminFacade, Customer)}<br>
 	 *      {@link #deleteACustomerImproperly(AdminFacade, Customer)}
 	 */
-	private void adminsOptionsImproperly(AdminService admin) throws CouponsSystemExceptions {
+	private void adminsOptionsImproperly(AdminService admin) {
 		addACompanyImproperly(admin);
 		System.out.println("****************************************************************");
 		getACompanyImproperly(admin);
@@ -848,9 +843,8 @@ public class Test {
 	 * 
 	 * @param admin - AdminFacade-typed.
 	 * @throws InterruptedException
-	 * @throws CouponsSystemExceptions
-	 * @see {@link #createARandomNumber(int, int)}
-	 *      {@link AdminFacade#getCompany(int)}
+	 * @ @see {@link #createARandomNumber(int, int)}
+	 *   {@link AdminFacade#getCompany(int)}
 	 */
 	private Company getACompanyImproperly(AdminService admin) {
 		System.out.println("Get a company improperly:\n");
@@ -1008,8 +1002,7 @@ public class Test {
 	 * customer options on this customer.
 	 * 
 	 * @param customer - Customer-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link #purchaseACoupon(CustomerFacade)}<br>
 	 *      {@link #removeCouponPurchase(CustomerFacade, Coupon)}<br>
 	 *      {@link #getCouponsPurchased(CustomerFacade)}<br>
@@ -1017,7 +1010,7 @@ public class Test {
 	 * 
 	 * 
 	 */
-	private void customersOptionsProperly(CustomerService customer) throws CouponsSystemExceptions {
+	private void customersOptionsProperly(CustomerService customer) {
 		Coupon coupon = purchaseACoupon(customer);
 		System.out.println("****************************************************************");
 		removeCouponPurchase(customer, coupon);
@@ -1034,11 +1027,10 @@ public class Test {
 	 * details.
 	 * 
 	 * @param customer - CustomerFacade-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @See {@link CustomerFacade#getCustomerDetails()}
 	 */
-	private void getCustomerDetails(CustomerService customer) throws CouponsSystemExceptions {
+	private void getCustomerDetails(CustomerService customer) {
 		System.out.println("Get customer details:");
 		System.out.println(customer.getCustomerDetails());
 	}
@@ -1049,15 +1041,14 @@ public class Test {
 	 * once by category, once by maximum price, and once without restraints.
 	 * 
 	 * @param customer - Customer-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link CustomerFacade#getCustomerCoupons(Category)}<br>
 	 *      {@link CustomerFacade#getCustomerCoupons(double)}<br>
 	 *      {@link CustomerFacade#getCustomerCoupons()}
 	 * 
 	 * 
 	 */
-	private void getCouponsPurchased(CustomerService customer) throws CouponsSystemExceptions {
+	private void getCouponsPurchased(CustomerService customer) {
 		System.out.println("Get coupons purchased by category (vacation):");
 		for (Coupon coupon : customer.getCustomerCoupons(categoryRepository.findById(4).get())) {
 			System.out.println(coupon.toString());
@@ -1080,13 +1071,12 @@ public class Test {
 	 * 
 	 * @param customer - Customer-typed.
 	 * @param coupon   - Coupon-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * 
 	 * @see {@link buisnesslogic.CustomerFacade#removeCouponPurchase(Coupon)}
 	 *      {@link buisnesslogic.CustomerFacade#getOneCoupon(int)}
 	 */
-	private void removeCouponPurchase(CustomerService customer, Coupon coupon) throws CouponsSystemExceptions {
+	private void removeCouponPurchase(CustomerService customer, Coupon coupon) {
 		System.out.println("Remove coupon purchase");
 		customer.removeCouponPurchase(coupon);
 //			coupon = customer.getOneCoupon(coupon.getId());
@@ -1099,12 +1089,11 @@ public class Test {
 	 * 
 	 * @param customer - Customer-typed.
 	 * @return
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link buisnesslogic.CustomerFacade#getOneCoupon(int)}<br>
 	 *      {@link buisnesslogic.CustomerFacade#purchaseCoupon(Coupon)}
 	 */
-	private Coupon purchaseACoupon(CustomerService customer) throws CouponsSystemExceptions {
+	private Coupon purchaseACoupon(CustomerService customer) {
 		System.out.println("Coupon purchase");
 		Coupon coupon = customer.getOneCoupon(15);
 		customer.purchaseCoupon(coupon);
@@ -1117,8 +1106,7 @@ public class Test {
 	 * the functions that Company can run.
 	 * 
 	 * @param company - CompanyFacade-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link #addCoupon(CompanyFacade)}<br>
 	 *      {@link #getOneCoupon(CompanyFacade, Coupon)}<br>
 	 *      {@link #updateOneCoupon(CompanyFacade, Coupon)}<br>
@@ -1126,7 +1114,7 @@ public class Test {
 	 *      {@link #getCoupons(CompanyFacade)}<br>
 	 *      {@link #getCompanyDetails(CompanyFacade)}
 	 */
-	private void companysOptionsProperly(CompanyService company) throws CouponsSystemExceptions {
+	private void companysOptionsProperly(CompanyService company) {
 		Coupon coupon = addCoupon(company);
 		System.out.println("****************************************************************");
 		getOneCoupon(company, coupon);
@@ -1147,11 +1135,10 @@ public class Test {
 	 * details.
 	 * 
 	 * @param company - CompanyFacade - typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link CompanyFacade#getCompanyDetails()}
 	 */
-	private void getCompanyDetails(CompanyService company) throws CouponsSystemExceptions {
+	private void getCompanyDetails(CompanyService company) {
 		System.out.println("Get company details:");
 		System.out.println(company.getCompanyDetails());
 	}
@@ -1163,11 +1150,10 @@ public class Test {
 	 * 
 	 * @param company - Company-typed.
 	 * @param coupon  - Coupon - typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link CompanyFacade#deleteCoupon(Coupon)}
 	 */
-	private void deleteOneCoupon(CompanyService company, Coupon coupon) throws CouponsSystemExceptions {
+	private void deleteOneCoupon(CompanyService company, Coupon coupon) {
 		System.out.println("Delete a coupon:");
 		company.deleteCoupon(coupon);
 		System.out.println("The coupon that was deleted:\n" + coupon.toString());
@@ -1179,12 +1165,11 @@ public class Test {
 	 * 
 	 * @param company - CompanyFacade-typed.
 	 * @param coupon  - Coupon-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link CompanyFacade#updateCoupon(Coupon)}
 	 * 
 	 */
-	private void updateOneCoupon(CompanyService company, Coupon coupon) throws CouponsSystemExceptions {
+	private void updateOneCoupon(CompanyService company, Coupon coupon) {
 		System.out.println("Update a coupon:");
 		coupon.setCategory(categoryRepository.findById(createARandomNumber(1, 4)).get());
 		coupon.setTitle("title" + createARandomNumber(100, 500));
@@ -1202,11 +1187,10 @@ public class Test {
 	 * 
 	 * @param company - CompanyFacade- typed.
 	 * @param coupon  - Coupon-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link CompanyFacade#getOneCoupon(int)}
 	 */
-	private void getOneCoupon(CompanyService company, Coupon coupon) throws CouponsSystemExceptions {
+	private void getOneCoupon(CompanyService company, Coupon coupon) {
 		System.out.println("Get a coupon:");
 		System.out.println(company.getOneCoupon(coupon.getId()));
 	}
@@ -1219,13 +1203,12 @@ public class Test {
 	 * and once without restraints.<br>
 	 * 
 	 * @param company - CompanyFacade-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link CompanyFacade#getCouponsByCategory(Category)}<br>
 	 *      {@link CompanyFacade#getCouponsByPrice(double)}<br>
 	 *      {@link CompanyFacade#getAllCompanyCoupons()}
 	 */
-	private void getCoupons(CompanyService company) throws CouponsSystemExceptions {
+	private void getCoupons(CompanyService company) {
 		int randomCategoryId = createARandomNumber(1, 2);
 		System.out.println("Get coupons by category (" + categoryRepository.findById(randomCategoryId) + "):");
 		for (Coupon coupon : company.getCouponsByCategory(categoryRepository.findById(randomCategoryId).get())) {
@@ -1250,11 +1233,10 @@ public class Test {
 	 * 
 	 * @param company - Company-typed.
 	 * @return
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link CompanyFacade#addACoupon(Coupon)}
 	 */
-	private Coupon addCoupon(CompanyService company) throws CouponsSystemExceptions {
+	private Coupon addCoupon(CompanyService company) {
 		System.out.println("Add a coupon:");
 		Coupon coupon = createNewCoupon(company);
 		company.addACoupon(coupon);
@@ -1268,8 +1250,7 @@ public class Test {
 	 * 
 	 * 
 	 * @param admin - AdminFacade-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * 
 	 * @see {@link #addACompany(AdminFacade)}<br>
 	 *      {@link #getACompany(AdminFacade, Company)}<br>
@@ -1282,7 +1263,7 @@ public class Test {
 	 *      {@link #deleteACustomer(AdminFacade, Customer)}<br>
 	 *      {@link #getAllCustomers(AdminFacade)}
 	 */
-	private void adminsOptionsProperly(AdminService admin) throws CouponsSystemExceptions {
+	private void adminsOptionsProperly(AdminService admin) {
 		System.out.println();
 		Company company = addACompany(admin);
 		System.out.println("****************************************************************");
@@ -1315,11 +1296,10 @@ public class Test {
 	 * 
 	 * @param admin    - AdminFacade-typed.
 	 * @param customer - Customer-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link AdminFacade#removeCustomer(Customer)}
 	 */
-	private void deleteACustomer(AdminService admin, Customer customer) throws CouponsSystemExceptions {
+	private void deleteACustomer(AdminService admin, Customer customer) {
 		System.out.println("Delete a customer:");
 		admin.removeCustomer(customer);
 		System.out.println("The customer that was deleted:\n" + customer.toString());
@@ -1332,11 +1312,10 @@ public class Test {
 	 *
 	 * @param admin    - Admin-typed.
 	 * @param customer - Customer-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link AdminFacade#updateCustomer(Customer)}
 	 */
-	private void updateACustomer(AdminService admin, Customer customer) throws CouponsSystemExceptions {
+	private void updateACustomer(AdminService admin, Customer customer) {
 		System.out.println("Update a customer:");
 		customer.setFirstName("firstName" + createARandomNumber(100, 500));
 		customer.setLastName("lastName" + createARandomNumber(100, 500));
@@ -1353,11 +1332,10 @@ public class Test {
 	 * 
 	 * @param admin   - AdminFacade-typed.
 	 * @param company - Company-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link AdminFacade#removeCompany(Company)}
 	 */
-	private void deleteACompany(AdminService admin, Company company) throws CouponsSystemExceptions {
+	private void deleteACompany(AdminService admin, Company company) {
 		System.out.println("Delete a company:");
 		admin.removeCompany(company);
 		System.out.println("The company that was deleted:\n" + company.toString());
@@ -1371,11 +1349,10 @@ public class Test {
 	 * 
 	 * @param admin   - AdminFacade-typed.
 	 * @param company -Company-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link AdminFacade#updateCustomer(Company)}
 	 */
-	private void updateACompany(AdminService admin, Company company) throws CouponsSystemExceptions {
+	private void updateACompany(AdminService admin, Company company) {
 		System.out.println("Update a company:");
 		company.setEmail("companyEmail" + createARandomNumber(100, 500));
 		company.setPassword("password" + createARandomNumber(100, 500));
@@ -1388,11 +1365,10 @@ public class Test {
 	 * the customer objects that it finds in the Database.
 	 * 
 	 * @param admin - AdminFacade-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link AdminFacade#getAllCustomers()}
 	 */
-	private void getAllCustomers(AdminService admin) throws CouponsSystemExceptions {
+	private void getAllCustomers(AdminService admin) {
 		System.out.println("Get all customers:");
 		for (Customer customer : admin.getAllCustomers()) {
 			System.out.println(customer.toString());
@@ -1405,11 +1381,10 @@ public class Test {
 	 * 
 	 * @param admin-   AdminFacade-typed.
 	 * @param customer - CustomerFacade-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link AdminFacade#getCustomer(int)}
 	 */
-	private void getACustomer(AdminService admin, Customer customer) throws CouponsSystemExceptions {
+	private void getACustomer(AdminService admin, Customer customer) {
 		System.out.println("Get a customer:");
 		System.out.println(admin.getCustomer(customer.getId()).toString());
 	}
@@ -1421,11 +1396,10 @@ public class Test {
 	 * @param admin - AdminFacade-typed.
 	 * @return The Customer-typed object that has been added to the receievd admin's
 	 *         customers list.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link AdminFacade#addCustomer(Customer)}
 	 */
-	private Customer addACustomer(AdminService admin) throws CouponsSystemExceptions {
+	private Customer addACustomer(AdminService admin) {
 		System.out.println("Add a customer:");
 		Customer customer = createANewCustomer();
 		admin.addCustomer(customer);
@@ -1438,11 +1412,10 @@ public class Test {
 	 * the companies objects that it finds in the Database.
 	 * 
 	 * @param admin - AdminFacade-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link AdminFacade#getAllCompanies()}
 	 */
-	private void getAllCompanies(AdminService admin) throws CouponsSystemExceptions {
+	private void getAllCompanies(AdminService admin) {
 		System.out.println("Get all companies:");
 		for (Company company : admin.getAllCompanies()) {
 			System.out.println(company.toString());
@@ -1455,11 +1428,10 @@ public class Test {
 	 * 
 	 * @param admin   - AdminFacade-typed.
 	 * @param company - Company-typed.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link AdminFacade#getCompany(int)}
 	 */
-	private void getACompany(AdminService admin, Company company) throws CouponsSystemExceptions {
+	private void getACompany(AdminService admin, Company company) {
 		System.out.println("Get a company:");
 		System.out.println(admin.getCompany(company.getId()).toString());
 	}
@@ -1471,11 +1443,10 @@ public class Test {
 	 * 
 	 * @param admin AdminFacade-typed.
 	 * @return The company who has been added to the Database.
-	 * @throws CouponsSystemExceptions
-	 * @throws InterruptedException
+	 * @ @throws InterruptedException
 	 * @see {@link AdminFacade#addCompany(Company) }
 	 */
-	private Company addACompany(AdminService admin) throws CouponsSystemExceptions {
+	private Company addACompany(AdminService admin) {
 		System.out.println("Add a company:");
 		Company company = createANewCompany();
 		admin.addCompany(company);
