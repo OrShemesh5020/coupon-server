@@ -23,7 +23,7 @@ public class CompanyService extends ClientService {
 		super();
 	}
 
-	public boolean login(String email, String password) throws CouponsSystemExceptions {
+	public boolean login(String email, String password) {
 		Optional<Company> optionalCompany = companyRepository.findByEmail(email);
 		if (optionalCompany.isEmpty()) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED, "Inserted email is incorrect");
@@ -37,7 +37,7 @@ public class CompanyService extends ClientService {
 	}
 
 	@Transactional
-	public void addACoupon(Coupon coupon) throws CouponsSystemExceptions {
+	public void addACoupon(Coupon coupon) {
 		Date now = new Date();
 		couponValidation.isTheObjectEmpty(coupon);
 		couponValidation.charactersHasExceeded(coupon);
@@ -70,7 +70,7 @@ public class CompanyService extends ClientService {
 	}
 
 	@Transactional
-	public void updateCoupon(Coupon coupon) throws CouponsSystemExceptions {
+	public void updateCoupon(Coupon coupon) {
 		Date now = new Date();
 
 		if (!couponRepository.existsById(coupon.getId())) {
@@ -109,7 +109,7 @@ public class CompanyService extends ClientService {
 	}
 
 	@Transactional
-	public void deleteCoupon(Coupon coupon) throws CouponsSystemExceptions {
+	public void deleteCoupon(Coupon coupon) {
 		if (!companyHasTheCoupon(coupon)) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"The company does not have this coupon");
@@ -119,7 +119,7 @@ public class CompanyService extends ClientService {
 		System.out.println("\n--The coupon was deleted--\n");
 	}
 
-	public Coupon getOneCoupon(int id) throws CouponsSystemExceptions {
+	public Coupon getOneCoupon(int id) {
 		Optional<Coupon> coupon = couponRepository.getOneCoupon(company, id);
 		if (coupon.isPresent()) {
 			return coupon.get();
@@ -127,7 +127,7 @@ public class CompanyService extends ClientService {
 		throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND);
 	}
 
-	public Coupon getOneCoupon(String title) throws CouponsSystemExceptions {
+	public Coupon getOneCoupon(String title) {
 		Optional<Coupon> coupon = couponRepository.getOneCoupon(company, title);
 		if (coupon.isPresent()) {
 			return coupon.get();
@@ -135,7 +135,7 @@ public class CompanyService extends ClientService {
 		throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND);
 	}
 
-	public List<Coupon> getAllCompanyCoupons() throws CouponsSystemExceptions {
+	public List<Coupon> getAllCompanyCoupons() {
 		List<Coupon> couponsList = couponRepository.findByCompany(company);
 		if (!couponsList.isEmpty()) {
 			return couponsList;
@@ -143,7 +143,7 @@ public class CompanyService extends ClientService {
 		throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
 	}
 
-	public List<Coupon> getCouponsByCategory(Category category) throws CouponsSystemExceptions {
+	public List<Coupon> getCouponsByCategory(Category category) {
 		List<Coupon> companyCouponsByCategory = couponRepository.getCompanyCouponsByCategory(company, category);
 		if (!companyCouponsByCategory.isEmpty()) {
 			return companyCouponsByCategory;
@@ -151,7 +151,7 @@ public class CompanyService extends ClientService {
 		throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
 	}
 
-	public List<Coupon> getCouponsByPrice(Double price) throws CouponsSystemExceptions {
+	public List<Coupon> getCouponsByPrice(Double price) {
 
 		List<Coupon> companyCouponsByPrice = couponRepository.getCompanyCouponsByPrice(company, price);
 		if (!companyCouponsByPrice.isEmpty()) {
@@ -160,7 +160,7 @@ public class CompanyService extends ClientService {
 		throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
 	}
 
-	public Company getCompanyDetails() throws CouponsSystemExceptions {
+	public Company getCompanyDetails() {
 		if (companyRepository.existsById(company.getId())) {
 			return company;
 		}
@@ -168,7 +168,7 @@ public class CompanyService extends ClientService {
 	}
 
 	@Transactional
-	public void updateDetails(Company company) throws CouponsSystemExceptions {
+	public void updateDetails(Company company) {
 
 		if (!companyRepository.existsById(company.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This company does not exist");

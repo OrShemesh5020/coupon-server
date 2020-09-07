@@ -18,7 +18,6 @@ import com.example.i_o_spring_project.model.Customer;
 @Service
 public class CustomerService extends ClientService {
 
-	
 	private Customer customer;
 
 	public CustomerService() {
@@ -26,7 +25,7 @@ public class CustomerService extends ClientService {
 	}
 
 	@Transactional
-	public boolean login(String email, String password) throws CouponsSystemExceptions {
+	public boolean login(String email, String password) {
 		Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
 		if (optionalCustomer.isEmpty()) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED, "inserted email is incorrect");
@@ -40,7 +39,7 @@ public class CustomerService extends ClientService {
 	}
 
 	@Transactional
-	public void purchaseCoupon(Coupon coupon) throws CouponsSystemExceptions {
+	public void purchaseCoupon(Coupon coupon) {
 		Date now = new Date();
 		if (!couponRepository.existsById(coupon.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This coupon does not exist");
@@ -65,7 +64,7 @@ public class CustomerService extends ClientService {
 	}
 
 	@Transactional
-	public void removeCouponPurchase(Coupon coupon) throws CouponsSystemExceptions {
+	public void removeCouponPurchase(Coupon coupon) {
 		if (!couponRepository.existsById(coupon.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This coupon does not exist");
 		}
@@ -78,7 +77,7 @@ public class CustomerService extends ClientService {
 		System.out.println("\n--This coupon purchase has been removed--\n");
 	}
 
-	public List<Coupon> getAllCoupons() throws CouponsSystemExceptions {
+	public List<Coupon> getAllCoupons() {
 		List<Coupon> coupons = couponRepository.findAll();
 		if (coupons != null) {
 			return coupons;
@@ -86,7 +85,7 @@ public class CustomerService extends ClientService {
 		throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
 	}
 
-	public Coupon getOneCoupon(int couponId) throws CouponsSystemExceptions {
+	public Coupon getOneCoupon(int couponId) {
 		Optional<Coupon> coupon = couponRepository.findById(couponId);
 		if (coupon.isPresent()) {
 			return coupon.get();
@@ -94,7 +93,7 @@ public class CustomerService extends ClientService {
 		throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND);
 	}
 
-	public List<Coupon> getCustomerCoupons() throws CouponsSystemExceptions {
+	public List<Coupon> getCustomerCoupons() {
 		List<Coupon> coupons = customer.getCoupons();
 		if (coupons != null) {
 			return coupons;
@@ -102,7 +101,7 @@ public class CustomerService extends ClientService {
 		throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
 	}
 
-	public List<Coupon> getCustomerCoupons(Category category) throws CouponsSystemExceptions {
+	public List<Coupon> getCustomerCoupons(Category category) {
 		List<Coupon> coupons = new ArrayList<>();
 		for (Coupon coupon : getCustomerCoupons()) {
 			if (coupon.getCategory().equals(category)) {
@@ -115,7 +114,7 @@ public class CustomerService extends ClientService {
 		return coupons;
 	}
 
-	public List<Coupon> getCustomerCoupons(Double price) throws CouponsSystemExceptions {
+	public List<Coupon> getCustomerCoupons(Double price) {
 		List<Coupon> coupons = new ArrayList<>();
 		for (Coupon coupon : getCustomerCoupons()) {
 			if (coupon.getPrice() <= price) {
@@ -128,7 +127,7 @@ public class CustomerService extends ClientService {
 		return coupons;
 	}
 
-	public Customer getCustomerDetails() throws CouponsSystemExceptions {
+	public Customer getCustomerDetails() {
 		if (customer == null) {
 			throw new CouponsSystemExceptions(SystemExceptions.CUSTOMER_NOT_FOUND);
 		}
@@ -136,7 +135,7 @@ public class CustomerService extends ClientService {
 	}
 
 	@Transactional
-	public void UpdateDetails(Customer givenCustomer) throws CouponsSystemExceptions {
+	public void UpdateDetails(Customer givenCustomer) {
 		if (!customerRepository.existsById(givenCustomer.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"This customer does not exist");

@@ -19,7 +19,7 @@ public class AdminService extends ClientService {
 		super();
 	}
 
-	public boolean login(String email, String password) throws CouponsSystemExceptions {
+	public boolean login(String email, String password) {
 
 		if (!email.equals("admin@admin.com") && !password.equals("admin")) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED,
@@ -36,7 +36,7 @@ public class AdminService extends ClientService {
 	}
 
 	@Transactional
-	public void addCompany(Company company) throws CouponsSystemExceptions {
+	public void addCompany(Company company) {
 		companyValidation.isTheObjectEmpty(company);
 		companyValidation.charactersHasExceeded(company);
 		if (companyRepository.getCompany(company.getName(), company.getEmail()).isPresent()) {
@@ -54,7 +54,7 @@ public class AdminService extends ClientService {
 	}
 
 	@Transactional
-	public void updateCompany(Company company) throws CouponsSystemExceptions {
+	public void updateCompany(Company company) {
 		if (!companyRepository.existsById(company.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This company does not exist");
 		}
@@ -74,7 +74,7 @@ public class AdminService extends ClientService {
 	}
 
 	@Transactional
-	public void removeCompany(Company company) throws CouponsSystemExceptions {
+	public void removeCompany(Company company) {
 		if (!companyRepository.existsById(company.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This company does not exist");
 		}
@@ -85,7 +85,7 @@ public class AdminService extends ClientService {
 		System.out.println("\n--This company along with all its' coupons have been deleted--\n");
 	}
 
-	public List<Company> getAllCompanies() throws CouponsSystemExceptions {
+	public List<Company> getAllCompanies() {
 		List<Company> companies = companyRepository.findAll();
 		if (companies != null) {
 			return companies;
@@ -93,7 +93,7 @@ public class AdminService extends ClientService {
 		throw new CouponsSystemExceptions(SystemExceptions.COMPANIES_NOT_FOUND);
 	}
 
-	public Company getCompany(int companyId) throws CouponsSystemExceptions {
+	public Company getCompany(int companyId) {
 		Optional<Company> company = companyRepository.findById(companyId);
 		if (!company.isPresent()) {
 			throw new CouponsSystemExceptions(SystemExceptions.COMPANY_NOT_FOUND);
@@ -101,7 +101,7 @@ public class AdminService extends ClientService {
 		return company.get();
 	}
 
-	public Company getCompany(String name) throws CouponsSystemExceptions {
+	public Company getCompany(String name) {
 		Optional<Company> company = companyRepository.findByName(name);
 		if (!company.isPresent()) {
 			throw new CouponsSystemExceptions(SystemExceptions.COMPANY_NOT_FOUND);
@@ -110,7 +110,7 @@ public class AdminService extends ClientService {
 	}
 
 	@Transactional
-	public void addCustomer(Customer customer) throws CouponsSystemExceptions {
+	public void addCustomer(Customer customer) {
 		customerValidation.isTheObjectEmpty(customer);
 		customerValidation.charactersHasExceeded(customer);
 		if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
@@ -121,7 +121,7 @@ public class AdminService extends ClientService {
 	}
 
 	@Transactional
-	public void updateCustomer(Customer customer) throws CouponsSystemExceptions {
+	public void updateCustomer(Customer customer) {
 		if (!customerRepository.existsById(customer.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"This customer does not exist");
@@ -141,7 +141,7 @@ public class AdminService extends ClientService {
 	}
 
 	@Transactional
-	public void removeCustomer(Customer customer) throws CouponsSystemExceptions {
+	public void removeCustomer(Customer customer) {
 		if (!customerRepository.existsById(customer.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"This customer does not exist");
@@ -151,7 +151,7 @@ public class AdminService extends ClientService {
 
 	}
 
-	public List<Customer> getAllCustomers() throws CouponsSystemExceptions {
+	public List<Customer> getAllCustomers() {
 		List<Customer> customers = customerRepository.findAll();
 		if (customers != null) {
 			return customers;
@@ -159,7 +159,7 @@ public class AdminService extends ClientService {
 		throw new CouponsSystemExceptions(SystemExceptions.CUSTOMERS_NOT_FOUND);
 	}
 
-	public Customer getCustomer(int customerId) throws CouponsSystemExceptions {
+	public Customer getCustomer(int customerId) {
 		Optional<Customer> customer = customerRepository.findById(customerId);
 		if (!customer.isPresent()) {
 			throw new CouponsSystemExceptions(SystemExceptions.CUSTOMER_NOT_FOUND);
