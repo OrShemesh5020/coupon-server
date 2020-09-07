@@ -21,7 +21,7 @@ public abstract class ObjectValidation<T> {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED,
 					"The " + name + " cannot be null!");
 		}
-		if (value.equals("")) {
+		if (value.equals("") || value.equals(" ")) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED,
 					"The " + name + " cannot be empty!");
 		}
@@ -41,7 +41,7 @@ public abstract class ObjectValidation<T> {
 	public void charactersHasExceeded(String attribute, String name, int limit) throws CouponsSystemExceptions {
 		if (attribute.length() > limit) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED,
-					"Please enter maximum " + limit + " characters in '" + name + "' detailes");
+					"Please enter a maximum of " + limit + " characters in the '" + name + "' value");
 		}
 	}
 

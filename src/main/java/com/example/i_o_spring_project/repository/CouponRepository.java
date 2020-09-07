@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.i_o_spring_project.model.Category;
 import com.example.i_o_spring_project.model.Company;
@@ -42,6 +43,18 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 	public void deleteByEndDateBefore(Date now);
 
 	@Modifying
+	@Query(value = "delete cvc from customers_vs_coupons cvc join coupons c on cvc.COUPON_ID=c.id where c.company_id=?", nativeQuery = true)
+	public void deleteByCompanyAllPurchasedCoupon(int companyId);
+	
+	@Modifying
+	@Query(value = "DELETE FROM coupon_system.customers_vs_coupons WHERE (COUPON_ID =?)", nativeQuery = true)
+	public void deleteAllPurchasedCoupon(int couponId);
+	
+	@Modifying
 	public void deleteByCompany(Company company);
+
+//	public void deleteCompanyCouponsByCustomer() {
+
+//	}
 
 }

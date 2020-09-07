@@ -77,7 +77,7 @@ public class CompanyService extends ClientService {
 			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND,
 					"The coupon does not exist in the system");
 		}
-		if (!companyHasCouponPurchased(coupon)) {
+		if (!companyHasTheCoupon(coupon)) {
 			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND,
 					"The company does not have this coupon ");
 		}
@@ -108,11 +108,13 @@ public class CompanyService extends ClientService {
 
 	}
 
+	@Transactional
 	public void deleteCoupon(Coupon coupon) throws CouponsSystemExceptions {
-		if (!companyHasCouponPurchased(coupon)) {
+		if (!companyHasTheCoupon(coupon)) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"The company does not have this coupon");
 		}
+		couponRepository.deleteAllPurchasedCoupon(coupon.getId());
 		couponRepository.delete(coupon);
 		System.out.println("\n--The coupon was deleted--\n");
 	}
@@ -197,7 +199,7 @@ public class CompanyService extends ClientService {
 //		return date.get(Calendar.YEAR) + "-" + date.get(Calendar.MONTH) + "-" + date.get(Calendar.DAY_OF_MONTH);
 //	}
 
-	private boolean companyHasCouponPurchased(Coupon coupon) {
+	private boolean companyHasTheCoupon(Coupon coupon) {
 		List<Coupon> couponsList = couponRepository.findByCompany(company);
 		for (Coupon companyCoupon : couponsList) {
 			if (companyCoupon.getId().equals(coupon.getId())) {

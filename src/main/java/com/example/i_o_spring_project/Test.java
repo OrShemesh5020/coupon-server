@@ -1066,7 +1066,7 @@ public class Test {
 		for (Coupon coupon : customer.getCustomerCoupons(100d)) {
 			System.out.println(coupon.toString());
 		}
-		System.out.println("/nGet all coupons:");
+		System.out.println("\nGet all coupons:");
 		for (Coupon coupon : customer.getCustomerCoupons()) {
 			System.out.println(coupon.toString());
 		}
@@ -1186,7 +1186,7 @@ public class Test {
 	 */
 	private void updateOneCoupon(CompanyService company, Coupon coupon) throws CouponsSystemExceptions {
 		System.out.println("Update a coupon:");
-		coupon.setCategory(categoryRepository.findById(createARandomNumber(0, 3)).get());
+		coupon.setCategory(categoryRepository.findById(createARandomNumber(1, 4)).get());
 		coupon.setTitle("title" + createARandomNumber(100, 500));
 		coupon.setDescription("description" + createARandomNumber(100, 500));
 		coupon.setAmount(createARandomNumber(100, 500));

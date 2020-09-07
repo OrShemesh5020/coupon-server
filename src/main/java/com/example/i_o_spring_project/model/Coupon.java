@@ -3,8 +3,10 @@ package com.example.i_o_spring_project.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,7 +56,7 @@ public class Coupon {
 	private String image;
 
 	@ToString.Exclude
-	@ManyToMany(mappedBy = "coupons")
+	@ManyToMany(mappedBy = "coupons", fetch = FetchType.EAGER)
 	private List<Customer> customers;
 
 	@Override

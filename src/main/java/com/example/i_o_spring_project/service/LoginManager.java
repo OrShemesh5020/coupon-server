@@ -22,7 +22,7 @@ public class LoginManager {
 
 	private LoginManager() {
 	}
-
+	
 	public static LoginManager getInstance() {
 		if (instance == null) {
 			instance = new LoginManager();

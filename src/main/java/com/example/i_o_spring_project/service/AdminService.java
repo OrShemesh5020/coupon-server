@@ -68,12 +68,9 @@ public class AdminService extends ClientService {
 			if (companyRepository.findByEmail(company.getEmail()).isPresent()) {
 				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
 			}
-			companyRepository.save(company);
-			System.out.println("\n--This company has been updated--\n");
-		} else {
-			companyRepository.save(company);
-			System.out.println("\n--This company has been updated--\n");
 		}
+		companyRepository.save(company);
+		System.out.println("\n--This company has been updated--\n");
 	}
 
 	@Transactional
@@ -81,9 +78,10 @@ public class AdminService extends ClientService {
 		if (!companyRepository.existsById(company.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This company does not exist");
 		}
+		couponRepository.deleteByCompanyAllPurchasedCoupon(company.getId());
 		couponRepository.deleteByCompany(company);
 		companyRepository.delete(company);
-		
+
 		System.out.println("\n--This company along with all its' coupons have been deleted--\n");
 	}
 
