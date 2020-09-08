@@ -621,7 +621,7 @@ public class Test {
 		customer.setId(randomId);
 		System.out.println(customer.toString());
 		try {
-			admin.removeCustomer(customer);
+			admin.removeCustomer(customer.getId());
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
@@ -766,7 +766,7 @@ public class Test {
 		company.setId(randomId);
 		System.out.println(company.toString());
 		try {
-			admin.removeCompany(company);
+			admin.removeCompany(company.getId());
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
@@ -1301,7 +1301,7 @@ public class Test {
 	 */
 	private void deleteACustomer(AdminService admin, Customer customer) {
 		System.out.println("Delete a customer:");
-		admin.removeCustomer(customer);
+		admin.removeCustomer(customer.getId());
 		System.out.println("The customer that was deleted:\n" + customer.toString());
 	}
 
@@ -1337,7 +1337,7 @@ public class Test {
 	 */
 	private void deleteACompany(AdminService admin, Company company) {
 		System.out.println("Delete a company:");
-		admin.removeCompany(company);
+		admin.removeCompany(company.getId());
 		System.out.println("The company that was deleted:\n" + company.toString());
 	}
 

@@ -28,11 +28,11 @@ public class CustomerService extends ClientService {
 	public boolean login(String email, String password) {
 		Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
 		if (optionalCustomer.isEmpty()) {
-			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED, "inserted email is incorrect");
+			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "inserted email is incorrect");
 		}
 		Customer customer = optionalCustomer.get();
 		if (!customer.getPassword().equals(password)) {
-			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED, "inserted password is incorrect");
+			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "inserted password is incorrect");
 		}
 		setCustomer(customer);
 		return true;
@@ -42,7 +42,7 @@ public class CustomerService extends ClientService {
 	public void purchaseCoupon(Coupon coupon) {
 		Date now = new Date();
 		if (!couponRepository.existsById(coupon.getId())) {
-			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This coupon does not exist");
+			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND, "This coupon does not exist");
 		}
 		if (hasCouponPurchased(coupon)) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,

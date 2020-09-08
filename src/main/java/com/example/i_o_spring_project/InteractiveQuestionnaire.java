@@ -742,7 +742,7 @@ public class InteractiveQuestionnaire {
 			updateACustomer(admin, customer);
 			break;
 		case 2:
-			deleteACustomer(admin, customer);
+			deleteACustomer(admin, customer.getId());
 			break;
 		default:
 			System.out.println("No choice has been made");
@@ -762,9 +762,9 @@ public class InteractiveQuestionnaire {
 		return null;
 	}
 
-	private void deleteACustomer(AdminService admin, Customer customer) {
+	private void deleteACustomer(AdminService admin, int customerId) {
 		try {
-			admin.removeCustomer(customer);
+			admin.removeCustomer(customerId);
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
@@ -859,7 +859,7 @@ public class InteractiveQuestionnaire {
 			updateACompany(admin, company);
 			break;
 		case 2:
-			deleteACompany(admin, company);
+			deleteACompany(admin, company.getId());
 			break;
 		default:
 			System.out.println("No choice was made");
@@ -891,9 +891,9 @@ public class InteractiveQuestionnaire {
 		return null;
 	}
 
-	private void deleteACompany(AdminService admin, Company company) {
+	private void deleteACompany(AdminService admin, int companyId) {
 		try {
-			admin.removeCompany(company);
+			admin.removeCompany(companyId);
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
