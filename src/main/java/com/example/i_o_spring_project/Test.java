@@ -378,7 +378,7 @@ public class Test {
 		coupon.setId(randomId);
 		System.out.println(coupon.toString());
 		try {
-			company.deleteCoupon(coupon);
+			company.deleteCoupon(coupon.getId());
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
@@ -1155,7 +1155,7 @@ public class Test {
 	 */
 	private void deleteOneCoupon(CompanyService company, Coupon coupon) {
 		System.out.println("Delete a coupon:");
-		company.deleteCoupon(coupon);
+		company.deleteCoupon(coupon.getId());
 		System.out.println("The coupon that was deleted:\n" + coupon.toString());
 	}
 

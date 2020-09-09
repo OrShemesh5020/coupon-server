@@ -30,14 +30,15 @@ public class CompanyService extends ClientService {
 		}
 		Company company = optionalCompany.get();
 		if (!company.getPassword().equals(password)) {
-			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "Inserted password is incorrect");
+			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
+					"Inserted password is incorrect");
 		}
 		setCompany(company);
 		return true;
 	}
 
 	@Transactional
-	public void addACoupon(Coupon coupon) {
+	public Coupon addACoupon(Coupon coupon) {
 		Date now = new Date();
 		couponValidation.isTheObjectEmpty(coupon);
 		couponValidation.charactersHasExceeded(coupon);
@@ -64,13 +65,12 @@ public class CompanyService extends ClientService {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED,
 					"Coupon's Amount cannot be equal to or less than 0");
 		}
-		couponRepository.save(coupon);
 		System.out.println("\n--The coupon was added--\n");
-
+		return couponRepository.save(coupon);
 	}
 
 	@Transactional
-	public void updateCoupon(Coupon coupon) {
+	public Coupon updateCoupon(Coupon coupon) {
 		Date now = new Date();
 
 		if (!couponRepository.existsById(coupon.getId())) {
@@ -98,23 +98,27 @@ public class CompanyService extends ClientService {
 					"The coupon's price cannot be less than or equal to zero");
 		}
 		if (coupon.getStartDate().after(now)) {
-			couponRepository.save(coupon);
 			System.out.println("\n--The coupon was updated--\n");
+			return couponRepository.save(coupon);
 		} else {
 			coupon.setStartDate(couponRepository.findById(coupon.getId()).get().getStartDate());
-			couponRepository.save(coupon);
 			System.out.println("\n--The coupon's details have been altered, not including it's start time--\n");
+			return couponRepository.save(coupon);
 		}
-
 	}
 
 	@Transactional
-	public void deleteCoupon(Coupon coupon) {
+	public void deleteCoupon(int couponId) {
+		if(!couponRepository.existsById(couponId)) {
+			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND,
+					"The coupon does not exist in the system");
+		}
+		Coupon coupon = couponRepository.findById(couponId).get();
 		if (!companyHasTheCoupon(coupon)) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"The company does not have this coupon");
 		}
-		couponRepository.deleteAllPurchasedCoupon(coupon.getId());
+		couponRepository.deleteAllPurchasedCoupon(couponId);
 		couponRepository.delete(coupon);
 		System.out.println("\n--The coupon was deleted--\n");
 	}
@@ -168,7 +172,7 @@ public class CompanyService extends ClientService {
 	}
 
 	@Transactional
-	public void updateDetails(Company company) {
+	public Company updateDetails(Company company) {
 
 		if (!companyRepository.existsById(company.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This company does not exist");
@@ -186,9 +190,9 @@ public class CompanyService extends ClientService {
 				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
 			}
 		}
-		companyRepository.save(company);
 		setCompany(company);
 		System.out.println("\n--This company has been updated--\n");
+		return companyRepository.save(company);
 	}
 //
 //	public java.sql.Date date(Calendar date) {
