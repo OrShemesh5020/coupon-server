@@ -452,7 +452,7 @@ public class InteractiveQuestionnaire {
 			updateACoupon(company, coupon);
 			break;
 		case 2:
-			deleteACoupon(company, coupon);
+			deleteACoupon(company, coupon.getId());
 			break;
 		default:
 			System.out.println("No choice was made");
@@ -484,9 +484,9 @@ public class InteractiveQuestionnaire {
 		return null;
 	}
 
-	private void deleteACoupon(CompanyService company, Coupon coupon) {
+	private void deleteACoupon(CompanyService company, int couponId) {
 		try {
-			company.deleteCoupon(coupon);
+			company.deleteCoupon(couponId);
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
