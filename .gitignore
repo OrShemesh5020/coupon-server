@@ -30,3 +30,5 @@ build/
 ### VS Code ###
 .vscode/
 /bin/
+/src/main/java/com/example/i_o_spring_project/controller/AdminController.java.orig
+/src/main/java/com/example/i_o_spring_project/service/CompanyService.java.orig
