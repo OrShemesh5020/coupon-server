@@ -22,21 +22,22 @@ public class AdminService extends ClientService {
 	public boolean login(String email, String password) {
 
 		if (!email.equals("admin@admin.com") && !password.equals("admin")) {
-			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED,
+			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"email and password are incorrect");
 		}
 
 		if (!email.equals("admin@admin.com")) {
-			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED, "inserted email is incorrect");
+			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "inserted email is incorrect");
 		}
 		if (!password.equals("admin")) {
-			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED, "inserted password is incorrect");
+			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
+					"inserted password is incorrect");
 		}
 		return true;
 	}
 
 	@Transactional
-	public void addCompany(Company company) {
+	public Company addCompany(Company company) {
 		companyValidation.isTheObjectEmpty(company);
 		companyValidation.charactersHasExceeded(company);
 		if (companyRepository.getCompany(company.getName(), company.getEmail()).isPresent()) {
@@ -49,12 +50,12 @@ public class AdminService extends ClientService {
 		if (companyRepository.findByEmail(company.getEmail()).isPresent()) {
 			throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
 		}
-		companyRepository.save(company);
 		System.out.println("\n--This company has been added--\n");
+		return companyRepository.save(company);
 	}
 
 	@Transactional
-	public void updateCompany(Company company) {
+	public Company updateCompany(Company company) {
 		if (!companyRepository.existsById(company.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This company does not exist");
 		}
@@ -69,16 +70,17 @@ public class AdminService extends ClientService {
 				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
 			}
 		}
-		companyRepository.save(company);
 		System.out.println("\n--This company has been updated--\n");
+		return companyRepository.save(company);
 	}
 
 	@Transactional
-	public void removeCompany(Company company) {
-		if (!companyRepository.existsById(company.getId())) {
+	public void removeCompany(int companyId) {
+		if (!companyRepository.existsById(companyId)) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This company does not exist");
 		}
-		couponRepository.deleteByCompanyAllPurchasedCoupon(company.getId());
+		Company company = companyRepository.findById(companyId).get();
+		couponRepository.deleteByCompanyAllPurchasedCoupon(companyId);
 		couponRepository.deleteByCompany(company);
 		companyRepository.delete(company);
 
@@ -110,18 +112,18 @@ public class AdminService extends ClientService {
 	}
 
 	@Transactional
-	public void addCustomer(Customer customer) {
+	public Customer addCustomer(Customer customer) {
 		customerValidation.isTheObjectEmpty(customer);
 		customerValidation.charactersHasExceeded(customer);
 		if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
 			throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
 		}
-		customerRepository.save(customer);
 		System.out.println("\n--This customer has been added--\n");
+		return customerRepository.save(customer);
 	}
 
 	@Transactional
-	public void updateCustomer(Customer customer) {
+	public Customer updateCustomer(Customer customer) {
 		if (!customerRepository.existsById(customer.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"This customer does not exist");
@@ -132,21 +134,18 @@ public class AdminService extends ClientService {
 			if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
 				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
 			}
-			customerRepository.save(customer);
-			System.out.println("\n--This customer has been updated--\n");
-		} else {
-			customerRepository.save(customer);
-			System.out.println("\n--This customer has been updated--\n");
 		}
+		System.out.println("\n--This customer has been updated--\n");
+		return customerRepository.save(customer);
 	}
 
 	@Transactional
-	public void removeCustomer(Customer customer) {
-		if (!customerRepository.existsById(customer.getId())) {
+	public void removeCustomer(int customerId) {
+		if (!customerRepository.existsById(customerId)) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"This customer does not exist");
 		}
-		customerRepository.delete(customer);
+		customerRepository.deleteById(customerId);
 		System.out.println("\n--This customer has been deleted--\n");
 
 	}

@@ -26,11 +26,11 @@ public class CompanyService extends ClientService {
 	public boolean login(String email, String password) {
 		Optional<Company> optionalCompany = companyRepository.findByEmail(email);
 		if (optionalCompany.isEmpty()) {
-			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED, "Inserted email is incorrect");
+			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "Inserted email is incorrect");
 		}
 		Company company = optionalCompany.get();
 		if (!company.getPassword().equals(password)) {
-			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED, "Inserted password is incorrect");
+			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "Inserted password is incorrect");
 		}
 		setCompany(company);
 		return true;
