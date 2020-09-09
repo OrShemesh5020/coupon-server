@@ -60,7 +60,7 @@ public class Test {
 			AdminService admin = (AdminService) loginManager.login("admin@admin.com", "admin",
 					ClientType.ADMINISTRATOR);
 			CompanyService company = (CompanyService) loginManager.login("or@gmail.com", "123456", ClientType.COMPANY);
-			CustomerService customer = (CustomerService) loginManager.login("aviadgermai1@gmail.com", "6543210",
+			CustomerService customer = (CustomerService) loginManager.login("orshemesh5020@gmail.com", "1q2w3e",
 					ClientType.CUSTOMER);
 			System.out.println("Displaying the test properly...");
 			System.out.println("Admin:");
@@ -98,7 +98,7 @@ public class Test {
 	 *      {@link CustomerFacade#getCustomerDetails()}
 	 */
 	private void customersOptionsImproperly(CustomerService customer) throws CouponsSystemExceptions {
-		Coupon purchasedCoupon = customer.getOneCoupon(16);
+		Coupon purchasedCoupon = customer.getOneCoupon(197);
 		Coupon unpurchasedCoupon = customer.getOneCoupon(15);
 		purchaseACouponImproperly(customer, purchasedCoupon, unpurchasedCoupon);
 		System.out.println("****************************************************************");

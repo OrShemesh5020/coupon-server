@@ -35,7 +35,7 @@ public class Company {
 	private String password;
 
 	@ToString.Exclude
-	@OneToMany(mappedBy = "company", fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
 	private List<Coupon> coupons;
 
 	public Company(String name, String email, String password) {
