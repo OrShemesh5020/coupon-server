@@ -48,18 +48,18 @@ public class CompanyController {
 		return new ResponseEntity<List<Coupon>>(companyService.getAllCompanyCoupons(), HttpStatus.OK);
 	}
 
-	@GetMapping("/coupon")
-	public ResponseEntity<Coupon> getCouponById(@RequestParam int id) {
+	@GetMapping("/coupon/{id}")
+	public ResponseEntity<Coupon> getCouponById(@PathVariable int id) {
 		return new ResponseEntity<Coupon>(companyService.getOneCoupon(id), HttpStatus.OK);
 	}
 	
-	@GetMapping("/coupon")
-	public ResponseEntity<Coupon> getCouponByTitle(@RequestParam String title) {
+	@GetMapping("/coupon/{title}")
+	public ResponseEntity<Coupon> getCouponByTitle(@PathVariable String title) {
 		return new ResponseEntity<Coupon>(companyService.getOneCoupon(title), HttpStatus.OK);
 	}
 	
-	@GetMapping("/coupons")
-	public ResponseEntity<List<Coupon>> getCompanyCouponsByPrice(@RequestParam Double price) {
+	@GetMapping("/coupons/{price}")
+	public ResponseEntity<List<Coupon>> getCompanyCouponsByPrice(@PathVariable Double price) {
 		return new ResponseEntity<List<Coupon>>(companyService.getCouponsByPrice(price), HttpStatus.OK);
 	}
 	

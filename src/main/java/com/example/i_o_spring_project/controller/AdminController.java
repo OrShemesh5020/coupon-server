@@ -48,13 +48,13 @@ public class AdminController {
 		return new ResponseEntity<List<Company>>(adminService.getAllCompanies(), HttpStatus.OK);
 	}
 
-	@GetMapping("/company")
-	public ResponseEntity<Company> getCompanyById(@RequestParam int id) {
+	@GetMapping("/company/{id}")
+	public ResponseEntity<Company> getCompanyById(@PathVariable int id) {
 		return new ResponseEntity<Company>(adminService.getCompany(id), HttpStatus.OK);
 	}
 
-	@GetMapping("/company")
-	public ResponseEntity<Company> getCompanyByName(@RequestParam String name) {
+	@GetMapping("/company/{name}")
+	public ResponseEntity<Company> getCompanyByName(@PathVariable String name) {
 		return new ResponseEntity<Company>(adminService.getCompany(name), HttpStatus.OK);
 	}
 
