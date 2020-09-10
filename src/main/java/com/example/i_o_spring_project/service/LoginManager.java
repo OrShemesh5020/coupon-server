@@ -19,10 +19,9 @@ public class LoginManager {
 
 	private ClientService clientService;
 
-
 	private LoginManager() {
 	}
-	
+
 	public static LoginManager getInstance() {
 		if (instance == null) {
 			instance = new LoginManager();
@@ -44,6 +43,10 @@ public class LoginManager {
 	 * @see {@link SystemExceptions#INCORRECT_VALUE_ENTERED}
 	 */
 	public ClientService login(String email, String password, ClientType client) throws CouponsSystemExceptions {
+		if (client == null) {
+			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
+					"client's type cannot be null");
+		}
 		if (client.equals(ClientType.ADMINISTRATOR)) {
 			clientService = applicationContext.getBean(AdminService.class);
 		} else if (client.equals(ClientType.COMPANY)) {
