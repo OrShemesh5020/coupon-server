@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.i_o_spring_project.exceptions.CouponsSystemExceptions;
+import com.example.i_o_spring_project.repository.CategoryRepository;
 import com.example.i_o_spring_project.repository.CompanyRepository;
 import com.example.i_o_spring_project.repository.CouponRepository;
 import com.example.i_o_spring_project.repository.CustomerRepository;
@@ -20,6 +21,9 @@ public abstract class ClientService {
 	protected CustomerRepository customerRepository;
 	@Autowired
 	protected CouponRepository couponRepository;
+	
+	@Autowired
+	protected CategoryRepository categoryRepository;
 	protected CompanyValidation companyValidation;
 	protected CustomerValidation customerValidation;
 	protected CouponValidation couponValidation;

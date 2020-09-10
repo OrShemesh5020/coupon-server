@@ -109,7 +109,7 @@ public class CompanyService extends ClientService {
 
 	@Transactional
 	public void deleteCoupon(int couponId) {
-		if(!couponRepository.existsById(couponId)) {
+		if (!couponRepository.existsById(couponId)) {
 			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND,
 					"The coupon does not exist in the system");
 		}
@@ -137,6 +137,14 @@ public class CompanyService extends ClientService {
 			return coupon.get();
 		}
 		throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND);
+	}
+
+	public Category getCategory(int categoryId) {
+		if (!categoryRepository.existsById(categoryId)) {
+			throw new CouponsSystemExceptions(SystemExceptions.CATEGORY_NOT_FOUND,
+					"the category could not be found in the database");
+		}
+		return categoryRepository.findById(categoryId).get();
 	}
 
 	public List<Coupon> getAllCompanyCoupons() {

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.i_o_spring_project.model.Category;
 import com.example.i_o_spring_project.model.Company;
 import com.example.i_o_spring_project.model.Coupon;
+import com.example.i_o_spring_project.repository.CategoryRepository;
 import com.example.i_o_spring_project.service.CompanyService;
 
 @RestController
@@ -52,27 +53,28 @@ public class CompanyController {
 	public ResponseEntity<Coupon> getCouponById(@PathVariable int id) {
 		return new ResponseEntity<Coupon>(companyService.getOneCoupon(id), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/coupon/{title}")
 	public ResponseEntity<Coupon> getCouponByTitle(@PathVariable String title) {
 		return new ResponseEntity<Coupon>(companyService.getOneCoupon(title), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/coupons/{price}")
 	public ResponseEntity<List<Coupon>> getCompanyCouponsByPrice(@PathVariable Double price) {
 		return new ResponseEntity<List<Coupon>>(companyService.getCouponsByPrice(price), HttpStatus.OK);
 	}
-	
-	@GetMapping("/coupons")
-	public ResponseEntity<List<Coupon>> getCompanyCouponsByCategory(@RequestParam Category category) {
+
+	@GetMapping("/coupons/{categoryId}")
+	public ResponseEntity<List<Coupon>> getCompanyCouponsByCategory(@PathVariable Integer categoryId) {
+		Category category = companyService.getCategory(categoryId);
 		return new ResponseEntity<List<Coupon>>(companyService.getCouponsByCategory(category), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/details")
 	public ResponseEntity<Company> getDetails() {
-		return new ResponseEntity<Company>(companyService.getCompanyDetails(),HttpStatus.OK);
+		return new ResponseEntity<Company>(companyService.getCompanyDetails(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/details")
 	public ResponseEntity<Company> updateDetails(@RequestBody Company company) {
 		return new ResponseEntity<Company>(companyService.updateDetails(company), HttpStatus.OK);
