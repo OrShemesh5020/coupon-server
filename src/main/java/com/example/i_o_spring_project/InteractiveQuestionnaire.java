@@ -380,12 +380,8 @@ public class InteractiveQuestionnaire {
 	}
 
 	private void getAllCoupons(CompanyService company) {
-		try {
-			for (Coupon coupon : company.getAllCompanyCoupons()) {
-				System.out.println(coupon.toString());
-			}
-		} catch (CouponsSystemExceptions couponException) {
-			System.out.println(couponException.toString());
+		for (Coupon coupon : company.getAllCompanyCoupons()) {
+			System.out.println(coupon.toString());
 		}
 	}
 
@@ -393,22 +389,14 @@ public class InteractiveQuestionnaire {
 		Scanner reader = new Scanner(System.in);
 		System.out.print("Enter a maximum price:");
 		double maxPrice = reader.nextDouble();
-		try {
-			for (Coupon coupon : company.getCouponsByPrice(maxPrice)) {
-				System.out.println(coupon.toString());
-			}
-		} catch (CouponsSystemExceptions couponException) {
-			System.out.println(couponException.toString());
+		for (Coupon coupon : company.getCouponsByPrice(maxPrice)) {
+			System.out.println(coupon.toString());
 		}
 	}
 
 	private void getCouponsByCategory(CompanyService company) {
-		try {
-			for (Coupon coupon : company.getCouponsByCategory(setCategory())) {
-				System.out.println(coupon.toString());
-			}
-		} catch (CouponsSystemExceptions couponException) {
-			System.out.println(couponException.toString());
+		for (Coupon coupon : company.getCouponsByCategory(setCategory())) {
+			System.out.println(coupon.toString());
 		}
 	}
 
@@ -714,12 +702,8 @@ public class InteractiveQuestionnaire {
 	}
 
 	private void getAllCompanies(AdminService admin) {
-		try {
-			for (Company company : admin.getAllCompanies()) {
-				System.out.println(company.toString());
-			}
-		} catch (CouponsSystemExceptions couponException) {
-			System.out.println(couponException.toString());
+		for (Company company : admin.getAllCompanies()) {
+			System.out.println(company.toString());
 		}
 	}
 

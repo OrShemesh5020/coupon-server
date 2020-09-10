@@ -13,21 +13,10 @@ import com.example.i_o_spring_project.exceptions.SystemExceptions;
 @Component
 public class LoginManager {
 
-	private static LoginManager instance;
 	@Autowired
 	private ConfigurableApplicationContext applicationContext;
-
+	
 	private ClientService clientService;
-
-	private LoginManager() {
-	}
-
-	public static LoginManager getInstance() {
-		if (instance == null) {
-			instance = new LoginManager();
-		}
-		return instance;
-	}
 
 	/**
 	 * This function receives an <code>email, password and client></code>

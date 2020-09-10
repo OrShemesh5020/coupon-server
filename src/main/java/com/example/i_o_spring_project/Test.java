@@ -28,11 +28,14 @@ import com.example.i_o_spring_project.service.LoginManager;
  */
 @Component
 public class Test {
+	@Autowired
 	private LoginManager loginManager;
 	@Autowired
-	private ConfigurableApplicationContext context;
-	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private CouponExpirationDaliyJob daliyJob;
+
 
 	/**
 	 * This function activates the dailyJob. It instantiates a LoginManager-typed
@@ -54,9 +57,7 @@ public class Test {
 	 */
 	public void testAll() {
 		try {
-			CouponExpirationDaliyJob daliyJob = context.getBean(CouponExpirationDaliyJob.class);
 			daliyJob.run();
-			loginManager = context.getBean(LoginManager.class);
 			AdminService admin = (AdminService) loginManager.login("admin@admin.com", "admin",
 					ClientType.ADMINISTRATOR);
 			CompanyService company = (CompanyService) loginManager.login("or@gmail.com", "123456", ClientType.COMPANY);

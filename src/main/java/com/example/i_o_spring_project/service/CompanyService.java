@@ -135,29 +135,16 @@ public class CompanyService extends ClientService {
 		throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND);
 	}
 
-	public List<Coupon> getAllCompanyCoupons() throws CouponsSystemExceptions {
-		List<Coupon> couponsList = couponRepository.findByCompany(company);
-		if (!couponsList.isEmpty()) {
-			return couponsList;
-		}
-		throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
+	public List<Coupon> getAllCompanyCoupons() {
+		return couponRepository.findByCompany(company);
 	}
 
-	public List<Coupon> getCouponsByCategory(Category category) throws CouponsSystemExceptions {
-		List<Coupon> companyCouponsByCategory = couponRepository.getCompanyCouponsByCategory(company, category);
-		if (!companyCouponsByCategory.isEmpty()) {
-			return companyCouponsByCategory;
-		}
-		throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
+	public List<Coupon> getCouponsByCategory(Category category) {
+		return couponRepository.getCompanyCouponsByCategory(company, category);
 	}
 
-	public List<Coupon> getCouponsByPrice(Double price) throws CouponsSystemExceptions {
-
-		List<Coupon> companyCouponsByPrice = couponRepository.getCompanyCouponsByPrice(company, price);
-		if (!companyCouponsByPrice.isEmpty()) {
-			return companyCouponsByPrice;
-		}
-		throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
+	public List<Coupon> getCouponsByPrice(Double price) {
+		return couponRepository.getCompanyCouponsByPrice(company, price);
 	}
 
 	public Company getCompanyDetails() throws CouponsSystemExceptions {
@@ -168,6 +155,9 @@ public class CompanyService extends ClientService {
 	}
 
 	@Transactional
+	// idealy, in here, as all other validators, the validation itself - should sit
+	// in a different class and what should be seen here is
+	// if(company.isValid){ is what we should see here.
 	public void updateDetails(Company company) throws CouponsSystemExceptions {
 
 		if (!companyRepository.existsById(company.getId())) {

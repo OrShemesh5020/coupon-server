@@ -22,7 +22,6 @@ import lombok.ToString;
 
 @Data
 @Entity
-@Component
 @NoArgsConstructor
 @Table(name = "customers")
 public class Customer {
