@@ -141,14 +141,6 @@ public class CompanyService extends ClientService {
 
 	public List<Coupon> getAllCompanyCoupons() {
 		return couponRepository.findByCompany(company);
-			throw new CouponsSystemExceptions(SystemExceptions.CATEGORY_NOT_FOUND,
-					"the category could not be found in the database");
-		}
-		return categoryRepository.findById(categoryId).get();
-	}
-
-	public List<Coupon> getAllCompanyCoupons() {
-	return couponRepository.findByCompany(company);
 	}
 
 	public List<Coupon> getCouponsByCategory(Category category) {
@@ -170,7 +162,7 @@ public class CompanyService extends ClientService {
 	// idealy, in here, as all other validators, the validation itself - should sit
 	// in a different class and what should be seen here is
 	// if(company.isValid){ is what we should see here.
-     public void updateDetails(Company company) throws CouponsSystemExceptions {
+	public Company updateDetails(Company company) throws CouponsSystemExceptions {
 
 		if (!companyRepository.existsById(company.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This company does not exist");
@@ -191,6 +183,14 @@ public class CompanyService extends ClientService {
 		setCompany(company);
 		System.out.println("\n--This company has been updated--\n");
 		return companyRepository.save(company);
+	}
+
+	@Transactional
+	public Category getCategory(int categoryId) {
+		if (!categoryRepository.existsById(categoryId)) {
+			throw new CouponsSystemExceptions(SystemExceptions.CATEGORY_NOT_FOUND, "this category does not exist");
+		}
+		return categoryRepository.findById(categoryId).get();
 	}
 //
 //	public java.sql.Date date(Calendar date) {

@@ -23,11 +23,8 @@ import com.example.i_o_spring_project.service.CompanyService;
 
 @RestController
 @RequestMapping("/company")
-public class CompanyController {
-
-	@Autowired
-	private CompanyService companyService;
-
+public class CompanyController extends ClientController {
+	
 	@PostMapping("/coupon")
 	public ResponseEntity<Coupon> addCoupon(@RequestBody Coupon coupon) {
 		return new ResponseEntity<Coupon>(companyService.addACoupon(coupon), HttpStatus.OK);
@@ -78,5 +75,13 @@ public class CompanyController {
 	@PutMapping("/details")
 	public ResponseEntity<Company> updateDetails(@RequestBody Company company) {
 		return new ResponseEntity<Company>(companyService.updateDetails(company), HttpStatus.OK);
+	}
+
+	@Override
+	/**
+	 * this function should be mapped  
+	 */
+	public boolean login(String email, String password) {
+		return companyService.login(email, password);
 	}
 }

@@ -32,14 +32,15 @@ public class CustomerService extends ClientService {
 		}
 		Customer customer = optionalCustomer.get();
 		if (!customer.getPassword().equals(password)) {
-			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "inserted password is incorrect");
+			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
+					"inserted password is incorrect");
 		}
 		setCustomer(customer);
 		return true;
 	}
 
 	@Transactional
-	public void purchaseCoupon(Coupon coupon) {
+	public Coupon purchaseCoupon(Coupon coupon) {
 		Date now = new Date();
 		if (!couponRepository.existsById(coupon.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND, "This coupon does not exist");
@@ -61,6 +62,7 @@ public class CustomerService extends ClientService {
 		customer.getCoupons().add(coupon);
 		customerRepository.save(customer);
 		System.out.println("\n--The coupon has been purchased--\n");
+		return coupon;
 	}
 
 	@Transactional
@@ -103,7 +105,7 @@ public class CustomerService extends ClientService {
 		return coupons;
 	}
 
-	public List<Coupon> getCustomerCoupons(Double price)  {
+	public List<Coupon> getCustomerCoupons(Double price) {
 		List<Coupon> coupons = new ArrayList<>();
 		for (Coupon coupon : getCustomerCoupons()) {
 			if (coupon.getPrice() <= price) {
@@ -121,7 +123,7 @@ public class CustomerService extends ClientService {
 	}
 
 	@Transactional
-	public void UpdateDetails(Customer givenCustomer) {
+	public Customer UpdateDetails(Customer givenCustomer) {
 		if (!customerRepository.existsById(givenCustomer.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"This customer does not exist");
@@ -137,9 +139,9 @@ public class CustomerService extends ClientService {
 				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
 			}
 		}
-		customerRepository.save(givenCustomer);
 		setCustomer(givenCustomer);
 		System.out.println("\n--This customer has been updated--\n");
+		return customerRepository.save(givenCustomer);
 	}
 
 	private boolean hasCouponPurchased(Coupon coupon) {

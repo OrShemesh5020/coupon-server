@@ -2,8 +2,6 @@ package com.example.i_o_spring_project.controller;
 
 import java.util.List;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,14 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.i_o_spring_project.model.Company;
 import com.example.i_o_spring_project.model.Customer;
-import com.example.i_o_spring_project.service.AdminService;
 
 @RestController
 @RequestMapping("/admin")
-public class AdminController {
-
-	@Autowired
-	private AdminService adminService;
+public class AdminController extends ClientController {
 
 	@PostMapping("/company")
 	public ResponseEntity<Company> addCompany(@RequestBody Company company) {
@@ -82,5 +76,13 @@ public class AdminController {
 	@GetMapping("/customer")
 	public ResponseEntity<Customer> getCustomer(@RequestParam int id) {
 		return new ResponseEntity<Customer>(adminService.getCustomer(id), HttpStatus.OK);
+	}
+
+	@Override
+	/**
+	 * this function should be mapped  
+	 */
+	public boolean login(String email, String password) {
+		return adminService.login(email, password);
 	}
 }
