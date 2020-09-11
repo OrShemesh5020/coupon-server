@@ -18,7 +18,6 @@ import com.example.i_o_spring_project.model.Customer;
 @Service
 public class CustomerService extends ClientService {
 
-	
 	private Customer customer;
 
 	public CustomerService() {
@@ -78,12 +77,8 @@ public class CustomerService extends ClientService {
 		System.out.println("\n--This coupon purchase has been removed--\n");
 	}
 
-	public List<Coupon> getAllCoupons() throws CouponsSystemExceptions {
-		List<Coupon> coupons = couponRepository.findAll();
-		if (coupons != null) {
-			return coupons;
-		}
-		throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
+	public List<Coupon> getAllCoupons() {
+		return couponRepository.findAll();
 	}
 
 	public Coupon getOneCoupon(int couponId) throws CouponsSystemExceptions {
@@ -94,36 +89,26 @@ public class CustomerService extends ClientService {
 		throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND);
 	}
 
-	public List<Coupon> getCustomerCoupons() throws CouponsSystemExceptions {
-		List<Coupon> coupons = customer.getCoupons();
-		if (coupons != null) {
-			return coupons;
-		}
-		throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
+	public List<Coupon> getCustomerCoupons() {
+		return customer.getCoupons();
 	}
 
-	public List<Coupon> getCustomerCoupons(Category category) throws CouponsSystemExceptions {
+	public List<Coupon> getCustomerCoupons(Category category) {
 		List<Coupon> coupons = new ArrayList<>();
 		for (Coupon coupon : getCustomerCoupons()) {
 			if (coupon.getCategory().equals(category)) {
 				coupons.add(coupon);
 			}
 		}
-		if (coupons.size() == 0) {
-			throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
-		}
 		return coupons;
 	}
 
-	public List<Coupon> getCustomerCoupons(Double price) throws CouponsSystemExceptions {
+	public List<Coupon> getCustomerCoupons(Double price)  {
 		List<Coupon> coupons = new ArrayList<>();
 		for (Coupon coupon : getCustomerCoupons()) {
 			if (coupon.getPrice() <= price) {
 				coupons.add(coupon);
 			}
-		}
-		if (coupons.size() == 0) {
-			throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
 		}
 		return coupons;
 	}

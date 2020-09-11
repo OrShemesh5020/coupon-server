@@ -6,11 +6,7 @@ public enum SystemExceptions {
 	 * could not be found in the database.
 	 */
 	CUSTOMER_NOT_FOUND,
-	/**
-	 * This exception is displayed when the requested <code>Company</code> object
-	 * could not be found in the database.
-	 */
-	CUSTOMERS_NOT_FOUND,
+
 	/**
 	 * This exception is displayed when the client is trying to put an
 	 * already-existing value as it's set value.
@@ -21,11 +17,7 @@ public enum SystemExceptions {
 	 * could not be found in the database.
 	 */
 	COUPON_NOT_FOUND,
-	/**
-	 * This exception is displayed when the requested <code>Coupons</code> list
-	 * could not be found in the database.
-	 */
-	COUPONS_NOT_FOUND,
+
 	/**
 	 * This exception is displayed when the client is trying to set illegal values.
 	 */
@@ -35,11 +27,6 @@ public enum SystemExceptions {
 	 * couldn't be found in the database.
 	 */
 	COMPANY_NOT_FOUND,
-	/**
-	 * This exception is displayed when the requested <code>Companies</code> list
-	 * couldn't be found in the database
-	 */
-	COMPANIES_NOT_FOUND,
 	/**
 	 * This exception is displayed when the client is trying to perform an action
 	 * that hasn't been approved by the system.
@@ -76,6 +63,21 @@ public enum SystemExceptions {
 	 * already been purchased by the requesting party.
 	 */
 //	COUPON_ALREADY_PURCHASED,
+	/**
+	 * This exception is displayed when the requested <code>Companies</code> list
+	 * couldn't be found in the database
+	 */
+//	COMPANIES_NOT_FOUND,
+	/**
+	 * This exception is displayed when the requested <code>Coupons</code> list
+	 * could not be found in the database.
+	 */
+//	COUPONS_NOT_FOUND,
+	/**
+	 * This exception is displayed when the requested <code>Company</code> object
+	 * could not be found in the database.
+	 */
+//	CUSTOMERS_NOT_FOUND,
 
 	private SystemExceptions() {
 	}

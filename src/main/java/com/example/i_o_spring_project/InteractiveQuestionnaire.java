@@ -213,13 +213,11 @@ public class InteractiveQuestionnaire {
 	}
 
 	private boolean showAllCouponsPurchased(CustomerService customer) {
-		try {
+		if (!customer.getCustomerCoupons().isEmpty()) {
 			for (Coupon coupon : customer.getCustomerCoupons()) {
 				System.out.println(coupon.toString());
 			}
 			return true;
-		} catch (CouponsSystemExceptions couponException) {
-			System.out.println(couponException.toString());
 		}
 		return false;
 	}
@@ -228,22 +226,14 @@ public class InteractiveQuestionnaire {
 		Scanner reader = new Scanner(System.in);
 		System.out.print("Enter a maximum price:");
 		double maxPrice = reader.nextDouble();
-		try {
-			for (Coupon coupon : customer.getCustomerCoupons(maxPrice)) {
-				System.out.println(coupon.toString());
-			}
-		} catch (CouponsSystemExceptions couponException) {
-			System.out.println(couponException.toString());
+		for (Coupon coupon : customer.getCustomerCoupons(maxPrice)) {
+			System.out.println(coupon.toString());
 		}
 	}
 
 	private void showCouponsPurchasedByCategory(CustomerService customer) {
-		try {
-			for (Coupon coupon : customer.getCustomerCoupons(setCategory())) {
-				System.out.println(coupon.toString());
-			}
-		} catch (CouponsSystemExceptions couponException) {
-			System.out.println(couponException.toString());
+		for (Coupon coupon : customer.getCustomerCoupons(setCategory())) {
+			System.out.println(coupon.toString());
 		}
 	}
 
