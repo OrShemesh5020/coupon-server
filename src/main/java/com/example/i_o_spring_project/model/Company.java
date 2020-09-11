@@ -14,12 +14,12 @@ import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
 @Entity
-@Component
 @NoArgsConstructor
 @Table(name = "companies")
 public class Company {
@@ -32,10 +32,12 @@ public class Company {
 	@Column(name = "email")
 	private String email;
 	@Column(name = "password")
+	@ToString.Exclude
 	private String password;
 
 	@ToString.Exclude
-	@OneToMany(mappedBy = "company", fetch = FetchType.EAGER, orphanRemoval = true)
+	@EqualsAndHashCode.Exclude
+	@OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
 	private List<Coupon> coupons;
 
 	public Company(String name, String email, String password) {

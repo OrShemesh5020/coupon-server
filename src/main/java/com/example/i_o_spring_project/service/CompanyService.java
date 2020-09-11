@@ -139,8 +139,8 @@ public class CompanyService extends ClientService {
 		throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND);
 	}
 
-	public Category getCategory(int categoryId) {
-		if (!categoryRepository.existsById(categoryId)) {
+	public List<Coupon> getAllCompanyCoupons() {
+		return couponRepository.findByCompany(company);
 			throw new CouponsSystemExceptions(SystemExceptions.CATEGORY_NOT_FOUND,
 					"the category could not be found in the database");
 		}
@@ -148,28 +148,15 @@ public class CompanyService extends ClientService {
 	}
 
 	public List<Coupon> getAllCompanyCoupons() {
-		List<Coupon> couponsList = couponRepository.findByCompany(company);
-		if (!couponsList.isEmpty()) {
-			return couponsList;
-		}
-		throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
+	return couponRepository.findByCompany(company);
 	}
 
 	public List<Coupon> getCouponsByCategory(Category category) {
-		List<Coupon> companyCouponsByCategory = couponRepository.getCompanyCouponsByCategory(company, category);
-		if (!companyCouponsByCategory.isEmpty()) {
-			return companyCouponsByCategory;
-		}
-		throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
+		return couponRepository.getCompanyCouponsByCategory(company, category);
 	}
 
 	public List<Coupon> getCouponsByPrice(Double price) {
-
-		List<Coupon> companyCouponsByPrice = couponRepository.getCompanyCouponsByPrice(company, price);
-		if (!companyCouponsByPrice.isEmpty()) {
-			return companyCouponsByPrice;
-		}
-		throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
+		return couponRepository.getCompanyCouponsByPrice(company, price);
 	}
 
 	public Company getCompanyDetails() {
@@ -180,7 +167,10 @@ public class CompanyService extends ClientService {
 	}
 
 	@Transactional
-	public Company updateDetails(Company company) {
+	// idealy, in here, as all other validators, the validation itself - should sit
+	// in a different class and what should be seen here is
+	// if(company.isValid){ is what we should see here.
+     public void updateDetails(Company company) throws CouponsSystemExceptions {
 
 		if (!companyRepository.existsById(company.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This company does not exist");

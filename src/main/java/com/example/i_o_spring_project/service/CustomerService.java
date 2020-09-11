@@ -78,11 +78,7 @@ public class CustomerService extends ClientService {
 	}
 
 	public List<Coupon> getAllCoupons() {
-		List<Coupon> coupons = couponRepository.findAll();
-		if (coupons != null) {
-			return coupons;
-		}
-		throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
+		return couponRepository.findAll();
 	}
 
 	public Coupon getOneCoupon(int couponId) {
@@ -94,11 +90,7 @@ public class CustomerService extends ClientService {
 	}
 
 	public List<Coupon> getCustomerCoupons() {
-		List<Coupon> coupons = customer.getCoupons();
-		if (coupons != null) {
-			return coupons;
-		}
-		throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
+		return customer.getCoupons();
 	}
 
 	public List<Coupon> getCustomerCoupons(Category category) {
@@ -108,21 +100,15 @@ public class CustomerService extends ClientService {
 				coupons.add(coupon);
 			}
 		}
-		if (coupons.size() == 0) {
-			throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
-		}
 		return coupons;
 	}
 
-	public List<Coupon> getCustomerCoupons(Double price) {
+	public List<Coupon> getCustomerCoupons(Double price)  {
 		List<Coupon> coupons = new ArrayList<>();
 		for (Coupon coupon : getCustomerCoupons()) {
 			if (coupon.getPrice() <= price) {
 				coupons.add(coupon);
 			}
-		}
-		if (coupons.size() == 0) {
-			throw new CouponsSystemExceptions(SystemExceptions.COUPONS_NOT_FOUND);
 		}
 		return coupons;
 	}

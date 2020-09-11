@@ -88,11 +88,7 @@ public class AdminService extends ClientService {
 	}
 
 	public List<Company> getAllCompanies() {
-		List<Company> companies = companyRepository.findAll();
-		if (companies != null) {
-			return companies;
-		}
-		throw new CouponsSystemExceptions(SystemExceptions.COMPANIES_NOT_FOUND);
+		return companyRepository.findAll();
 	}
 
 	public Company getCompany(int companyId) {
@@ -151,11 +147,7 @@ public class AdminService extends ClientService {
 	}
 
 	public List<Customer> getAllCustomers() {
-		List<Customer> customers = customerRepository.findAll();
-		if (customers != null) {
-			return customers;
-		}
-		throw new CouponsSystemExceptions(SystemExceptions.CUSTOMERS_NOT_FOUND);
+		return customerRepository.findAll();
 	}
 
 	public Customer getCustomer(int customerId) {

@@ -32,3 +32,9 @@ build/
 /bin/
 /src/main/java/com/example/i_o_spring_project/controller/AdminController.java.orig
 /src/main/java/com/example/i_o_spring_project/service/CompanyService.java.orig
+/src/main/java/com/example/i_o_spring_project/exceptions/SystemExceptions.java.orig
+/src/main/java/com/example/i_o_spring_project/service/AdminService.java.orig
+/src/main/java/com/example/i_o_spring_project/service/ClientService.java.orig
+/src/main/java/com/example/i_o_spring_project/service/CustomerService.java.orig
+/src/main/java/com/example/i_o_spring_project/service/LoginManager.java.orig
+/src/main/java/com/example/i_o_spring_project/Test.java.orig

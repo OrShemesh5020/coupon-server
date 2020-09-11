@@ -1,8 +1,11 @@
 package com.example.i_o_spring_project.validation;
 
+import org.springframework.stereotype.Component;
+
 import com.example.i_o_spring_project.exceptions.CouponsSystemExceptions;
 import com.example.i_o_spring_project.exceptions.SystemExceptions;
 
+@Component
 public abstract class ObjectValidation<T> {
 
 	public abstract void isTheObjectEmpty(T object) throws CouponsSystemExceptions;

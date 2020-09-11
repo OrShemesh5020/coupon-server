@@ -13,21 +13,10 @@ import com.example.i_o_spring_project.exceptions.SystemExceptions;
 @Component
 public class LoginManager {
 
-	private static LoginManager instance;
 	@Autowired
 	private ConfigurableApplicationContext applicationContext;
-
+	
 	private ClientService clientService;
-
-	private LoginManager() {
-	}
-
-	public static LoginManager getInstance() {
-		if (instance == null) {
-			instance = new LoginManager();
-		}
-		return instance;
-	}
 
 	/**
 	 * This function receives an <code>email, password and client></code>
@@ -43,6 +32,10 @@ public class LoginManager {
 	 * @see {@link SystemExceptions#INCORRECT_VALUE_ENTERED}
 	 */
 	public ClientService login(String email, String password, ClientType client) {
+		if (client == null) {
+			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
+					"client's type cannot be null");
+		}
 		if (client.equals(ClientType.ADMINISTRATOR)) {
 			clientService = applicationContext.getBean(AdminService.class);
 		} else if (client.equals(ClientType.COMPANY)) {

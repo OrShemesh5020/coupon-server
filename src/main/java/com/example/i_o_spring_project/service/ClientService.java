@@ -19,22 +19,18 @@ public abstract class ClientService {
 	protected CompanyRepository companyRepository;
 	@Autowired
 	protected CustomerRepository customerRepository;
-	@Autowired
+	@Autowired	
 	protected CouponRepository couponRepository;
-	
 	@Autowired
 	protected CategoryRepository categoryRepository;
+	@Autowired
 	protected CompanyValidation companyValidation;
+	@Autowired
 	protected CustomerValidation customerValidation;
+	@Autowired
 	protected CouponValidation couponValidation;
 
 	public ClientService() {
-//		companyRepository = new CompanyRepository();
-//		customerRepository = new CustomerRepository();
-//		couponRepository = new CouponRepository();
-		companyValidation = new CompanyValidation();
-		customerValidation = new CustomerValidation();
-		couponValidation = new CouponValidation();
 	}
 
 	public abstract boolean login(String email, String password);
