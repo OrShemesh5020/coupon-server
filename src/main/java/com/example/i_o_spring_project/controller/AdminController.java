@@ -47,8 +47,11 @@ public class AdminController extends ClientController {
 		return new ResponseEntity<Company>(adminService.getCompany(id), HttpStatus.OK);
 	}
 
-	@GetMapping("/company/{name}")
-	public ResponseEntity<Company> getCompanyByName(@PathVariable String name) {
+	/*
+	 * when using @PathVariable mappimg here the spring app falls on illegal state exception
+	 */
+	@GetMapping("/company")
+	public ResponseEntity<Company> getCompanyByName(@RequestParam String name) {
 		return new ResponseEntity<Company>(adminService.getCompany(name), HttpStatus.OK);
 	}
 
