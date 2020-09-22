@@ -24,8 +24,8 @@ public class CustomerController extends ClientController {
 	/**
 	 * this function should be mapped
 	 */
-	public boolean login(String email, String password) {
-		return customerService.login(email, password);
+	public ResponseEntity<Boolean> login(String email, String password) {
+		return new ResponseEntity<Boolean>(customerService.login(email, password), HttpStatus.OK);
 	}
 
 	@PostMapping("/coupon")
@@ -35,9 +35,9 @@ public class CustomerController extends ClientController {
 
 	@DeleteMapping
 	public void name() {
-		
+
 	}
-	
+
 	@GetMapping("/coupons")
 	public ResponseEntity<List<Coupon>> getCustomerCoupons() {
 		return new ResponseEntity<List<Coupon>>(customerService.getCustomerCoupons(), HttpStatus.OK);
@@ -56,10 +56,10 @@ public class CustomerController extends ClientController {
 
 	@GetMapping("/details")
 	public ResponseEntity<Customer> getCustomerDetails() {
-		return new ResponseEntity<Customer>(customerService.getCustomerDetails(),HttpStatus.OK);
+		return new ResponseEntity<Customer>(customerService.getCustomerDetails(), HttpStatus.OK);
 	}
-	
+
 	public ResponseEntity<Customer> updateCustomerDetails(@RequestBody Customer customer) {
-		return new ResponseEntity<Customer>(customerService.UpdateDetails(customer),HttpStatus.OK);
+		return new ResponseEntity<Customer>(customerService.UpdateDetails(customer), HttpStatus.OK);
 	}
 }

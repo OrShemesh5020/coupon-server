@@ -2,7 +2,6 @@ package com.example.i_o_spring_project.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,13 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.i_o_spring_project.model.Category;
 import com.example.i_o_spring_project.model.Company;
 import com.example.i_o_spring_project.model.Coupon;
-import com.example.i_o_spring_project.repository.CategoryRepository;
-import com.example.i_o_spring_project.service.CompanyService;
 
 @RestController
 @RequestMapping("/company")
 public class CompanyController extends ClientController {
-	
+
 	@PostMapping("/coupon")
 	public ResponseEntity<Coupon> addCoupon(@RequestBody Coupon coupon) {
 		return new ResponseEntity<Coupon>(companyService.addACoupon(coupon), HttpStatus.OK);
@@ -79,9 +76,10 @@ public class CompanyController extends ClientController {
 
 	@Override
 	/**
-	 * this function should be mapped  
+	 * this function should be mapped
 	 */
-	public boolean login(String email, String password) {
-		return companyService.login(email, password);
+	@GetMapping("/login")
+	public ResponseEntity<Boolean> login(@RequestParam String email, @RequestParam String password) {
+		return new ResponseEntity<Boolean>(companyService.login(email, password), HttpStatus.OK);
 	}
 }

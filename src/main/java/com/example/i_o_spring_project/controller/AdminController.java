@@ -48,7 +48,8 @@ public class AdminController extends ClientController {
 	}
 
 	/*
-	 * when using @PathVariable mappimg here the spring app falls on illegal state exception
+	 * when using @PathVariable mappimg here the spring app falls on illegal state
+	 * exception
 	 */
 	@GetMapping("/company")
 	public ResponseEntity<Company> getCompanyByName(@RequestParam String name) {
@@ -83,9 +84,9 @@ public class AdminController extends ClientController {
 
 	@Override
 	/**
-	 * this function should be mapped  
+	 * this function should be mapped
 	 */
-	public boolean login(String email, String password) {
-		return adminService.login(email, password);
+	public ResponseEntity<Boolean> login(String email, String password) {
+		return new ResponseEntity<Boolean>(adminService.login(email, password), HttpStatus.OK);
 	}
 }
