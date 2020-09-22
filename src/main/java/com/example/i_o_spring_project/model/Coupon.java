@@ -16,6 +16,8 @@ import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -55,7 +57,7 @@ public class Coupon {
 	private String image;
 
 	@ToString.Exclude
-//	@JsonIgnoreProperties("coupons")
+	@JsonIgnore
 	@ManyToMany(mappedBy = "coupons", fetch = FetchType.EAGER)
 	private List<Customer> customers;
 
