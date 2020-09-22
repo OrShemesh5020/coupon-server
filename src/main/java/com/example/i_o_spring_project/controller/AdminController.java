@@ -86,6 +86,7 @@ public class AdminController extends ClientController {
 	/**
 	 * this function should be mapped
 	 */
+	@GetMapping("/login")
 	public ResponseEntity<Boolean> login(@RequestParam String email, @RequestParam String password) {
 		return new ResponseEntity<Boolean>(adminService.login(email, password), HttpStatus.OK);
 	}
