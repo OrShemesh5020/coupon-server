@@ -3,7 +3,6 @@ package com.example.i_o_spring_project.model;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,8 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,7 +33,6 @@ public class Coupon {
 
 	@ManyToOne
 	@JoinColumn(name = "company_id")
-//	@JsonIgnoreProperties("coupons")
 	private Company company;
 
 	@ManyToOne

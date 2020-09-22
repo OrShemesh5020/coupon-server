@@ -21,15 +21,5 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		} else {
 			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_FOUND);
 		}
-//		switch (ex.getErrorCode()) {
-//		case ILLEGAL_ACTION_ATTEMPTED:
-//			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-//		case :
-//			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.GONE);
-//		default:
-//			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_FOUND);
-//		
-//		}
 	}
-
 }
