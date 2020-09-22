@@ -16,7 +16,7 @@ public abstract class ClientController {
 	protected CustomerService customerService;
 
 	/**
-	 * this is the father function that will be inhereted
+	 * this is the father function that will be inherited
 	 * 
 	 * @param email
 	 * @param password
