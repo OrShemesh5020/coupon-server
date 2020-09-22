@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.i_o_spring_project.model.Category;
@@ -24,7 +25,7 @@ public class CustomerController extends ClientController {
 	/**
 	 * this function should be mapped
 	 */
-	public ResponseEntity<Boolean> login(String email, String password) {
+	public ResponseEntity<Boolean> login(@RequestParam String email, @RequestParam String password) {
 		return new ResponseEntity<Boolean>(customerService.login(email, password), HttpStatus.OK);
 	}
 
