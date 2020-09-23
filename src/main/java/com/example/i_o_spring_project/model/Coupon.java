@@ -34,6 +34,7 @@ public class Coupon {
 	private Integer id;
 
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "company_id")
 	private Company company;
 
