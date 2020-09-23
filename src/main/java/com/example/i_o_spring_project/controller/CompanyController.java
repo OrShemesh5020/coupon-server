@@ -53,13 +53,13 @@ public class CompanyController extends ClientController {
 		return new ResponseEntity<Coupon>(companyService.getOneCoupon(title), HttpStatus.OK);
 	}
 
-	@GetMapping("/coupons/{price}")
+	@GetMapping("/coupons/price/{price}")
 	public ResponseEntity<List<Coupon>> getCompanyCouponsByPrice(@PathVariable Double price) {
 		return new ResponseEntity<List<Coupon>>(companyService.getCouponsByPrice(price), HttpStatus.OK);
 	}
 
-	@GetMapping("/coupons")
-	public ResponseEntity<List<Coupon>> getCompanyCouponsByCategory(@RequestParam Integer categoryId) {
+	@GetMapping("/coupons/categoryId/{categoryId}")
+	public ResponseEntity<List<Coupon>> getCompanyCouponsByCategory(@PathVariable Integer categoryId) {
 		Category category = companyService.getCategory(categoryId);
 		return new ResponseEntity<List<Coupon>>(companyService.getCouponsByCategory(category), HttpStatus.OK);
 	}
