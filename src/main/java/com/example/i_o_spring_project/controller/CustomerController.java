@@ -42,7 +42,7 @@ public class CustomerController extends ClientController {
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
-	@GetMapping("/coupon")
+	@GetMapping("/coupon/{id}")
 	public ResponseEntity<Coupon> getCoupon(int id) {
 		return new ResponseEntity<Coupon>(customerService.getOneCoupon(id), HttpStatus.OK);
 	}
