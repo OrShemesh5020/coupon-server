@@ -32,10 +32,9 @@ public class Test {
 	private LoginManager loginManager;
 	@Autowired
 	private CategoryRepository categoryRepository;
-	
+
 	@Autowired
 	private CouponExpirationDaliyJob daliyJob;
-
 
 	/**
 	 * This function activates the dailyJob. It instantiates a LoginManager-typed
@@ -182,7 +181,7 @@ public class Test {
 				+ ") that exists in the system but not yet purchased:\n");
 		System.out.println(unpurchasedCoupon.toString());
 		try {
-			customer.removeCouponPurchase(unpurchasedCoupon);
+			customer.removeCouponPurchase(unpurchasedCoupon.getId());
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
@@ -190,7 +189,7 @@ public class Test {
 		unpurchasedCoupon.setId(randomId);
 		System.out.println(unpurchasedCoupon.toString());
 		try {
-			customer.removeCouponPurchase(unpurchasedCoupon);
+			customer.removeCouponPurchase(unpurchasedCoupon.getId());
 		} catch (CouponsSystemExceptions couponException) {
 			System.out.println(couponException.toString());
 		}
@@ -1079,7 +1078,7 @@ public class Test {
 	 */
 	private void removeCouponPurchase(CustomerService customer, Coupon coupon) {
 		System.out.println("Remove coupon purchase");
-		customer.removeCouponPurchase(coupon);
+		customer.removeCouponPurchase(coupon.getId());
 //			coupon = customer.getOneCoupon(coupon.getId());
 		System.out.println("The coupon whose purchase was removed is:\n" + coupon.toString());
 	}

@@ -45,7 +45,7 @@ public class CustomerService extends ClientService {
 		if (!couponRepository.existsById(coupon.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND, "This coupon does not exist");
 		}
-		if (hasCouponPurchased(coupon)) {
+		if (hasCouponPurchased(coupon.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"You already have this coupon!");
 		}
@@ -66,15 +66,15 @@ public class CustomerService extends ClientService {
 	}
 
 	@Transactional
-	public void removeCouponPurchase(Coupon coupon) {
-		if (!couponRepository.existsById(coupon.getId())) {
+	public void removeCouponPurchase(int couponId) {
+		if (!couponRepository.existsById(couponId)) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This coupon does not exist");
 		}
-		if (!hasCouponPurchased(coupon)) {
+		if (!hasCouponPurchased(couponId)) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"You have not purchased this coupon yet!");
 		}
-		customer.getCoupons().remove(coupon);
+		customer.getCoupons().remove(couponId);
 		customerRepository.save(customer);
 		System.out.println("\n--This coupon purchase has been removed--\n");
 	}
@@ -144,10 +144,10 @@ public class CustomerService extends ClientService {
 		return customerRepository.save(givenCustomer);
 	}
 
-	private boolean hasCouponPurchased(Coupon coupon) {
+	private boolean hasCouponPurchased(int couponId) {
 		List<Coupon> coupons = customer.getCoupons();
 		for (Coupon purchasedCoupon : coupons) {
-			if (purchasedCoupon.getId().equals(coupon.getId())) {
+			if (purchasedCoupon.getId() == couponId) {
 				return true;
 			}
 		}

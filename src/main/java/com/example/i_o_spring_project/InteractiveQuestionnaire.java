@@ -190,7 +190,7 @@ public class InteractiveQuestionnaire {
 				int answer = reader.nextInt();
 				switch (answer) {
 				case 1:
-					customer.removeCouponPurchase(coupon);
+					customer.removeCouponPurchase(id);
 					break;
 				case 2:
 					System.out.println("As you wish");
