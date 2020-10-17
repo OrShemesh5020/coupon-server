@@ -17,8 +17,9 @@ public class CouponExpirationDaliyJob {
 
 	@Transactional
 	@Scheduled(fixedDelay = 86400000)
-	public void run() {
+	public void manageCoupons() {
 		Date now = new Date();
 		couponRepository.deleteByEndDateBefore(now);
 	}
+
 }

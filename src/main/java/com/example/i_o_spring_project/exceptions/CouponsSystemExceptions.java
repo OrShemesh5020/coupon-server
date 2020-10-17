@@ -2,6 +2,10 @@ package com.example.i_o_spring_project.exceptions;
 
 public class CouponsSystemExceptions extends RuntimeException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private SystemExceptions errorCode;
 	private String message = null;
 

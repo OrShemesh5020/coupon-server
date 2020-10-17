@@ -17,8 +17,6 @@ import com.example.i_o_spring_project.model.Coupon;
 @Service
 public class CompanyService extends ClientService {
 
-	private Company company;
-
 	public CompanyService() {
 		super();
 	}
@@ -33,12 +31,12 @@ public class CompanyService extends ClientService {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"Inserted password is incorrect");
 		}
-		setCompany(company);
 		return true;
 	}
 
 	@Transactional
-	public Coupon addACoupon(Coupon coupon) {
+	public Coupon addACoupon(Coupon coupon, int comapnyId) {
+		Company company = getCompanyDetails(comapnyId);
 		Date now = new Date();
 		couponValidation.isTheObjectEmpty(coupon);
 		couponValidation.charactersHasExceeded(coupon);
@@ -70,14 +68,14 @@ public class CompanyService extends ClientService {
 	}
 
 	@Transactional
-	public Coupon updateCoupon(Coupon coupon) {
+	public Coupon updateCoupon(Coupon coupon, int comapnyId) {
 		Date now = new Date();
 
 		if (!couponRepository.existsById(coupon.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND,
 					"The coupon does not exist in the system");
 		}
-		if (!companyHasTheCoupon(coupon)) {
+		if (!companyHasTheCoupon(coupon, comapnyId)) {
 			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND,
 					"The company does not have this coupon ");
 		}
@@ -108,13 +106,13 @@ public class CompanyService extends ClientService {
 	}
 
 	@Transactional
-	public void deleteCoupon(int couponId) {
+	public void deleteCoupon(int couponId, int comapnyId) {
 		if (!couponRepository.existsById(couponId)) {
 			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND,
 					"The coupon does not exist in the system");
 		}
 		Coupon coupon = couponRepository.findById(couponId).get();
-		if (!companyHasTheCoupon(coupon)) {
+		if (!companyHasTheCoupon(coupon, comapnyId)) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"The company does not have this coupon");
 		}
@@ -123,7 +121,8 @@ public class CompanyService extends ClientService {
 		System.out.println("\n--The coupon was deleted--\n");
 	}
 
-	public Coupon getOneCoupon(int id) {
+	public Coupon getOneCoupon(int id, int comapnyId) {
+		Company company = getCompanyDetails(comapnyId);
 		Optional<Coupon> coupon = couponRepository.getOneCoupon(company, id);
 		if (coupon.isPresent()) {
 			return coupon.get();
@@ -131,7 +130,8 @@ public class CompanyService extends ClientService {
 		throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND);
 	}
 
-	public Coupon getOneCoupon(String title) {
+	public Coupon getOneCoupon(String title, int comapnyId) {
+		Company company = getCompanyDetails(comapnyId);
 		Optional<Coupon> coupon = couponRepository.getOneCoupon(company, title);
 		if (coupon.isPresent()) {
 			return coupon.get();
@@ -139,21 +139,33 @@ public class CompanyService extends ClientService {
 		throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND);
 	}
 
-	public List<Coupon> getAllCompanyCoupons() {
+	public List<Coupon> getAllCompanyCoupons(int comapnyId) {
+		Company company = getCompanyDetails(comapnyId);
 		return couponRepository.findByCompany(company);
 	}
 
-	public List<Coupon> getCouponsByCategory(Category category) {
+	public List<Coupon> getCouponsByCategory(Category category, int comapnyId) {
+		Company company = getCompanyDetails(comapnyId);
 		return couponRepository.getCompanyCouponsByCategory(company, category);
 	}
 
-	public List<Coupon> getCouponsByPrice(Double price) {
+	public List<Coupon> getCouponsByPrice(Double price, int comapnyId) {
+		Company company = getCompanyDetails(comapnyId);
 		return couponRepository.getCompanyCouponsByPrice(company, price);
 	}
 
-	public Company getCompanyDetails() {
-		if (companyRepository.existsById(company.getId())) {
-			return company;
+	public Company getCompanyByEmail(String email) {
+		Optional<Company> optionalCompany = companyRepository.findByEmail(email);
+		if (optionalCompany.isPresent()) {
+			return optionalCompany.get();
+		}
+		throw new CouponsSystemExceptions(SystemExceptions.COMPANY_NOT_FOUND);
+	}
+
+	public Company getCompanyDetails(int comapnyId) {
+		Optional<Company> optionalCompany = companyRepository.findById(comapnyId);
+		if (optionalCompany.isPresent()) {
+			return optionalCompany.get();
 		}
 		throw new CouponsSystemExceptions(SystemExceptions.COMPANY_NOT_FOUND);
 	}
@@ -162,27 +174,30 @@ public class CompanyService extends ClientService {
 	// idealy, in here, as all other validators, the validation itself - should sit
 	// in a different class and what should be seen here is
 	// if(company.isValid){ is what we should see here.
-	public Company updateDetails(Company company) throws CouponsSystemExceptions {
-
-		if (!companyRepository.existsById(company.getId())) {
+	public Company updateDetails(Company givenCompany, int compantId) {
+		Company company = getCompanyDetails(compantId);
+		if (!companyRepository.existsById(givenCompany.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This company does not exist");
 		}
-		companyValidation.isTheObjectEmpty(company);
+		if (!company.getId().equals(givenCompany.getId())) {
+			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
+					"This company's id has been changed");
+		}
+		companyValidation.isTheObjectEmpty(givenCompany);
 
-		companyValidation.charactersHasExceeded(company);
+		companyValidation.charactersHasExceeded(givenCompany);
 
-		if (!companyRepository.findById(company.getId()).get().getName().equals(company.getName())) {
+		if (!companyRepository.findById(givenCompany.getId()).get().getName().equals(givenCompany.getName())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED,
 					"You can't change the name of the company");
 		}
-		if (!companyRepository.findById(company.getId()).get().getEmail().equals(company.getEmail())) {
-			if (companyRepository.findByEmail(company.getEmail()).isPresent()) {
+		if (!companyRepository.findById(givenCompany.getId()).get().getEmail().equals(givenCompany.getEmail())) {
+			if (companyRepository.findByEmail(givenCompany.getEmail()).isPresent()) {
 				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
 			}
 		}
-		setCompany(company);
 		System.out.println("\n--This company has been updated--\n");
-		return companyRepository.save(company);
+		return companyRepository.save(givenCompany);
 	}
 
 	@Transactional
@@ -201,7 +216,8 @@ public class CompanyService extends ClientService {
 //		return date.get(Calendar.YEAR) + "-" + date.get(Calendar.MONTH) + "-" + date.get(Calendar.DAY_OF_MONTH);
 //	}
 
-	private boolean companyHasTheCoupon(Coupon coupon) {
+	private boolean companyHasTheCoupon(Coupon coupon, int comapnyId) {
+		Company company = getCompanyDetails(comapnyId);
 		List<Coupon> couponsList = couponRepository.findByCompany(company);
 		for (Coupon companyCoupon : couponsList) {
 			if (companyCoupon.getId().equals(coupon.getId())) {
@@ -209,14 +225,6 @@ public class CompanyService extends ClientService {
 			}
 		}
 		return false;
-	}
-
-	public Company getCompany() {
-		return company;
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
 	}
 
 }

@@ -35,12 +35,17 @@ public enum SystemExceptions {
 
 	ILLEGAL_VALUE_ENTERED,
 
-	VALUE_UNAVAILABLE;
+	VALUE_UNAVAILABLE,
+
+	MISSING_VALUE,
 	/**
 	 * This exception is displayed when the client is trying to put values that
 	 * doesn't match the system's expectations.
 	 */
-//	INCORRECT_VALUE_ENTERED;
+	INCORRECT_VALUE_ENTERED,
+
+	INVALID_TOKEN;
+
 	/**
 	 * This exception is displayed when the requested object has reached 0 with his
 	 * <code>amount</code> value.

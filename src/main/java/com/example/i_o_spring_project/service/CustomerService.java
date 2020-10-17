@@ -18,8 +18,6 @@ import com.example.i_o_spring_project.model.Customer;
 @Service
 public class CustomerService extends ClientService {
 
-	private Customer customer;
-
 	public CustomerService() {
 		super();
 	}
@@ -35,17 +33,17 @@ public class CustomerService extends ClientService {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"inserted password is incorrect");
 		}
-		setCustomer(customer);
 		return true;
 	}
 
 	@Transactional
-	public Coupon purchaseCoupon(Coupon coupon) {
+	public Coupon purchaseCoupon(Coupon coupon, int customerId) {
+		Customer customer = getCustomerDetails(customerId);
 		Date now = new Date();
 		if (!couponRepository.existsById(coupon.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND, "This coupon does not exist");
 		}
-		if (hasCouponPurchased(coupon.getId())) {
+		if (hasCouponPurchased(coupon.getId(), customer)) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"You already have this coupon!");
 		}
@@ -66,11 +64,12 @@ public class CustomerService extends ClientService {
 	}
 
 	@Transactional
-	public void removeCouponPurchase(int couponId) {
+	public void removeCouponPurchase(int couponId, int customerId) {
+		Customer customer = getCustomerDetails(customerId);
 		if (!couponRepository.existsById(couponId)) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This coupon does not exist");
 		}
-		if (!hasCouponPurchased(couponId)) {
+		if (!hasCouponPurchased(couponId, customer)) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"You have not purchased this coupon yet!");
 		}
@@ -79,7 +78,7 @@ public class CustomerService extends ClientService {
 		System.out.println("\n--This coupon purchase has been removed--\n");
 	}
 
-	public List<Coupon> getAllCoupons() {
+	public List<Coupon> viewAllCoupons() {
 		return couponRepository.findAll();
 	}
 
@@ -91,13 +90,14 @@ public class CustomerService extends ClientService {
 		throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND);
 	}
 
-	public List<Coupon> getCustomerCoupons() {
+	public List<Coupon> getCustomerCoupons(int customerId) {
+		Customer customer = getCustomerDetails(customerId);
 		return customer.getCoupons();
 	}
 
-	public List<Coupon> getCustomerCoupons(Category category) {
+	public List<Coupon> getCustomerCoupons(Category category, int customerId) {
 		List<Coupon> coupons = new ArrayList<>();
-		for (Coupon coupon : getCustomerCoupons()) {
+		for (Coupon coupon : getCustomerCoupons(customerId)) {
 			if (coupon.getCategory().equals(category)) {
 				coupons.add(coupon);
 			}
@@ -105,9 +105,9 @@ public class CustomerService extends ClientService {
 		return coupons;
 	}
 
-	public List<Coupon> getCustomerCoupons(Double price) {
+	public List<Coupon> getCustomerCoupons(Double price, int customerId) {
 		List<Coupon> coupons = new ArrayList<>();
-		for (Coupon coupon : getCustomerCoupons()) {
+		for (Coupon coupon : getCustomerCoupons(customerId)) {
 			if (coupon.getPrice() <= price) {
 				coupons.add(coupon);
 			}
@@ -115,15 +115,25 @@ public class CustomerService extends ClientService {
 		return coupons;
 	}
 
-	public Customer getCustomerDetails() {
-		if (customer == null) {
-			throw new CouponsSystemExceptions(SystemExceptions.CUSTOMER_NOT_FOUND);
+	public Customer getCustomerDetails(int customerId) {
+		Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
+		if (optionalCustomer.isPresent()) {
+			return optionalCustomer.get();
 		}
-		return customer;
+		throw new CouponsSystemExceptions(SystemExceptions.CUSTOMER_NOT_FOUND);
+	}
+
+	public Customer getCustomerByEmail(String email) {
+		Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
+		if (optionalCustomer.isPresent()) {
+			return optionalCustomer.get();
+		}
+		throw new CouponsSystemExceptions(SystemExceptions.CUSTOMER_NOT_FOUND);
 	}
 
 	@Transactional
-	public Customer UpdateDetails(Customer givenCustomer) {
+	public Customer UpdateDetails(Customer givenCustomer, int customerId) {
+		Customer customer = getCustomerDetails(customerId);
 		if (!customerRepository.existsById(givenCustomer.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"This customer does not exist");
@@ -139,12 +149,11 @@ public class CustomerService extends ClientService {
 				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
 			}
 		}
-		setCustomer(givenCustomer);
 		System.out.println("\n--This customer has been updated--\n");
 		return customerRepository.save(givenCustomer);
 	}
 
-	private boolean hasCouponPurchased(int couponId) {
+	private boolean hasCouponPurchased(int couponId, Customer customer) {
 		List<Coupon> coupons = customer.getCoupons();
 		for (Coupon purchasedCoupon : coupons) {
 			if (purchasedCoupon.getId() == couponId) {
@@ -152,14 +161,6 @@ public class CustomerService extends ClientService {
 			}
 		}
 		return false;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
 	}
 
 }

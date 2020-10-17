@@ -2,6 +2,9 @@ package com.example.i_o_spring_project.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,71 +18,113 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.i_o_spring_project.model.Category;
+import com.example.i_o_spring_project.model.ClientType;
 import com.example.i_o_spring_project.model.Company;
 import com.example.i_o_spring_project.model.Coupon;
+import com.example.i_o_spring_project.model.User;
+import com.example.i_o_spring_project.modelDTO.CompanyDTO;
+import com.example.i_o_spring_project.modelDTO.CouponDTO;
+import com.example.i_o_spring_project.modelDTO.ModelToDTOConverter;
 
 @RestController
 @RequestMapping("/company")
 public class CompanyController extends ClientController {
 
+	private final ClientType clienType = ClientType.COMPANY;
+
 	@PostMapping("/coupon")
-	public ResponseEntity<Coupon> addCoupon(@RequestBody Coupon coupon) {
-		return new ResponseEntity<Coupon>(companyService.addACoupon(coupon), HttpStatus.OK);
+	public ResponseEntity<CouponDTO> addCoupon(@RequestBody Coupon coupon, HttpServletRequest request) {
+		String tokenType = (String) request.getAttribute(TYPE);
+		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		int companyId = (int) request.getAttribute(ID);
+		return new ResponseEntity<CouponDTO>(dTOconverter.convertCoupon(companyService.addACoupon(coupon, companyId)),
+				HttpStatus.OK);
 	}
 
 	@PutMapping("/coupon")
-	public ResponseEntity<Coupon> updateCoupon(@RequestBody Coupon coupon) {
-		return new ResponseEntity<Coupon>(companyService.updateCoupon(coupon), HttpStatus.OK);
+	public ResponseEntity<CouponDTO> updateCoupon(@RequestBody Coupon coupon, HttpServletRequest request) {
+		String tokenType = (String) request.getAttribute(TYPE);
+		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		int companyId = (int) request.getAttribute(ID);
+		return new ResponseEntity<CouponDTO>(dTOconverter.convertCoupon(companyService.updateCoupon(coupon, companyId)),
+				HttpStatus.OK);
 	}
 
 	@DeleteMapping("/coupon/{id}")
-	public ResponseEntity<Void> deleteCoupon(@PathVariable int id) {
-		companyService.deleteCoupon(id);
+	public ResponseEntity<Void> deleteCoupon(@PathVariable int id, HttpServletRequest request) {
+		String tokenType = (String) request.getAttribute(TYPE);
+		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		int companyId = (int) request.getAttribute(ID);
+		companyService.deleteCoupon(id, companyId);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 	@GetMapping("/coupons")
-	public ResponseEntity<List<Coupon>> getAllCompanyCoupons() {
-		return new ResponseEntity<List<Coupon>>(companyService.getAllCompanyCoupons(), HttpStatus.OK);
+	public ResponseEntity<List<CouponDTO>> getAllCompanyCoupons(HttpServletRequest request) {
+		String tokenType = (String) request.getAttribute(TYPE);
+		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		int companyId = (int) request.getAttribute(ID);
+		return new ResponseEntity<List<CouponDTO>>(
+				dTOconverter.convertCouponList(companyService.getAllCompanyCoupons(companyId)), HttpStatus.OK);
 	}
 
 	@GetMapping("/coupon/{id}")
-	public ResponseEntity<Coupon> getCouponById(@PathVariable int id) {
-		return new ResponseEntity<Coupon>(companyService.getOneCoupon(id), HttpStatus.OK);
+	public ResponseEntity<CouponDTO> getCouponById(@PathVariable int id, HttpServletRequest request) {
+		String tokenType = (String) request.getAttribute(TYPE);
+		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		int companyId = (int) request.getAttribute(ID);
+		return new ResponseEntity<CouponDTO>(dTOconverter.convertCoupon(companyService.getOneCoupon(id, companyId)),
+				HttpStatus.OK);
 	}
 
 	@GetMapping("/coupon")
-	public ResponseEntity<Coupon> getCouponByTitle(@RequestParam String title) {
-		return new ResponseEntity<Coupon>(companyService.getOneCoupon(title), HttpStatus.OK);
+	public ResponseEntity<CouponDTO> getCouponByTitle(@RequestParam String title, HttpServletRequest request) {
+		String tokenType = (String) request.getAttribute(TYPE);
+		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		int companyId = (int) request.getAttribute(ID);
+		return new ResponseEntity<CouponDTO>(dTOconverter.convertCoupon(companyService.getOneCoupon(title, companyId)),
+				HttpStatus.OK);
 	}
 
 	@GetMapping("/coupons/price/{price}")
-	public ResponseEntity<List<Coupon>> getCompanyCouponsByPrice(@PathVariable Double price) {
-		return new ResponseEntity<List<Coupon>>(companyService.getCouponsByPrice(price), HttpStatus.OK);
+	public ResponseEntity<List<CouponDTO>> getCompanyCouponsByPrice(@PathVariable Double price,
+			HttpServletRequest request) {
+		String tokenType = (String) request.getAttribute(TYPE);
+		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		int companyId = (int) request.getAttribute(ID);
+		return new ResponseEntity<List<CouponDTO>>(
+				dTOconverter.convertCouponList(companyService.getCouponsByPrice(price, companyId)), HttpStatus.OK);
 	}
 
 	@GetMapping("/coupons/categoryId/{categoryId}")
-	public ResponseEntity<List<Coupon>> getCompanyCouponsByCategory(@PathVariable Integer categoryId) {
+	public ResponseEntity<List<CouponDTO>> getCompanyCouponsByCategory(@PathVariable Integer categoryId,
+			HttpServletRequest request) {
+		String tokenType = (String) request.getAttribute(TYPE);
+		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		int companyId = (int) request.getAttribute(ID);
 		Category category = companyService.getCategory(categoryId);
-		return new ResponseEntity<List<Coupon>>(companyService.getCouponsByCategory(category), HttpStatus.OK);
+		return new ResponseEntity<List<CouponDTO>>(
+				dTOconverter.convertCouponList(companyService.getCouponsByCategory(category, companyId)),
+				HttpStatus.OK);
 	}
 
+// The token type should be checked in all functions
 	@GetMapping("/details")
-	public ResponseEntity<Company> getDetails() {
-		return new ResponseEntity<Company>(companyService.getCompanyDetails(), HttpStatus.OK);
+	public ResponseEntity<CompanyDTO> getDetails(HttpServletRequest request) {
+		String tokenType = (String) request.getAttribute(TYPE);
+		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		int companyId = (int) request.getAttribute(ID);
+		return new ResponseEntity<CompanyDTO>(dTOconverter.convertCompany(companyService.getCompanyDetails(companyId)),
+				HttpStatus.OK);
 	}
 
 	@PutMapping("/details")
-	public ResponseEntity<Company> updateDetails(@RequestBody Company company) {
-		return new ResponseEntity<Company>(companyService.updateDetails(company), HttpStatus.OK);
+	public ResponseEntity<CompanyDTO> updateDetails(@RequestBody Company company, HttpServletRequest request) {
+		String tokenType = (String) request.getAttribute(TYPE);
+		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		int companyId = (int) request.getAttribute(ID);
+		return new ResponseEntity<CompanyDTO>(
+				dTOconverter.convertCompany(companyService.updateDetails(company, companyId)), HttpStatus.OK);
 	}
 
-	@Override
-	/**
-	 * this function should be mapped
-	 */
-	@GetMapping("/login")
-	public ResponseEntity<Boolean> login(@RequestParam String email, @RequestParam String password) {
-		return new ResponseEntity<Boolean>(companyService.login(email, password), HttpStatus.OK);
-	}
 }

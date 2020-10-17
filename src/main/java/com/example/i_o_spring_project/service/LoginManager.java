@@ -31,25 +31,25 @@ public class LoginManager {
 	 * @throws InterruptedException
 	 * @see {@link SystemExceptions#INCORRECT_VALUE_ENTERED}
 	 */
-	public ClientService login(String email, String password, ClientType client) {
-		if (client == null) {
-			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
-					"client's type cannot be null");
-		}
-		if (client.equals(ClientType.ADMINISTRATOR)) {
-			clientService = applicationContext.getBean(AdminService.class);
-		} else if (client.equals(ClientType.COMPANY)) {
-			clientService = applicationContext.getBean(CompanyService.class);
-		} else {
-			clientService = applicationContext.getBean(CustomerService.class);
-		}
-		System.out.println(clientService.getClass());
-		if (clientService.login(email, password)) {
-			System.out.println("Welcome " + client);
-			return clientService;
-		}
-		return null;
-	}
+//	public ClientService login(String email, String password, ClientType client) {
+//		if (client == null) {
+//			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
+//					"client's type cannot be null");
+//		}
+//		if (client.equals(ClientType.ADMINISTRATOR)) {
+//			clientService = applicationContext.getBean(AdminService.class);
+//		} else if (client.equals(ClientType.COMPANY)) {
+//			clientService = applicationContext.getBean(CompanyService.class);
+//		} else {
+//			clientService = applicationContext.getBean(CustomerService.class);
+//		}
+//		System.out.println(clientService.getClass());
+//		if (clientService.login(email, password)) {
+//			System.out.println("Welcome " + client);
+//			return clientService;
+//		}
+//		return null;
+//	}
 
 	public ClientService getClientService() {
 		return clientService;
