@@ -21,11 +21,14 @@ public class Category {
 	private Integer id;
 	@Column(name = "name")
 	private String name;
-	
+
 	@Override
 	public String toString() {
 		return name;
 	}
-	
-	
+
+	public Category(String name) {
+		this.name = name;
+	}
+
 }

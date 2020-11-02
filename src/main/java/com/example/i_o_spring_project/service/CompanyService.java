@@ -207,6 +207,14 @@ public class CompanyService extends ClientService {
 		}
 		return categoryRepository.findById(categoryId).get();
 	}
+
+	@Transactional
+	public Category getCategory(String categoryName) {
+		if (!categoryRepository.findByName(categoryName).isPresent()) {
+			return new Category(categoryName);
+		}
+		return categoryRepository.findByName(categoryName).get();
+	}
 //
 //	public java.sql.Date date(Calendar date) {
 //		return java.sql.Date.valueOf(getDate(date));

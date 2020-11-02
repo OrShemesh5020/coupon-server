@@ -30,10 +30,22 @@ public class WebConfig implements WebMvcConfigurer {
 		this.filter = filter;
 	}
 
+//	@Override
+//	public void addCorsMappings(CorsRegistry registry) {
+////		registry.addMapping("/**").allowedMethods("*");
+//		registry.addMapping("/**").allowedOrigins("http://localhost:4200").allowedMethods("GET", "PUT", "POST", "DELETE")
+//		.allowedHeaders("*").allowCredentials(true);
+//	}
 	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedMethods("*");
-	}
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowCredentials(true)
+                .allowedOrigins("*")
+                .allowedHeaders("*")
+                .allowedMethods("*")
+                .exposedHeaders("token");
+
+    }
 
 	@Bean
 	public FilterRegistrationBean<JWTFilter> loggingFilter() {

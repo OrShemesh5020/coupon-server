@@ -56,6 +56,7 @@ public class AdminController extends ClientController {
 
 	@GetMapping("/companies")
 	public ResponseEntity<List<CompanyDTO>> getAllCompanies(HttpServletRequest request) {
+		System.err.println("getAllCompanies here");
 		String tokenType = (String) request.getAttribute(TYPE);
 		tokenFacade.doesTheTokenBelong(tokenType, clientType);
 		return new ResponseEntity<List<CompanyDTO>>(dTOconverter.convertCompanyList(adminService.getAllCompanies()),
@@ -103,6 +104,7 @@ public class AdminController extends ClientController {
 
 	@GetMapping("/customers")
 	public ResponseEntity<List<CustomerDTO>> getAllCustomers(HttpServletRequest request) {
+		System.err.println("getAllCustomers here");
 		String tokenType = (String) request.getAttribute(TYPE);
 		tokenFacade.doesTheTokenBelong(tokenType, clientType);
 		return new ResponseEntity<List<CustomerDTO>>(dTOconverter.convertCustomerList(adminService.getAllCustomers()),

@@ -17,7 +17,6 @@ public class User {
 	private ClientType clientType;
 	@JsonIgnore
 	private String token;
-	private Date expirationDate;
 
 	public User(Integer id, String email, String password, ClientType clientType) {
 		this.id = id;

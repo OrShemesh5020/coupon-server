@@ -32,7 +32,8 @@ public class CustomerController extends ClientController {
 	private final ClientType clientType = ClientType.CUSTOMER;
 
 	@PostMapping("/coupon")
-	public ResponseEntity<CouponDTO> purchaseCoupon(@RequestBody Coupon coupon, HttpServletRequest request) {
+	public ResponseEntity<CouponDTO> purchaseCoupon(@RequestBody CouponDTO couponDTO, HttpServletRequest request) {
+		Coupon coupon = modelConverter.convertToCoupon(couponDTO);
 		String tokenType = (String) request.getAttribute(TYPE);
 		tokenFacade.doesTheTokenBelong(tokenType, clientType);
 		int customerId = (int) request.getAttribute(ID);

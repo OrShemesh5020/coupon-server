@@ -4,11 +4,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,13 +17,11 @@ import com.example.i_o_spring_project.exceptions.CouponsSystemExceptions;
 import com.example.i_o_spring_project.exceptions.SystemExceptions;
 import com.example.i_o_spring_project.model.ClientType;
 import com.example.i_o_spring_project.model.Company;
-import com.example.i_o_spring_project.model.Coupon;
 import com.example.i_o_spring_project.model.Customer;
 import com.example.i_o_spring_project.model.User;
 import com.example.i_o_spring_project.modelDTO.CompanyDTO;
 import com.example.i_o_spring_project.modelDTO.CouponDTO;
 import com.example.i_o_spring_project.modelDTO.CustomerDTO;
-import com.example.i_o_spring_project.service.ClientService;
 
 @RestController
 @RequestMapping("/general")
@@ -54,17 +50,19 @@ public class PublicController extends ClientController {
 	@GetMapping("/login")
 	public ResponseEntity<User> login(@RequestParam String type, @RequestParam String email,
 			@RequestParam String password, HttpServletResponse response) {
+		System.err.println("Type: " + type);
 		switch (type.toLowerCase()) {
 		case "admin":
 			return adminLogin(email, password, response);
-
 		case "company":
+			System.err.println("i'm in login company");
 			return companyLogin(email, password, response);
 
 		case "customer":
 			return customerLogin(email, password, response);
 
 		default:
+			System.err.println("default");
 			throw new CouponsSystemExceptions(SystemExceptions.MISSING_VALUE, "no type!");
 		}
 	}

@@ -33,7 +33,8 @@ public class CompanyController extends ClientController {
 	private final ClientType clienType = ClientType.COMPANY;
 
 	@PostMapping("/coupon")
-	public ResponseEntity<CouponDTO> addCoupon(@RequestBody Coupon coupon, HttpServletRequest request) {
+	public ResponseEntity<CouponDTO> addCoupon(@RequestBody CouponDTO couponDTO, HttpServletRequest request) {
+		Coupon coupon = modelConverter.convertToCoupon(couponDTO);
 		String tokenType = (String) request.getAttribute(TYPE);
 		tokenFacade.doesTheTokenBelong(tokenType, clienType);
 		int companyId = (int) request.getAttribute(ID);
@@ -42,7 +43,8 @@ public class CompanyController extends ClientController {
 	}
 
 	@PutMapping("/coupon")
-	public ResponseEntity<CouponDTO> updateCoupon(@RequestBody Coupon coupon, HttpServletRequest request) {
+	public ResponseEntity<CouponDTO> updateCoupon(@RequestBody CouponDTO couponDTO, HttpServletRequest request) {
+		Coupon coupon = modelConverter.convertToCoupon(couponDTO);
 		String tokenType = (String) request.getAttribute(TYPE);
 		tokenFacade.doesTheTokenBelong(tokenType, clienType);
 		int companyId = (int) request.getAttribute(ID);
@@ -70,6 +72,7 @@ public class CompanyController extends ClientController {
 
 	@GetMapping("/coupon/{id}")
 	public ResponseEntity<CouponDTO> getCouponById(@PathVariable int id, HttpServletRequest request) {
+		System.out.println(id);
 		String tokenType = (String) request.getAttribute(TYPE);
 		tokenFacade.doesTheTokenBelong(tokenType, clienType);
 		int companyId = (int) request.getAttribute(ID);

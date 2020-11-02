@@ -25,7 +25,6 @@ public class ModelToDTOConverter {
 	public CustomerDTO convertCustomer(Customer customer) {
 		return new CustomerDTO(customer.getId(), customer.getFirstName(), customer.getLastName(), customer.getEmail(),
 				customer.getPassword());
-
 	}
 
 	public List<CouponDTO> convertCouponList(List<Coupon> coupons) {

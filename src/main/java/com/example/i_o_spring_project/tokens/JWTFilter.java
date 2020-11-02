@@ -1,6 +1,7 @@
 package com.example.i_o_spring_project.tokens;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -27,9 +28,30 @@ public class JWTFilter extends OncePerRequestFilter {
 	@Override
 	public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		System.err.println("doFilterInternal");
 
+//		System.err.println("request: "+request.getMethod());
+//		request.getHeaderNames();
+
+		Enumeration<String> headerNames = request.getHeaderNames();
+//
+//		    if (headerNames != null) {
+//		            while (headerNames.hasMoreElements()) {
+//		                    System.out.println("Header: " + request.getHeader(headerNames.nextElement()));
+//		            }
+//		    }
+
+		if (request.getMethod().equals("OPTIONS")) {
+//			 System.err.println("*******options*******");
+			response.setStatus(HttpServletResponse.SC_OK);
+			filterChain.doFilter(request, response);
+			return;
+		}
 		String authorization = request.getHeader("authorization");
 
+		System.err.println("authorization: " + authorization);
+
+//		System.err.println("checkAuthorization: " + checkAuthorization(authorization, response));
 		if (checkAuthorization(authorization, response)) {
 			return;
 		}
@@ -47,7 +69,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
 	private UserPrincipal validateToken(String autorization, HttpServletResponse response) throws IOException {
 		String token = autorization.split(" ")[1];
-
+		System.err.println("token: " + token);
 		try {
 			return tokenService.parseToken(token);
 		} catch (ExpiredJwtException e) {
@@ -68,6 +90,7 @@ public class JWTFilter extends OncePerRequestFilter {
 	public boolean checkAuthorization(String authorization, HttpServletResponse response) throws IOException {
 		if (authorization == null) {
 			response.sendError(HttpServletResponse.SC_FORBIDDEN, "token not found");
+			System.err.println("we fail here");
 			return true;
 		}
 		if (!authorization.startsWith("Bearer")) {

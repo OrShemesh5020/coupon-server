@@ -26,7 +26,6 @@ public class TokenServiceImpl implements TokensService {
 
 	@Override
 	public String createJWT(User user) {
-		System.err.println("createJWT: " + key);
 		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 		long nowMillis = System.currentTimeMillis();
 		Date now = new Date(nowMillis);
@@ -36,7 +35,6 @@ public class TokenServiceImpl implements TokensService {
 		long expMillis = nowMillis + 1800000;
 		Date exp = new Date(expMillis);
 		setExpirationDate(exp);
-		System.err.println("createJWT: " + getExpirationDate());
 		tokenBuilder.setExpiration(exp);
 		return tokenBuilder.compact();
 	}
@@ -46,11 +44,11 @@ public class TokenServiceImpl implements TokensService {
 	public UserPrincipal parseToken(String token) {
 		
 		Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
-		String username = claims.getSubject();
+//		String username = claims.getSubject();
 		Integer userId = claims.get("id", Integer.class);
-		String password = claims.get("password", String.class);
+//		String password = claims.get("password", String.class);
 		String type = claims.get("clientType", String.class);
-		Date expirationDate = claims.getExpiration();
+//		Date expirationDate = claims.getExpiration();
 		ClientType userType = getClientType(type);
 		return new UserPrincipal(userId, userType);
 	}

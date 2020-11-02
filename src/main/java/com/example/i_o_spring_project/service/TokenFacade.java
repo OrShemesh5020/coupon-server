@@ -19,13 +19,12 @@ public class TokenFacade {
 		User user = new User(id, email, password, clientType);
 		String token = tokenServiceImpl.createJWT(user);
 		user.setToken(token);
-		user.setExpirationDate(tokenServiceImpl.getExpirationDate());
 		return user;
 	}
 
 	public void doesTheTokenBelong(String tokenType, ClientType authorizedType) {
 		if (!authorizedType.name().toLowerCase().equals(tokenType)) {
-			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "token type does not match!");
+			throw new CouponsSystemExceptions(SystemExceptions.INVALID_TOKEN, "token type does not match!");
 		}
 	}
 }
