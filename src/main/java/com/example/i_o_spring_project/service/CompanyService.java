@@ -211,7 +211,7 @@ public class CompanyService extends ClientService {
 	@Transactional
 	public Category getCategory(String categoryName) {
 		if (!categoryRepository.findByName(categoryName).isPresent()) {
-			return new Category(categoryName);
+			return categoryRepository.save(new Category(categoryName));
 		}
 		return categoryRepository.findByName(categoryName).get();
 	}
