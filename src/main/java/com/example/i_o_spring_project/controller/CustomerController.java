@@ -51,7 +51,7 @@ public class CustomerController extends ClientController {
 	}
 
 	@GetMapping("/coupon/{id}")
-	public ResponseEntity<CouponDTO> getCoupon(int id, HttpServletRequest request) {
+	public ResponseEntity<CouponDTO> getCoupon(@PathVariable int id, HttpServletRequest request) {
 		String tokenType = (String) request.getAttribute(TYPE);
 		tokenFacade.doesTheTokenBelong(tokenType, clientType);
 		return new ResponseEntity<CouponDTO>(dTOconverter.convertCoupon(customerService.getOneCoupon(id)),

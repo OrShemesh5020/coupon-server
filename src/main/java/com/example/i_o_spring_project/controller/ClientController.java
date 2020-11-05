@@ -9,6 +9,7 @@ import com.example.i_o_spring_project.service.AdminService;
 import com.example.i_o_spring_project.service.CompanyService;
 import com.example.i_o_spring_project.service.CustomerService;
 import com.example.i_o_spring_project.service.TokenFacade;
+import com.example.i_o_spring_project.service.UserService;
 
 @Component
 public abstract class ClientController {
@@ -27,11 +28,14 @@ public abstract class ClientController {
 
 	@Autowired
 	protected TokenFacade tokenFacade;
-	
+
 	@Autowired
 	protected ModelToDTOConverter dTOconverter;
-	
+
 	@Autowired
 	protected DTOToModelConverter modelConverter;
+
+	@Autowired
+	protected UserService userService;
 
 }

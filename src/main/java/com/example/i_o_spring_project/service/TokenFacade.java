@@ -24,7 +24,7 @@ public class TokenFacade {
 
 	public void doesTheTokenBelong(String tokenType, ClientType authorizedType) {
 		if (!authorizedType.name().toLowerCase().equals(tokenType)) {
-			throw new CouponsSystemExceptions(SystemExceptions.INVALID_TOKEN, "token type does not match!");
+			throw new CouponsSystemExceptions(SystemExceptions.NO_ACCSESS, "token type does not match!");
 		}
 	}
 }

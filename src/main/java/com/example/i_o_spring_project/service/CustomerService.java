@@ -73,7 +73,7 @@ public class CustomerService extends ClientService {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"You have not purchased this coupon yet!");
 		}
-		customer.getCoupons().remove(couponId);
+		customer.getCoupons().remove(getCustomerCouponIndex(couponId, customer));
 		customerRepository.save(customer);
 		System.out.println("\n--This coupon purchase has been removed--\n");
 	}
@@ -144,6 +144,7 @@ public class CustomerService extends ClientService {
 		}
 		customerValidation.isTheObjectEmpty(givenCustomer);
 		customerValidation.charactersHasExceeded(givenCustomer);
+		userService.checkEmail(customer.getEmail());
 		if (!customer.getEmail().equals(givenCustomer.getEmail())) {
 			if (customerRepository.findByEmail(givenCustomer.getEmail()).isPresent()) {
 				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
@@ -161,6 +162,17 @@ public class CustomerService extends ClientService {
 			}
 		}
 		return false;
+	}
+
+	private int getCustomerCouponIndex(int couponId, Customer customer) {
+		int index = 0;
+		for (Coupon coupon : customer.getCoupons()) {
+			if (coupon.getId() == (couponId)) {
+				return index;
+			}
+			index++;
+		}
+		throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND);
 	}
 
 }

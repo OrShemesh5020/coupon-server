@@ -48,17 +48,18 @@ public class PublicController extends ClientController {
 	}
 
 	@GetMapping("/login")
-	public ResponseEntity<User> login(@RequestParam String type, @RequestParam String email,
-			@RequestParam String password, HttpServletResponse response) {
+	public ResponseEntity<User> login(@RequestParam String email, @RequestParam String password,
+			HttpServletResponse response) {
+		ClientType type = userService.getType(email);
 		System.err.println("Type: " + type);
-		switch (type.toLowerCase()) {
-		case "admin":
+		switch (type) {
+		case ADMINISTRATOR:
 			return adminLogin(email, password, response);
-		case "company":
-			System.err.println("i'm in login company");
+			
+		case COMPANY:
 			return companyLogin(email, password, response);
 
-		case "customer":
+		case CUSTOMER:
 			return customerLogin(email, password, response);
 
 		default:

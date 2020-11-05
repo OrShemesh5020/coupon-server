@@ -73,28 +73,28 @@ public class JWTFilter extends OncePerRequestFilter {
 		try {
 			return tokenService.parseToken(token);
 		} catch (ExpiredJwtException e) {
-			response.sendError(HttpServletResponse.SC_FORBIDDEN, "token has expired");
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "token has expired");
 			return null;
 		} catch (UnsupportedJwtException e) {
-			response.sendError(HttpServletResponse.SC_FORBIDDEN, "token unsupported");
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "token unsupported");
 			return null;
 		} catch (MalformedJwtException e) {
-			response.sendError(HttpServletResponse.SC_FORBIDDEN, "the token was not constructed correctly!");
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "the token was not constructed correctly!");
 			return null;
 		} catch (SignatureException e) {
-			response.sendError(HttpServletResponse.SC_FORBIDDEN, "token signature is not valid");
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "token signature is not valid");
 			return null;
 		}
 	}
 
 	public boolean checkAuthorization(String authorization, HttpServletResponse response) throws IOException {
 		if (authorization == null) {
-			response.sendError(HttpServletResponse.SC_FORBIDDEN, "token not found");
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "token not found");
 			System.err.println("we fail here");
 			return true;
 		}
 		if (!authorization.startsWith("Bearer")) {
-			response.sendError(HttpServletResponse.SC_FORBIDDEN, "token does not start with 'Bearer'");
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "token does not start with 'Bearer'");
 			return true;
 		}
 		return false;

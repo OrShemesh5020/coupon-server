@@ -40,6 +40,7 @@ public class AdminService extends ClientService {
 	public Company addCompany(Company company) {
 		companyValidation.isTheObjectEmpty(company);
 		companyValidation.charactersHasExceeded(company);
+		userService.checkEmail(company.getEmail());
 		if (companyRepository.getCompany(company.getName(), company.getEmail()).isPresent()) {
 			throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE,
 					"The name and the email are already taken");
@@ -61,6 +62,7 @@ public class AdminService extends ClientService {
 		}
 		companyValidation.isTheObjectEmpty(company);
 		companyValidation.charactersHasExceeded(company);
+		userService.checkEmail(company.getEmail());
 		if (!companyRepository.findById(company.getId()).get().getName().equals(company.getName())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"You can't change the name of the company, because the company's name is an unchangeable attribute");
@@ -111,6 +113,7 @@ public class AdminService extends ClientService {
 	public Customer addCustomer(Customer customer) {
 		customerValidation.isTheObjectEmpty(customer);
 		customerValidation.charactersHasExceeded(customer);
+		userService.checkEmail(customer.getEmail());
 		if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
 			throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
 		}
@@ -126,6 +129,7 @@ public class AdminService extends ClientService {
 		}
 		customerValidation.isTheObjectEmpty(customer);
 		customerValidation.charactersHasExceeded(customer);
+		userService.checkEmail(customer.getEmail());
 		if (!customerRepository.findById(customer.getId()).get().getEmail().equals(customer.getEmail())) {
 			if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
 				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");

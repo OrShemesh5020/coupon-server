@@ -44,7 +44,7 @@ public enum SystemExceptions {
 	 */
 	INCORRECT_VALUE_ENTERED,
 
-	INVALID_TOKEN;
+	NO_ACCSESS;
 
 	/**
 	 * This exception is displayed when the requested object has reached 0 with his

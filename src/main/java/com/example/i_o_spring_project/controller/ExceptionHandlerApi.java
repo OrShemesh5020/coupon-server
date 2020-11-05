@@ -20,7 +20,7 @@ public class ExceptionHandlerApi {
 				|| ex.getErrorCode().equals(SystemExceptions.INCORRECT_VALUE_ENTERED)) {
 			System.err.println("ApiExceptionHandler: " + ex.getErrorCode());
 			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-		} else if (ex.getErrorCode().equals(SystemExceptions.INVALID_TOKEN)) {
+		} else if (ex.getErrorCode().equals(SystemExceptions.NO_ACCSESS)) {
 			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.FORBIDDEN);
 		} else {
 			return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_FOUND);

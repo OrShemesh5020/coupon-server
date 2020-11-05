@@ -186,7 +186,7 @@ public class CompanyService extends ClientService {
 		companyValidation.isTheObjectEmpty(givenCompany);
 
 		companyValidation.charactersHasExceeded(givenCompany);
-
+		userService.checkEmail(company.getEmail());
 		if (!companyRepository.findById(givenCompany.getId()).get().getName().equals(givenCompany.getName())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED,
 					"You can't change the name of the company");

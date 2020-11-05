@@ -13,9 +13,4 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	public Optional<Customer> findByEmail(String email);
 
 	public Optional<Customer> findById(int id);
-
-//	@Query("select coupon from Customer customer where ")
-//	public List<Optional<Coupon>> getAllCustomersCoupon(int id);
-
-//	public List<Optional<Coupon>> findAllCoupons(int id);
 }

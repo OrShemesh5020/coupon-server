@@ -19,7 +19,7 @@ public abstract class ClientService {
 	protected CompanyRepository companyRepository;
 	@Autowired
 	protected CustomerRepository customerRepository;
-	@Autowired	
+	@Autowired
 	protected CouponRepository couponRepository;
 	@Autowired
 	protected CategoryRepository categoryRepository;
@@ -29,6 +29,8 @@ public abstract class ClientService {
 	protected CustomerValidation customerValidation;
 	@Autowired
 	protected CouponValidation couponValidation;
+	@Autowired
+	protected UserService userService;
 
 	public ClientService() {
 	}
