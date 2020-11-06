@@ -22,7 +22,7 @@ public class CouponValidation extends ObjectValidation<Coupon> {
 	public void charactersHasExceeded(Coupon coupon) throws CouponsSystemExceptions {
 		charactersHasExceeded(coupon.getTitle(), "title", 45);
 		charactersHasExceeded(coupon.getDescription(), "description", 200);
-		charactersHasExceeded(coupon.getImage(), "image", 45);
+		charactersHasExceeded(coupon.getImage(), "image", 255);
 	}
 
 }
