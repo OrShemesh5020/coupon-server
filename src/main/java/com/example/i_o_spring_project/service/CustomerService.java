@@ -144,11 +144,11 @@ public class CustomerService extends ClientService {
 		}
 		customerValidation.isTheObjectEmpty(givenCustomer);
 		customerValidation.charactersHasExceeded(givenCustomer);
-		userService.checkEmail(customer.getEmail());
 		if (!customer.getEmail().equals(givenCustomer.getEmail())) {
-			if (customerRepository.findByEmail(givenCustomer.getEmail()).isPresent()) {
-				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
-			}
+			userService.checkEmail(customer.getEmail());
+//			if (customerRepository.findByEmail(givenCustomer.getEmail()).isPresent()) {
+//				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
+//			}
 		}
 		System.out.println("\n--This customer has been updated--\n");
 		return customerRepository.save(givenCustomer);
