@@ -149,7 +149,7 @@ public class CustomerService extends ClientService {
 		customerValidation.isTheObjectEmpty(givenCustomer);
 		customerValidation.charactersHasExceeded(givenCustomer);
 		if (!customer.getEmail().equals(givenCustomer.getEmail())) {
-			userService.checkEmail(customer.getEmail());
+			userService.checkEmail(givenCustomer.getEmail());
 //			if (customerRepository.findByEmail(givenCustomer.getEmail()).isPresent()) {
 //				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
 //			}

@@ -191,7 +191,7 @@ public class CompanyService extends ClientService {
 					"You can't change the name of the company");
 		}
 		if (!companyRepository.findById(givenCompany.getId()).get().getEmail().equals(givenCompany.getEmail())) {
-			userService.checkEmail(company.getEmail());
+			userService.checkEmail(givenCompany.getEmail());
 //			if (companyRepository.findByEmail(givenCompany.getEmail()).isPresent()) {
 //				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
 //			}
