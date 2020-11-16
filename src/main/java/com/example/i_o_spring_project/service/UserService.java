@@ -33,10 +33,10 @@ public class UserService {
 			throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "email is taken");
 		}
 		if (companyRepository.findByEmail(email).isPresent()) {
-			throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "email is taken");			
+			throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "email is taken");
 		}
 		if (customerRepository.findByEmail(email).isPresent()) {
-			throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "email is taken");			
+			throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "email is taken");
 		}
 	}
 }

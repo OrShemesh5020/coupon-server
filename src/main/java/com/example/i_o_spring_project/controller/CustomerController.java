@@ -3,7 +3,6 @@ package com.example.i_o_spring_project.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.i_o_spring_project.model.Category;
 import com.example.i_o_spring_project.model.ClientType;
 import com.example.i_o_spring_project.model.Coupon;
 import com.example.i_o_spring_project.model.Customer;
-import com.example.i_o_spring_project.model.User;
 import com.example.i_o_spring_project.modelDTO.CouponDTO;
 import com.example.i_o_spring_project.modelDTO.CustomerDTO;
 

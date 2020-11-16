@@ -58,9 +58,10 @@ public class CustomerService extends ClientService {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This coupon has expired");
 		}
 		customer.getCoupons().add(coupon);
+		coupon.setAmount(coupon.getAmount() - 1);
 		customerRepository.save(customer);
 		System.out.println("\n--The coupon has been purchased--\n");
-		return coupon;
+		return couponRepository.save(coupon);
 	}
 
 	@Transactional
@@ -75,6 +76,9 @@ public class CustomerService extends ClientService {
 		}
 		customer.getCoupons().remove(getCustomerCouponIndex(couponId, customer));
 		customerRepository.save(customer);
+		Coupon coupon = couponRepository.findById(couponId).get();
+		coupon.setAmount(coupon.getAmount() + 1);
+		couponRepository.save(coupon);
 		System.out.println("\n--This coupon purchase has been removed--\n");
 	}
 

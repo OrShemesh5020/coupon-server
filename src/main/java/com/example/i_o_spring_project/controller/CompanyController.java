@@ -3,7 +3,6 @@ package com.example.i_o_spring_project.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +20,8 @@ import com.example.i_o_spring_project.model.Category;
 import com.example.i_o_spring_project.model.ClientType;
 import com.example.i_o_spring_project.model.Company;
 import com.example.i_o_spring_project.model.Coupon;
-import com.example.i_o_spring_project.model.User;
 import com.example.i_o_spring_project.modelDTO.CompanyDTO;
 import com.example.i_o_spring_project.modelDTO.CouponDTO;
-import com.example.i_o_spring_project.modelDTO.ModelToDTOConverter;
 
 @RestController
 @RequestMapping("/company")

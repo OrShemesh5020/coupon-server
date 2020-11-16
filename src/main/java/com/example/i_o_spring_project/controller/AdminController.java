@@ -3,7 +3,6 @@ package com.example.i_o_spring_project.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.i_o_spring_project.model.ClientType;
 import com.example.i_o_spring_project.model.Company;
 import com.example.i_o_spring_project.model.Customer;
-import com.example.i_o_spring_project.model.User;
 import com.example.i_o_spring_project.modelDTO.CompanyDTO;
 import com.example.i_o_spring_project.modelDTO.CustomerDTO;
 
@@ -29,7 +27,7 @@ import com.example.i_o_spring_project.modelDTO.CustomerDTO;
 public class AdminController extends ClientController {
 
 	private final ClientType clientType = ClientType.ADMINISTRATOR;
-
+	
 	@PostMapping("/company")
 	public ResponseEntity<CompanyDTO> addCompany(@RequestBody Company company, HttpServletRequest request) {
 		String tokenType = (String) request.getAttribute(TYPE);
