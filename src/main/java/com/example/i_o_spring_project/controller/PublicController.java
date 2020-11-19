@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +48,12 @@ public class PublicController extends ClientController {
 				HttpStatus.OK);
 	}
 
+	@GetMapping("/coupon/{id}")
+	public ResponseEntity<CouponDTO> getCoupon(@PathVariable int id) {
+		return new ResponseEntity<CouponDTO>(dTOconverter.convertCoupon(customerService.getOneCoupon(id)),
+				HttpStatus.OK);
+	}
+
 	@GetMapping("/login")
 	public ResponseEntity<User> login(@RequestParam String email, @RequestParam String password,
 			HttpServletResponse response) {
@@ -55,7 +62,7 @@ public class PublicController extends ClientController {
 		switch (type) {
 		case ADMINISTRATOR:
 			return adminLogin(email, password, response);
-			
+
 		case COMPANY:
 			return companyLogin(email, password, response);
 
