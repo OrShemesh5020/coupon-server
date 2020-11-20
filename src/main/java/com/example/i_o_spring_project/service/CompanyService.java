@@ -1,5 +1,6 @@
 package com.example.i_o_spring_project.service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -37,17 +38,21 @@ public class CompanyService extends ClientService {
 	@Transactional
 	public Coupon addACoupon(Coupon coupon, int comapnyId) {
 		Company company = getCompanyDetails(comapnyId);
-		Date now = new Date();
+		Calendar now = Calendar.getInstance();
+		now.set(Calendar.HOUR, -11);
 		couponValidation.isTheObjectEmpty(coupon);
 		couponValidation.charactersHasExceeded(coupon);
-		if (coupon.getEndDate().before(now)) {
+		if (coupon.getEndDate().getTime() < now.getTimeInMillis()) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED,
 					"Coupon's end date cannot be prior to now.");
 		}
 		if (couponRepository.getOneCoupon(company, coupon.getTitle()).isPresent()) {
 			throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "this name is already taken!");
 		}
-		if (coupon.getStartDate().before(now)) {
+		if (coupon.getStartDate().getTime() < now.getTimeInMillis()) {
+			System.out.println(coupon.getStartDate().getTime());
+			System.out.println(now.getTimeInMillis());
+			System.out.println(new Date().getTime());
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED,
 					"Coupon launch date occurs before current date");
 		}
