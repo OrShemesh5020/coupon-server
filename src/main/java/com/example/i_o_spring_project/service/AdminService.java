@@ -122,21 +122,23 @@ public class AdminService extends ClientService {
 	}
 
 	@Transactional
-	public Customer updateCustomer(Customer customer) {
-		if (!customerRepository.existsById(customer.getId())) {
+	public Customer updateCustomer(Customer givenCustomer) {
+		if (!customerRepository.existsById(givenCustomer.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"This customer does not exist");
 		}
-		customerValidation.isTheObjectEmpty(customer);
-		customerValidation.charactersHasExceeded(customer);
-		if (!customerRepository.findById(customer.getId()).get().getEmail().equals(customer.getEmail())) {
-			userService.checkEmail(customer.getEmail());
+		Customer customer = customerRepository.findById(givenCustomer.getId()).get();
+		customerValidation.isTheObjectEmpty(givenCustomer);
+		customerValidation.charactersHasExceeded(givenCustomer);
+		if (!customerRepository.findById(givenCustomer.getId()).get().getEmail().equals(givenCustomer.getEmail())) {
+			userService.checkEmail(givenCustomer.getEmail());
 //			if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
 //				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
 //			}
 		}
+		givenCustomer.setCoupons(customer.getCoupons());
 		System.out.println("\n--This customer has been updated--\n");
-		return customerRepository.save(customer);
+		return customerRepository.save(givenCustomer);
 	}
 
 	@Transactional

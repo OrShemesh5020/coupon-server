@@ -136,7 +136,7 @@ public class CustomerService extends ClientService {
 	}
 
 	@Transactional
-	public Customer UpdateDetails(Customer givenCustomer, int customerId) {
+	public Customer updateDetails(Customer givenCustomer, int customerId) {
 		Customer customer = getCustomerDetails(customerId);
 		if (!customerRepository.existsById(givenCustomer.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
@@ -154,6 +154,7 @@ public class CustomerService extends ClientService {
 //				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
 //			}
 		}
+		givenCustomer.setCoupons(customer.getCoupons());
 		System.out.println("\n--This customer has been updated--\n");
 		return customerRepository.save(givenCustomer);
 	}

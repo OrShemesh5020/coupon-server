@@ -101,7 +101,7 @@ public class CustomerController extends ClientController {
 		tokenFacade.doesTheTokenBelong(tokenType, clientType);
 		int customerId = (int) request.getAttribute(ID);
 		return new ResponseEntity<CustomerDTO>(
-				dTOconverter.convertCustomer(customerService.UpdateDetails(customer, customerId)), HttpStatus.OK);
+				dTOconverter.convertCustomer(customerService.updateDetails(customer, customerId)), HttpStatus.OK);
 	}
 
 }

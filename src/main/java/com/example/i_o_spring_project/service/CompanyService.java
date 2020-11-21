@@ -191,11 +191,11 @@ public class CompanyService extends ClientService {
 		companyValidation.isTheObjectEmpty(givenCompany);
 
 		companyValidation.charactersHasExceeded(givenCompany);
-		if (!companyRepository.findById(givenCompany.getId()).get().getName().equals(givenCompany.getName())) {
+		if (!companyRepository.findById(company.getId()).get().getName().equals(givenCompany.getName())) {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED,
 					"You can't change the name of the company");
 		}
-		if (!companyRepository.findById(givenCompany.getId()).get().getEmail().equals(givenCompany.getEmail())) {
+		if (!companyRepository.findById(company.getId()).get().getEmail().equals(givenCompany.getEmail())) {
 			userService.checkEmail(givenCompany.getEmail());
 //			if (companyRepository.findByEmail(givenCompany.getEmail()).isPresent()) {
 //				throw new CouponsSystemExceptions(SystemExceptions.VALUE_UNAVAILABLE, "This email is already taken!");
