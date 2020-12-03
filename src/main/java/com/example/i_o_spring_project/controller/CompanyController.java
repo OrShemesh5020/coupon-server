@@ -96,13 +96,13 @@ public class CompanyController extends ClientController {
 				dTOconverter.convertCouponList(companyService.getCouponsByPrice(price, companyId)), HttpStatus.OK);
 	}
 
-	@GetMapping("/coupons/categoryId/{categoryId}")
-	public ResponseEntity<List<CouponDTO>> getCompanyCouponsByCategory(@PathVariable Integer categoryId,
+	@GetMapping("/coupons/categoryId/{categoryName}")
+	public ResponseEntity<List<CouponDTO>> getCompanyCouponsByCategory(@PathVariable String categoryName,
 			HttpServletRequest request) {
 		String tokenType = (String) request.getAttribute(TYPE);
 		tokenFacade.doesTheTokenBelong(tokenType, clienType);
 		int companyId = (int) request.getAttribute(ID);
-		Category category = companyService.getCategory(categoryId);
+		Category category = companyService.getCategory(categoryName);
 		return new ResponseEntity<List<CouponDTO>>(
 				dTOconverter.convertCouponList(companyService.getCouponsByCategory(category, companyId)),
 				HttpStatus.OK);

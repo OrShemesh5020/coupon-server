@@ -39,11 +39,16 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 //	public void deleteByDate(Date now);
 
 	@Modifying
-	public void deleteByEndDateBefore(Date now);
+	@Query(value = "delete cvc from customers_vs_coupons cvc join coupons c on cvc.COUPON_ID=c.id where c.end_date < current_date()", nativeQuery = true)
+	public void deleteExpiredCouponsFromCustomers();
+	
+	@Modifying
+	@Query(value = "delete from coupons c where c.end_date < current_date()", nativeQuery = true)
+	public void deleteExpiredCoupons();
 
 	@Modifying
 	@Query(value = "delete cvc from customers_vs_coupons cvc join coupons c on cvc.COUPON_ID=c.id where c.company_id=?", nativeQuery = true)
-	public void deleteByCompanyAllPurchasedCoupon(int companyId);
+	public void deleteByCompanyAllPurchasedCoupons(int companyId);
 	
 	@Modifying
 	@Query(value = "DELETE FROM coupon_system.customers_vs_coupons WHERE (COUPON_ID =?)", nativeQuery = true)

@@ -1,7 +1,5 @@
 package com.example.i_o_spring_project.automatic_managment;
 
-import java.util.Date;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +16,8 @@ public class CouponExpirationDaliyJob {
 	@Transactional
 	@Scheduled(fixedDelay = 86400000)
 	public void manageCoupons() {
-		Date now = new Date();
-		couponRepository.deleteByEndDateBefore(now);
+		couponRepository.deleteExpiredCouponsFromCustomers();
+		couponRepository.deleteExpiredCoupons();
 	}
 
 }

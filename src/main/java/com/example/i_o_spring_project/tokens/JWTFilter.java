@@ -28,7 +28,7 @@ public class JWTFilter extends OncePerRequestFilter {
 	@Override
 	public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		System.err.println("doFilterInternal");
+//		System.err.println("doFilterInternal");
 
 //		System.err.println("request: "+request.getMethod());
 //		request.getHeaderNames();
@@ -49,7 +49,7 @@ public class JWTFilter extends OncePerRequestFilter {
 		}
 		String authorization = request.getHeader("authorization");
 
-		System.err.println("authorization: " + authorization);
+//		System.err.println("authorization: " + authorization);
 
 //		System.err.println("checkAuthorization: " + checkAuthorization(authorization, response));
 		if (checkAuthorization(authorization, response)) {
@@ -69,7 +69,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
 	private UserPrincipal validateToken(String autorization, HttpServletResponse response) throws IOException {
 		String token = autorization.split(" ")[1];
-		System.err.println("token: " + token);
+//		System.err.println("token: " + token);
 		try {
 			return tokenService.parseToken(token);
 		} catch (ExpiredJwtException e) {

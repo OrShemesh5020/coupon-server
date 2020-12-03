@@ -13,8 +13,8 @@ public class IOSpringProjectApplication {
 		ConfigurableApplicationContext applicationContext = SpringApplication.run(IOSpringProjectApplication.class,
 				args);
 
-		CouponExpirationDaliyJob daliyJob = applicationContext.getBean(CouponExpirationDaliyJob.class);
-		daliyJob.manageCoupons();
+//		CouponExpirationDaliyJob daliyJob = applicationContext.getBean(CouponExpirationDaliyJob.class);
+//		daliyJob.manageCoupons();
 //		Scanner reader = new Scanner(System.in);
 //		System.out.println("How would you like to run this program?\n1. Automatically\n2. manually");
 //		int clientSelection = reader.nextInt();

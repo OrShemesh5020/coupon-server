@@ -30,14 +30,12 @@ public class PublicController extends ClientController {
 
 	@PostMapping("/company")
 	public ResponseEntity<CompanyDTO> addCompany(@RequestBody Company company) {
-		System.err.println("PublicController/addCompany: " + company);
 		return new ResponseEntity<CompanyDTO>(dTOconverter.convertCompany(adminService.addCompany(company)),
 				HttpStatus.OK);
 	}
 
 	@PostMapping("/customer")
 	public ResponseEntity<CustomerDTO> addCustomer(@RequestBody Customer customer) {
-		System.err.println("PublicController/addCompany: " + customer);
 		return new ResponseEntity<CustomerDTO>(dTOconverter.convertCustomer(adminService.addCustomer(customer)),
 				HttpStatus.OK);
 	}
@@ -58,7 +56,6 @@ public class PublicController extends ClientController {
 	public ResponseEntity<User> login(@RequestParam String email, @RequestParam String password,
 			HttpServletResponse response) {
 		ClientType type = userService.getType(email);
-		System.err.println("Type: " + type);
 		switch (type) {
 		case ADMINISTRATOR:
 			return adminLogin(email, password, response);
@@ -70,7 +67,6 @@ public class PublicController extends ClientController {
 			return customerLogin(email, password, response);
 
 		default:
-			System.err.println("default");
 			throw new CouponsSystemExceptions(SystemExceptions.MISSING_VALUE, "no type!");
 		}
 	}

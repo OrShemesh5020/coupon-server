@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.i_o_spring_project.exceptions.CouponsSystemExceptions;
 import com.example.i_o_spring_project.exceptions.SystemExceptions;
 import com.example.i_o_spring_project.model.Company;
+import com.example.i_o_spring_project.model.Coupon;
 import com.example.i_o_spring_project.model.Customer;
 
 @Service
@@ -82,7 +83,7 @@ public class AdminService extends ClientService {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED, "This company does not exist");
 		}
 		Company company = companyRepository.findById(companyId).get();
-		couponRepository.deleteByCompanyAllPurchasedCoupon(companyId);
+		couponRepository.deleteByCompanyAllPurchasedCoupons(companyId);
 		couponRepository.deleteByCompany(company);
 		companyRepository.delete(company);
 
@@ -147,9 +148,17 @@ public class AdminService extends ClientService {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
 					"This customer does not exist");
 		}
+		Customer customer = customerRepository.findById(customerId).get();
+		resendCouponsToStorage(customer);
 		customerRepository.deleteById(customerId);
 		System.out.println("\n--This customer has been deleted--\n");
 
+	}
+
+	private void resendCouponsToStorage(Customer customer) {
+		for (Coupon coupon : customer.getCoupons()) {
+			coupon.setAmount(coupon.getAmount() + 1);
+		}
 	}
 
 	public List<Customer> getAllCustomers() {

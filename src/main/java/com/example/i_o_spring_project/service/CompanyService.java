@@ -74,8 +74,8 @@ public class CompanyService extends ClientService {
 
 	@Transactional
 	public Coupon updateCoupon(Coupon coupon, int comapnyId) {
-		Date now = new Date();
-
+		Calendar now = Calendar.getInstance();
+		now.set(Calendar.HOUR, -11);
 		if (!couponRepository.existsById(coupon.getId())) {
 			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND,
 					"The coupon does not exist in the system");
@@ -100,7 +100,7 @@ public class CompanyService extends ClientService {
 			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_VALUE_ENTERED,
 					"The coupon's price cannot be less than or equal to zero");
 		}
-		if (coupon.getStartDate().after(now)) {
+		if (coupon.getStartDate().getTime() > now.getTimeInMillis()) {
 			System.out.println("\n--The coupon was updated--\n");
 			return couponRepository.save(coupon);
 		} else {
@@ -205,13 +205,13 @@ public class CompanyService extends ClientService {
 		return companyRepository.save(givenCompany);
 	}
 
-	@Transactional
-	public Category getCategory(int categoryId) {
-		if (!categoryRepository.existsById(categoryId)) {
-			throw new CouponsSystemExceptions(SystemExceptions.CATEGORY_NOT_FOUND, "this category does not exist");
-		}
-		return categoryRepository.findById(categoryId).get();
-	}
+//	@Transactional
+//	public Category getCategory(String categoryName) {
+//		if (!categoryRepository.existsById(categoryId)) {
+//			throw new CouponsSystemExceptions(SystemExceptions.CATEGORY_NOT_FOUND, "this category does not exist");
+//		}
+//		return categoryRepository.findById(categoryId).get();
+//	}
 
 	@Transactional
 	public Category getCategory(String categoryName) {

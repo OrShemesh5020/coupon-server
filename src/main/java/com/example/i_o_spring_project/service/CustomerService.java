@@ -91,7 +91,7 @@ public class CustomerService extends ClientService {
 		if (coupon.isPresent()) {
 			return coupon.get();
 		}
-		throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND);
+		throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND, "coupon not found");
 	}
 
 	public List<Coupon> getCustomerCoupons(int customerId) {
