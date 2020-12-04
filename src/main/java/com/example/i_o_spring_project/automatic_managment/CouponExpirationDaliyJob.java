@@ -13,6 +13,7 @@ public class CouponExpirationDaliyJob {
 	@Autowired
 	private CouponRepository couponRepository;
 
+	//@Scheduled makes spring run this function automatically, so we don't have to call it in main
 	@Transactional
 	@Scheduled(fixedDelay = 86400000)
 	public void manageCoupons() {
