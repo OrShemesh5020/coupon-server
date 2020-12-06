@@ -27,13 +27,13 @@ import com.example.i_o_spring_project.modelDTO.CouponDTO;
 @RequestMapping("/company")
 public class CompanyController extends ClientController {
 
-	private final ClientType clienType = ClientType.COMPANY;
+	private final ClientType clientType = ClientType.COMPANY;
 
 	@PostMapping("/coupon")
 	public ResponseEntity<CouponDTO> addCoupon(@RequestBody CouponDTO couponDTO, HttpServletRequest request) {
 		Coupon coupon = modelConverter.convertToCoupon(couponDTO);
 		String tokenType = (String) request.getAttribute(TYPE);
-		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		tokenFacade.doesTheTokenBelong(tokenType, clientType);
 		int companyId = (int) request.getAttribute(ID);
 		return new ResponseEntity<CouponDTO>(dTOconverter.convertCoupon(companyService.addACoupon(coupon, companyId)),
 				HttpStatus.OK);
@@ -43,7 +43,7 @@ public class CompanyController extends ClientController {
 	public ResponseEntity<CouponDTO> updateCoupon(@RequestBody CouponDTO couponDTO, HttpServletRequest request) {
 		Coupon coupon = modelConverter.convertToCoupon(couponDTO);
 		String tokenType = (String) request.getAttribute(TYPE);
-		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		tokenFacade.doesTheTokenBelong(tokenType, clientType);
 		int companyId = (int) request.getAttribute(ID);
 		return new ResponseEntity<CouponDTO>(dTOconverter.convertCoupon(companyService.updateCoupon(coupon, companyId)),
 				HttpStatus.OK);
@@ -52,7 +52,7 @@ public class CompanyController extends ClientController {
 	@DeleteMapping("/coupon/{id}")
 	public ResponseEntity<Void> deleteCoupon(@PathVariable int id, HttpServletRequest request) {
 		String tokenType = (String) request.getAttribute(TYPE);
-		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		tokenFacade.doesTheTokenBelong(tokenType, clientType);
 		int companyId = (int) request.getAttribute(ID);
 		companyService.deleteCoupon(id, companyId);
 		return new ResponseEntity<Void>(HttpStatus.OK);
@@ -61,7 +61,7 @@ public class CompanyController extends ClientController {
 	@GetMapping("/coupons")
 	public ResponseEntity<List<CouponDTO>> getAllCompanyCoupons(HttpServletRequest request) {
 		String tokenType = (String) request.getAttribute(TYPE);
-		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		tokenFacade.doesTheTokenBelong(tokenType, clientType);
 		int companyId = (int) request.getAttribute(ID);
 		return new ResponseEntity<List<CouponDTO>>(
 				dTOconverter.convertCouponList(companyService.getAllCompanyCoupons(companyId)), HttpStatus.OK);
@@ -69,18 +69,41 @@ public class CompanyController extends ClientController {
 
 	@GetMapping("/coupon/{id}")
 	public ResponseEntity<CouponDTO> getCouponById(@PathVariable int id, HttpServletRequest request) {
-		System.out.println(id);
 		String tokenType = (String) request.getAttribute(TYPE);
-		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		tokenFacade.doesTheTokenBelong(tokenType, clientType);
 		int companyId = (int) request.getAttribute(ID);
 		return new ResponseEntity<CouponDTO>(dTOconverter.convertCoupon(companyService.getOneCoupon(id, companyId)),
 				HttpStatus.OK);
 	}
 
+	@GetMapping("/coupon/salesNumber/{couponId}")
+	public ResponseEntity<Integer> getCouponSalesNumber(@PathVariable int couponId, HttpServletRequest request) {
+		String tokenType = (String) request.getAttribute(TYPE);
+		tokenFacade.doesTheTokenBelong(tokenType, clientType);
+		int companyId = (int) request.getAttribute(ID);
+		return new ResponseEntity<Integer>(companyService.getTheSalesNumber(couponId, companyId), HttpStatus.OK);
+	}
+
+	@GetMapping("/coupons/salesNumber")
+	public ResponseEntity<Integer> getCompanyCouponsSalesNumber(HttpServletRequest request) {
+		String tokenType = (String) request.getAttribute(TYPE);
+		tokenFacade.doesTheTokenBelong(tokenType, clientType);
+		int companyId = (int) request.getAttribute(ID);
+		return new ResponseEntity<Integer>(companyService.getTheTotalSalesNumber(companyId), HttpStatus.OK);
+	}
+
+	@GetMapping("/totalSales")
+	public ResponseEntity<Double> getCompanyTotalSumOfSales(HttpServletRequest request) {
+		String tokenType = (String) request.getAttribute(TYPE);
+		tokenFacade.doesTheTokenBelong(tokenType, clientType);
+		int companyId = (int) request.getAttribute(ID);
+		return new ResponseEntity<Double>(companyService.getTheTotalSumOfSales(companyId), HttpStatus.OK);
+	}
+
 	@GetMapping("/coupon")
 	public ResponseEntity<CouponDTO> getCouponByTitle(@RequestParam String title, HttpServletRequest request) {
 		String tokenType = (String) request.getAttribute(TYPE);
-		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		tokenFacade.doesTheTokenBelong(tokenType, clientType);
 		int companyId = (int) request.getAttribute(ID);
 		return new ResponseEntity<CouponDTO>(dTOconverter.convertCoupon(companyService.getOneCoupon(title, companyId)),
 				HttpStatus.OK);
@@ -90,7 +113,7 @@ public class CompanyController extends ClientController {
 	public ResponseEntity<List<CouponDTO>> getCompanyCouponsByPrice(@PathVariable Double price,
 			HttpServletRequest request) {
 		String tokenType = (String) request.getAttribute(TYPE);
-		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		tokenFacade.doesTheTokenBelong(tokenType, clientType);
 		int companyId = (int) request.getAttribute(ID);
 		return new ResponseEntity<List<CouponDTO>>(
 				dTOconverter.convertCouponList(companyService.getCouponsByPrice(price, companyId)), HttpStatus.OK);
@@ -100,7 +123,7 @@ public class CompanyController extends ClientController {
 	public ResponseEntity<List<CouponDTO>> getCompanyCouponsByCategory(@PathVariable String categoryName,
 			HttpServletRequest request) {
 		String tokenType = (String) request.getAttribute(TYPE);
-		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		tokenFacade.doesTheTokenBelong(tokenType, clientType);
 		int companyId = (int) request.getAttribute(ID);
 		Category category = companyService.getCategory(categoryName);
 		return new ResponseEntity<List<CouponDTO>>(
@@ -112,7 +135,7 @@ public class CompanyController extends ClientController {
 	@GetMapping("/details")
 	public ResponseEntity<CompanyDTO> getDetails(HttpServletRequest request) {
 		String tokenType = (String) request.getAttribute(TYPE);
-		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		tokenFacade.doesTheTokenBelong(tokenType, clientType);
 		int companyId = (int) request.getAttribute(ID);
 		return new ResponseEntity<CompanyDTO>(dTOconverter.convertCompany(companyService.getCompanyDetails(companyId)),
 				HttpStatus.OK);
@@ -121,7 +144,7 @@ public class CompanyController extends ClientController {
 	@PutMapping("/details")
 	public ResponseEntity<CompanyDTO> updateDetails(@RequestBody Company company, HttpServletRequest request) {
 		String tokenType = (String) request.getAttribute(TYPE);
-		tokenFacade.doesTheTokenBelong(tokenType, clienType);
+		tokenFacade.doesTheTokenBelong(tokenType, clientType);
 		int companyId = (int) request.getAttribute(ID);
 		return new ResponseEntity<CompanyDTO>(
 				dTOconverter.convertCompany(companyService.updateDetails(company, companyId)), HttpStatus.OK);

@@ -80,10 +80,7 @@ public class CompanyService extends ClientService {
 			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND,
 					"The coupon does not exist in the system");
 		}
-		if (!companyHasTheCoupon(coupon, comapnyId)) {
-			throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND,
-					"The company does not have this coupon ");
-		}
+		doesCouponBelongToTheCoumpany(coupon.getId(), comapnyId);
 		couponValidation.isTheObjectEmpty(coupon);
 
 		couponValidation.charactersHasExceeded(coupon);
@@ -117,22 +114,17 @@ public class CompanyService extends ClientService {
 					"The coupon does not exist in the system");
 		}
 		Coupon coupon = couponRepository.findById(couponId).get();
-		if (!companyHasTheCoupon(coupon, comapnyId)) {
-			throw new CouponsSystemExceptions(SystemExceptions.ILLEGAL_ACTION_ATTEMPTED,
-					"The company does not have this coupon");
-		}
+		doesCouponBelongToTheCoumpany(couponId, comapnyId);
 		couponRepository.deleteAllPurchasedCoupon(couponId);
 		couponRepository.delete(coupon);
 		System.out.println("\n--The coupon was deleted--\n");
 	}
 
 	public Coupon getOneCoupon(int id, int comapnyId) {
-		Company company = getCompanyDetails(comapnyId);
-		Optional<Coupon> coupon = couponRepository.getOneCoupon(company, id);
-		if (coupon.isPresent()) {
-			return coupon.get();
+		if (doesCouponBelongToTheCoumpany(id, comapnyId)) {
+			return couponRepository.findById(id).get();
 		}
-		throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND);
+		return null;
 	}
 
 	public Coupon getOneCoupon(String title, int comapnyId) {
@@ -220,24 +212,29 @@ public class CompanyService extends ClientService {
 		}
 		return categoryRepository.findByName(categoryName).get();
 	}
-//
-//	public java.sql.Date date(Calendar date) {
-//		return java.sql.Date.valueOf(getDate(date));
-//	}
-//
-//	private String getDate(Calendar date) {
-//		return date.get(Calendar.YEAR) + "-" + date.get(Calendar.MONTH) + "-" + date.get(Calendar.DAY_OF_MONTH);
-//	}
 
-	private boolean companyHasTheCoupon(Coupon coupon, int comapnyId) {
-		Company company = getCompanyDetails(comapnyId);
-		List<Coupon> couponsList = couponRepository.findByCompany(company);
-		for (Coupon companyCoupon : couponsList) {
-			if (companyCoupon.getId().equals(coupon.getId())) {
-				return true;
-			}
+	private boolean doesCouponBelongToTheCoumpany(int couponId, int companyId) {
+		Company company = getCompanyDetails(companyId);
+		Optional<Coupon> coupon = couponRepository.getOneCoupon(company, couponId);
+		if (coupon.isPresent()) {
+			return true;
 		}
-		return false;
+		throw new CouponsSystemExceptions(SystemExceptions.COUPON_NOT_FOUND, "The company does not have this coupon");
+	}
+
+	public Integer getTheSalesNumber(int couponId, int companyId) {
+		if (doesCouponBelongToTheCoumpany(couponId, companyId)) {
+			return couponRepository.howManyCouponsWereSold(couponId);
+		}
+		return null;
+	}
+	
+	public Integer getTheTotalSalesNumber(int companyId) {
+		return couponRepository.howManyCompanyCouponsWereSold(companyId);
+	}
+	
+	public Double getTheTotalSumOfSales(int companyId) {
+		return couponRepository.getAllTheCouponsPriceOfSales(companyId);
 	}
 
 }
