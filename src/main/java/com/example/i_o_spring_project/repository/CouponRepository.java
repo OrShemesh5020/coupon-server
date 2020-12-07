@@ -41,7 +41,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 	public int howManyCompanyCouponsWereSold(int companyId);
 
 	@Query(value = "SELECT sum(price) FROM customers_vs_coupons LEFT JOIN coupons ON customers_vs_coupons.COUPON_ID = coupons.id where company_id=?", nativeQuery = true)
-	public double getAllTheCouponsPriceOfSales(int companyId);
+	public double getTheCouponsSumOfSales(int companyId);
 
 	@Modifying
 	@Query(value = "delete cvc from customers_vs_coupons cvc join coupons c on cvc.COUPON_ID=c.id where c.end_date < current_date()", nativeQuery = true)

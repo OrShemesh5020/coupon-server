@@ -233,8 +233,8 @@ public class CompanyService extends ClientService {
 		return couponRepository.howManyCompanyCouponsWereSold(companyId);
 	}
 	
-	public Double getTheTotalSumOfSales(int companyId) {
-		return couponRepository.getAllTheCouponsPriceOfSales(companyId);
+	public Double getTheSumOfSales(int companyId) {
+		return couponRepository.getTheCouponsSumOfSales(companyId);
 	}
 
 }

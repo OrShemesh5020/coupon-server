@@ -92,12 +92,12 @@ public class CompanyController extends ClientController {
 		return new ResponseEntity<Integer>(companyService.getTheTotalSalesNumber(companyId), HttpStatus.OK);
 	}
 
-	@GetMapping("/totalSales")
-	public ResponseEntity<Double> getCompanyTotalSumOfSales(HttpServletRequest request) {
+	@GetMapping("/sumOfSales")
+	public ResponseEntity<Double> getCompanySumOfSales(HttpServletRequest request) {
 		String tokenType = (String) request.getAttribute(TYPE);
 		tokenFacade.doesTheTokenBelong(tokenType, clientType);
 		int companyId = (int) request.getAttribute(ID);
-		return new ResponseEntity<Double>(companyService.getTheTotalSumOfSales(companyId), HttpStatus.OK);
+		return new ResponseEntity<Double>(companyService.getTheSumOfSales(companyId), HttpStatus.OK);
 	}
 
 	@GetMapping("/coupon")
