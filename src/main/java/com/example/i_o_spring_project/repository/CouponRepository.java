@@ -40,7 +40,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 	@Query(value = "SELECT Count(COUPON_ID) FROM customers_vs_coupons LEFT JOIN coupons ON customers_vs_coupons.COUPON_ID = coupons.id where company_id=?", nativeQuery = true)
 	public int howManyCompanyCouponsWereSold(int companyId);
 
-	@Query(value = "SELECT sum(price) FROM customers_vs_coupons LEFT JOIN coupons ON customers_vs_coupons.COUPON_ID = coupons.id where company_id=?", nativeQuery = true)
+	@Query(value = "SELECT COALESCE(sum(price), 0) FROM customers_vs_coupons LEFT JOIN coupons ON customers_vs_coupons.COUPON_ID = coupons.id where company_id=?", nativeQuery = true)
 	public double getTheCouponsSumOfSales(int companyId);
 
 	@Modifying

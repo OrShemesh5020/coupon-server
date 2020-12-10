@@ -33,7 +33,7 @@ public class JWTFilter extends OncePerRequestFilter {
 //		System.err.println("request: "+request.getMethod());
 //		request.getHeaderNames();
 
-		Enumeration<String> headerNames = request.getHeaderNames();
+//		Enumeration<String> headerNames = request.getHeaderNames();
 //
 //		    if (headerNames != null) {
 //		            while (headerNames.hasMoreElements()) {
