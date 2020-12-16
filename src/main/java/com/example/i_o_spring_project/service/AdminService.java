@@ -172,4 +172,8 @@ public class AdminService extends ClientService {
 		}
 		return customer.get();
 	}
+
+	public Integer getTheTotalSalesNumber() {
+		return couponRepository.howManyCouponsWereSold();
+	}
 }
