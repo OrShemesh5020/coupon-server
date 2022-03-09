@@ -20,7 +20,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
 	public List<Coupon> findByCompany(Company company);
 
-	public Optional<Company> findByTitle(String title);
+	public Optional<Coupon> findByTitle(String title);
 
 	@Query("select coupon from Coupon coupon where (coupon.company=:company and coupon.id=:id)")
 	public Optional<Coupon> getOneCoupon(Company company, int id);
